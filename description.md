@@ -17,7 +17,8 @@ However, such datasets pose new challenges in the way the data have to be analyz
 - [Mark Dunning](https://github.com/markdunning)
 - [Matthew Eldridge](http://www.cruk.cam.ac.uk/core-facilities/bioinformatics-core)
 - [Geoff Macintyre](http://gmacintyre.com/)
-- Juliane Perner
+- [Juliane Perner](http://www.cambridgecancercentre.org.uk/users/julianeperner11162)
+- [Oscar Rueda](http://www.cambridgecancercentre.org.uk/users/oscarrueda)
 
 # Aims
 
