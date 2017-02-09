@@ -23,7 +23,8 @@ The course will include a great deal of hands-on work in R and at the command li
 - R
 - Unix
 - Introductory statistics
-- Experimental Design
+
+More specific requirements and references can be found [here](http://www.cruk.cam.ac.uk/bioinformatics-course-prerequisites)
 
 
 # Instructors
