@@ -90,16 +90,15 @@ If required, free bed and breakfast accommodation wll be provided for attendees 
 - Calling Structural Variants
 - Interpreting and visualising SV calls
 - Filtering a set of variant calls
-- Identifying events such as chromothripsis
 - WORKSHOP DINNER
 
 ## Day Five (1/2 day) 09:30 - 12:30
 
 -  Bring your own data!
--  Our instructors will help you get started processing your own data using the techniques
+-  Our instructors will help you get started processing your own data using the techniques discussed in the previous four days
 
 # Social Events
 
-- The day before the course you can join your instructors and fellow participants for a drink and dinner after your journey to Cambridge
-- The workshop dinner will be held in Downing College on Day Four; dress code is smart casual. The dinner is free. Please inform us of any dietary requirements when you register.
+- The day before the course, you can join your instructors and fellow participants for a drink and dinner after your journey to Cambridge
+- The workshop dinner will be held in Downing College on Day Four; dress code is smart casual. Please inform us of any dietary requirements when you register. The dinner is free.
 - (Weather permitting), we will have a [punting](http://www.scudamores.com/) trip 
