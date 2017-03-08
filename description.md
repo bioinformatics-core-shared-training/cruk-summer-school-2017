@@ -67,19 +67,20 @@ If required, free bed and breakfast accommodation wll be provided for attendees 
 
 ## Day One 09:30 - 17:00
 
+- Overview of Cancer Genomics (to be confirmed)
 - Introduction to Sequencing technologies
 - Introduction / Recap of R
 - Quality assessment of NGS data
+- Dealing with NGS data in Bioconductor
 
 ## Day Two 09:30 - 17:00
 
-- Dealing with NGS data in Bioconductor
+- Calling Germline SNVs
 - Copy-number analysis using i) Exome data ii) Shallow sequencing data
 - Obtaining allele-specific copy-number estimates
   
 ## Day Three 09:30 - 17:00
 
-- Calling Germline SNVs
 - Calling Somatic SNVs from whole-genome sequencing data
 - Visualising / verifying SNV calls in IGV
 - Annotating SNVs
