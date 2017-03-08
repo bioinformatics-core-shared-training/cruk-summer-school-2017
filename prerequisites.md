@@ -30,3 +30,13 @@ Before coming to the course, you should be familiar with the concepts of hypothe
 
 - [Introduction to Statistical Analysis](http://bioinformatics-core-shared-training.github.io/IntroductionToStats/)
 - [Statistics at Square One (Chapters 1, 2, 3 and 7)](http://www.bmj.com/about-bmj/resources-readers/publications/statistics-square-one)
+
+# Other suggested reading
+
+Althougth not strictly required for attending the course, the following resources should also be useful to you if you are new to Bioinformatics and Data Analysis
+
+- [Experimental Design](http://bioinformatics-core-shared-training.github.io/experimental-design/)
+- [Formatting data tables in Spreadsheets](http://www.datacarpentry.org/spreadsheet-ecology-lesson/01-format-data.html)
+- [Organizing data in spreadsheets](http://kbroman.org/dataorg/)
+- [Introduction to Scientific Figure Design](http://www.bioinformatics.babraham.ac.uk/training.html#figuredesign)
+
