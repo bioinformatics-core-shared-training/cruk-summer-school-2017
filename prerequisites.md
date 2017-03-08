@@ -15,7 +15,6 @@ Here are some suggestions of videos to watch before the course:-
 
 - [Introduction to Data Science with R (4 free videos)](http://shop.oreilly.com/product/0636920034834.do)
 - [Coursera four week course in R (week 1 only)](http://blog.revolutionanalytics.com/2012/12/coursera-videos.html)
-    + (Week 1 only)
 - [Bitesize Beginners Introduction to R Statistical software](http://bitesizebio.com/webinar/20600/beginners-introduction-to-r-statistical-software/)
 
 
