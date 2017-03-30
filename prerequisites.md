@@ -3,7 +3,7 @@
 
 ## R
 
-We will be using the R statisical language throughout the course and include a *recap* of the R language at the start of the course. We highly recommend that you come to the course with some experience of performing the following tasks in R / RStudio:-
+We will be using the R statisical language throughout the course and some experience of using R is compulsory. You should come to the course with some experience of performing the following tasks in R / RStudio:-
 
 - Reading data from a csv file
 - Loading the help page for a function
