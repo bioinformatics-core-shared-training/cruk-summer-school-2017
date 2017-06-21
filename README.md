@@ -93,7 +93,10 @@ If required, free bed and breakfast accommodation wll be provided for attendees 
   
 ## Day Four 09:30 - 17:00
 
-- 09:30 - 12:30 Calling Structural Variants
+- 09:30 - 10:15 Calling Structural Variants (lecture)
+- 10:15 - 10:30 Understanding SV Calls (hands-on)
+- 10:30 - 11:30 Visualising SV calls (practical)
+- 11:30 - 12:30 Introduction to data portals
 - 12:30 - 13:30 LUNCH
 - 13:30 - 17:00 Cohort analysis and mutational signatures
 
