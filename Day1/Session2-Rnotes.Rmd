@@ -395,7 +395,7 @@ summary(gapminder)
 ### Exercise
 
 - Create new variables for the life expectancy and population columns
-    + round the life expectancy and populations to the nearest whole numbers
+    + round the life expectancy to the nearest whole number
     + modify the population variable so that the population size is given in millions of people
     + what is the maximum life expectancy observed?
     + what is the smallest population observed?  
@@ -551,8 +551,11 @@ gapminder[gapminder$country == "Zambia" & gapminder$lifeExp < 40,]
 
 ### Exercise
 
+- Which row in the data frame contains the entry with the highest population?
+- Which row in the data frame contains the entry with the lowest life expectancy?
 - Can you create a data frame of countries with a population less than a million in the year 2002
 - A data frame of countries with a population less than a million in the year 2002, that are not in Africa?
+
 
 ******
 ******
