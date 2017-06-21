@@ -56,7 +56,7 @@ More specific requirements and references can be found [here](http://www.cruk.ca
 # Accommodation
 If required, free bed and breakfast accommodation wll be provided for attendees in Downing College - close to the course's location. Please let us know on the registration form if you need accommodation and when you plan to check-in and check-out. Please note that the course ends at 13:30 on Friday 28 July and accommodation is not provided for Friday night.
 
-# Timetable
+# Timetable (Provisional)
 
 ## Day Zero 18:00 - ..
 
@@ -93,9 +93,9 @@ If required, free bed and breakfast accommodation wll be provided for attendees 
   
 ## Day Four 09:30 - 17:00
 
-09:30 - 12:30 Calling Structural Variants
-12:30 - 13:30 LUNCH
-13:30 - 17:00 Cohort analysis and mutational signatures
+- 09:30 - 12:30 Calling Structural Variants
+- 12:30 - 13:30 LUNCH
+- 13:30 - 17:00 Cohort analysis and mutational signatures
 
 ## Day Five (1/2 day) 09:30 - 12:30
 
