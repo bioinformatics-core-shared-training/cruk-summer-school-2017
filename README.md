@@ -81,15 +81,15 @@ If required, free bed and breakfast accommodation wll be provided for attendees 
   
 ## Day Three 09:30 - 17:00
 
-09:30 - 10:00 Somatic SNV calling (lecture)
-10:00 - 10:30 Somatic SNV calling (practical)
-10:45 - 11:30 SNV Filtering (lecture)
-11:30 - 12:30 Assessment and visualiation of SNVs (practical)
-12:30 - 13:30 LUNCH
-13:30 - 14:00 Sumamry of practical and discussion
-14:00 - 14:30 Annotating and prioritsing SNVs (lecture)
-14:30 - 16:30 Annotating and prioritsing SNVs (practical)
-16:30 - 17:00 Indel Calling (lecture)
+- 09:30 - 10:00 Somatic SNV calling (lecture)
+- 10:00 - 10:30 Somatic SNV calling (practical)
+- 10:45 - 11:30 SNV Filtering (lecture)
+- 11:30 - 12:30 Assessment and visualiation of SNVs (practical)
+- 12:30 - 13:30 LUNCH
+- 13:30 - 14:00 Sumamry of practical and discussion
+- 14:00 - 14:30 Annotating and prioritsing SNVs (lecture)
+- 14:30 - 16:30 Annotating and prioritsing SNVs (practical)
+- 16:30 - 17:00 Indel Calling (lecture)
   
 ## Day Four 09:30 - 17:00
 
