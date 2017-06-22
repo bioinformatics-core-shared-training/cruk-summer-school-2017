@@ -75,7 +75,9 @@ If required, free bed and breakfast accommodation wll be provided for attendees 
 
 ## Day Two 09:30 - 17:00
 
-- Calling Germline SNVs
+- 09:30 - 10:30 Calling Germline SNVs lecture
+- 10:30 - 12:30 Calling Germline SNVs and working with vcf files
+- 12:30 - 13:30 LUNCH
 - Copy-number analysis using i) Exome data ii) Shallow sequencing data
 - Obtaining allele-specific copy-number estimates
   
@@ -98,7 +100,9 @@ If required, free bed and breakfast accommodation wll be provided for attendees 
 - 10:30 - 11:30 Visualising SV calls (practical)
 - 11:30 - 12:30 Introduction to data portals
 - 12:30 - 13:30 LUNCH
-- 13:30 - 17:00 Cohort analysis and mutational signatures
+- 13:30 - 14:00 Mutational signatures lecture
+- 14:00 - 16:00 Mutational signatures and cohort analyses practical
+- 16:00 - 17:00 Running an entire somatic calling pipeline with "docker"
 
 ## Day Five (1/2 day) 09:30 - 12:30
 
