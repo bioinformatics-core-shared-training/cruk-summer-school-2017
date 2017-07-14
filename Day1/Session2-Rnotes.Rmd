@@ -23,8 +23,7 @@ Topics covered include:-
 - Data frame
 - Subsetting data, the base R way
 - Plotting 
-- Statistical testing
-- How to get help
+- ***How to get help***
 
 For a more detailed introduction, we suggest the following ***free*** resources
 
@@ -50,7 +49,18 @@ The R programming language is now recognised beyond the academic community as an
 - [Buzzfeed](http://blog.revolutionanalytics.com/2015/12/buzzfeed-uses-r-for-data-journalism.html) use R for some of their serious articles (i.e. not the ones featuring cat pictures), and have made the code [publically available](https://buzzfeednews.github.io/2016-04-federal-surveillance-planes/analysis.html)
 - The [New Zealand Tourist Board](https://mbienz.shinyapps.io/tourism_dashboard_prod/) have R running in the background of their website
 - [Airbnb](https://medium.com/airbnb-engineering/using-r-packages-and-education-to-scale-data-science-at-airbnb-906faa58e12d)
+- [The BBC](https://github.com/BBC-Data-Unit/music-festivals) makes code available for some of their stories (e.g. gender bias in music festivals)
+
 ![](https://cdn-images-2.medium.com/max/1200/1*BTMbVFh_hziJJcaQ7TBRwg.png)
+
+
+
+
+
+
+
+
+
 
 ## Key features
 
@@ -121,16 +131,28 @@ On the [Bioconductor website](www.bioconductor.org),. you will find
 - The traditional way to enter R commands is via the Terminal, or using the console in RStudio (bottom-left panel when RStudio opens for first time).
 - However, for this course we will use a relatively new feature called *R-notebooks*.
 - An R-notebook mixes plain text with R code
-    + The R code can be run from inside the document and the results are displayed directly underneath
-- Each *chunk* of R code looks something like this. 
 
-```{r}
+Markdown is a very simple way of writing a template to produce a pdf, HTML or word document. The compiled version of this document is available online and is more convenient to browse.
 
-```
+*This will be displayed in italic*
 
+**This will be displayed in bold**
+
+
+- this 
+- is 
+- a 
+- list
+
+You can also add hyperlinks, images and tables. More help is available through RStudio **Help -> Markdown Quick Reference**
+
+- "chunks" of R code can be added using the *insert* option from the toolbar, or the CTRL + ALT + I shortcut
 - Each line of R can be executed by clicking on the line and pressing CTRL and ENTER
 - Or you can press the green triangle on the right-hand side to run everything in the chunk
 - Try this now!
+- The code might have different options which dictate how the output is displayed in the compiled document (e.g. HTML)
+    + e.g. you might see `EVAL = FALSE` or `echo = FALSE`
+    + you don't have to worry about this if stepping through the markdown interactively
 
 ```{r}
 print("Hello World")
@@ -161,7 +183,10 @@ In the case of expressions involving multiple operations, R respects the [BODMAS
 2 + 2 *3
 2 + (2 * 3)
 (2 + 2) * 3
+
+
 ```
+
 
 R is capable of more complicated arithmetic such as trigonometry and logarithms; like you would find on a fancy scientific calculator. Of course, R also has a plethora of statistical operations as we will see.
 
@@ -173,6 +198,8 @@ sin (pi/2)
 cos(pi)
 tan(2)
 log(1)
+
+
 ```
 
 We can only go so far with performing simple calculations like this. Eventually we will need to store our results for later use. For this, we need to make use of *variables*.
@@ -187,6 +214,8 @@ x <- 10
 x
 myNumber <- 25
 myNumber
+
+
 ```
 We also can perform arithmetic on variables using functions:
 
@@ -242,15 +271,19 @@ The normal distribution is defined by a *mean* (average) and *standard deviation
 
 (*N.B sometimes help pages can describe more than one function*)
 
-```{r}
+```{r eval=FALSE}
 ?rnorm
 ```
+
+The help page is often the best way to find out about a function. Otherwise, **google is your friend**.
 
 In this case, we see that the defaults for mean and standard deviation are 0 and 1. We can change the function to generate values from a distribution with a different mean and standard deviation using the `mean` and `sd` *arguments*. It is important that we get the spelling of these arguments exactly right, otherwise R will an error message, or (worse?) do something unexpected.
 
 ```{r}
 rnorm(n=10, mean=2,sd=3)
 rnorm(10, 2, 3)
+
+
 ```
 
 In the example, `rnorm` is outputting a series of numbers, which is called a *vector* in R and is the most-fundamental data-type.
@@ -319,10 +352,10 @@ file.exists("gapminder.csv")
 If the file we want to read is not in the current working directory, we will have to write the path to the file; either *relative* to the current working directory (e.g. the directory "up" from the current working directory, or in a sub-folder), or the full path. In an interactive session, you can do use `file.choose` to open a dialogue box. The path to the the file will then be displayed in R.
 
 ```{r eval=FALSE}
-myfile <- "/Users/dunnin01/Documents/git/r-for-medics/gapminder.csv"
+myfile <- "/home/participant/Course_Materials/Day1/gapminder.csv"
 ```
 
-Unsure about accessing directory structures at the command line? Take a course on [Unix](http://bioinformatics-core-shared-training.github.io/shell-novice/)
+
 
 ```{r eval=FALSE}
 myfile <- file.choose()
@@ -331,6 +364,8 @@ myfile
 
 Assuming the file can be found, we can use `read.csv` to import. Other functions can be used to read tab-delimited files (`read.delim`) or a generic `read.table` function. A data frame object is created.
 
+- `read.delim` has lots of options to control how to import the data, including skipping lines in the files. See `?read.table`
+
 - If you get an error saying *Error in file(file, "rt") : cannot open the connection*, you might need to change your working directory or make sure the file name is typed correctly (R is *case-sensitive*)
 
 ```{r}
@@ -338,7 +373,8 @@ gapminder <- read.csv("gapminder.csv")
 gapminder
 ```
 
-N.B. The latest version of RStudio (> 1.0.44) provides the option to import data from the File menu. Try ***File*** -> ***Import Dataset*** -> ***From Csv***.
+- N.B. The latest version of RStudio (> 1.0.44) provides the option to import data from the File menu. Try ***File*** -> ***Import Dataset*** -> ***From Csv***.
+    + not really recommended for best practice, but it should help get you started
 
 The data frame object in R allows us to work with "tabular" data, like we might be used to dealing with in Excel, where our data can be thought of having rows and columns. The values in each column have to all be of the same type (i.e. all numbers or all text).
 
@@ -360,7 +396,6 @@ We should always check the data frame that we have created. Sometimes R will hap
 
 ```{r}
 test <- read.delim("gapminder.csv")
-head(test)
 dim(test)
 ```
 
@@ -421,6 +456,8 @@ gapminder[1,2]
 gapminder[2,1]
 gapminder[c(1,2,3),1]
 gapminder[c(1,2,3),c(1,2,3)]
+
+
 ```
 
 ***Note that the data frame is not altered*** we are just seeing what a subset of the data looks like and not changing the underlying data. If we wanted to do this, we would need to create a new variale.
@@ -434,6 +471,8 @@ Should we wish to see all rows, or all columns, we can neglect either the row or
 ```{r eval=FALSE}
 gapminder[1,]
 gapminder[,1]
+
+
 ```
 
 The indices can be more complicated R expressions containing multiple values
@@ -441,6 +480,7 @@ The indices can be more complicated R expressions containing multiple values
 ```{r eval=FALSE}
 gapminder[1:3,1:2]
 gapminder[seq(1,1704,length.out = 10),1:4]
+
 
 ```
 
@@ -468,6 +508,7 @@ We can also create new columns, or alter existing ones
 gapminder$popInMillions <- gapminder$pop / 1000000
 gapminder$lifeExp <- round(gapminder$lifeExp,1)
 gapminder
+
 ```
 
 ## Filtering rows
@@ -522,6 +563,7 @@ N.B. For partial matches, the `grep` function and / or *regular expressions* (if
 
 ```{r} 
 gapminder[grep("land", gapminder$country),]
+
 ```
 
 
@@ -823,7 +865,7 @@ points(newData$gdpPercap, newData$lifeExp,col="blue",pch=16)
 legend("topright", legend=c(1952,2002),col=c("red","blue"),pch=16)
 ```
 
-What is that outlier on the GDP axis?
+As an aside, what is that outlier on the GDP axis?
 
 - We should now know how to create a logical vector
 - The `which` function can then be used to identify the particular indices that are `TRUE`
@@ -966,17 +1008,6 @@ If our data were paired we could set the argument `paired=TRUE` to use a differe
 ```{r}
 t.test(x,y,paired = TRUE)
 ```
-
-Similarly, if our data have different variances we can adjust the test accordingly:-
-
-```{r}
-x <- rnorm(20)
-y <- rnorm(20, 5,4)
-df <- data.frame(x,y)
-boxplot(df)
-t.test(x,y,var.equal = FALSE)
-```
-
 Were our data not normally-distributed we could use `wilcox.test`, for example.  Fortunately, most statistical tests can be accessed in a similar manner, so it is easy to switch between using different tests provided your data are in the correct format. To re-iterate, the skill is in choosing which test is appropriate.
 
 ```{r}
@@ -1006,17 +1037,4 @@ Between the years 1952 and 2002, was there a significant improvement in the life
 ### Your answer here ###
 
 ```
-
-
-# Wrap-up
-
-- Thanks for your attention
-- Practice, practice, practice
-    + ...& persevere
-- Need inspiration? R code is freely-available, so read other people's code
-    + Read the [blogs](http://www.r-bloggers.com/)
-    + Follow the [forums](http://stackoverflow.com/questions/tagged/r)
-    + Download [datasets](http://vincentarelbundock.github.io/Rdatasets/datasets.html) to practice with
-    + Bookmark some [reference](https://en.wikibooks.org/wiki/R_Programming) guides
-- The [website](tinyurl.com/r-for-medics) will be available after the course
 

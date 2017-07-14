@@ -6,9 +6,6 @@ output: html_document
 
 ---
 
-```{r eval=TRUE,echo=FALSE,results='asis'}
-BiocStyle::markdown()
-```
 
 
 # Welcome!
@@ -31,35 +28,36 @@ We're based at [Cancer Research Uk Cambridge Institute](http://www.cruk.cam.ac.u
 - Mark
     + Bioinformatics Training Coordinator, Bioinformatics Core
     + Soon to be Bioinformatics Core Head at University of Sheffield
-- Juliane
-    + Senior Research Associate, Tavare lab (Statistics and Computational Biology )
+- Paul Edwards
+    + Reader in Cancer Biology, Division of Cellular and Molecular Pathology
 - Oscar
     + Senior Research Associate, Caldas lab (Breast Cancer Genomics)
-    
-## Second Row
-
 - Geoff
     + Senior Research Associate, Markowetz (Systems Genetics of Cancer) and Brenton (Functional genomics of ovarian cancer)
+    
+## Second Row
 - Matt
     + Bioinformatics Core Head
+- Juliane
+    + Senior Research Associate, Tavare lab (Statistics and Computational Biology )
 - Cathy
     + Bioinformatics Training Facility, Administrator
-- Paul
+- Paul Judge
     + Bioinformatics Training Facility, Sys Admin
     
 Huge thanks too to Kelly O'Reilly (CRUK) for admin support 
 
 # Who are you?
 
-```{r echo=FALSE, message=FALSE,fig.width=12}
+```{r echo=FALSE, message=FALSE,fig.width=12,fig.height=8}
 library(dplyr)
 library(ggplot2)
 library(gridExtra)
-ppl <- tbl_df(read.csv("../JUNE 2016 LIST.csv"))
+ppl <- tbl_df(read.csv("../Summer School 2017 Attendees - Sheet1.csv"))
 p1 <- ggplot(ppl, aes(x = Institute)) + geom_bar(fill=rgb(29,0,150,maxColorValue=255)) + coord_flip()
 p2 <- ggplot(ppl, aes(x=Position)) + geom_bar(fill=rgb(236,0,140,maxColorValue=255)) + coord_flip()
-p3 <- ggplot(ppl, aes(x=Gender,fill=Gender)) + geom_bar() + scale_fill_manual(values=c(rgb(29,0,150,maxColorValue=255),rgb(236,0,140,maxColorValue=255)))
-grid.arrange(p1,p2,p3,ncol=3)
+p3 <- ggplot(ppl, aes(x=Gender,fill=Gender)) + geom_bar() + scale_fill_manual(values=c(rgb(29,0,150,maxColorValue=255),rgb(236,0,140,maxColorValue=255))) + coord_flip()
+grid.arrange(p1,p2,p3,ncol=1)
 ```
 
 
@@ -87,7 +85,7 @@ grid.arrange(p1,p2,p3,ncol=3)
     + will cover a selection of tools / methods
 - Whole genome and exome DNA-seq only
     + much of the initial processing is the same for other assays
-    + see our [previous summer school](http://bioinformatics-core-shared-training.github.io/cruk-bioinf-sschool/) for details of RNA- and ChIP-seq
+    + see our [upcoming autumn school](http://www.cruk.cam.ac.uk/bioinformatics-autumn-school-2017) for details of RNA- and ChIP-seq
 - However, we hope that you will
     + Understand how your data are processed
     + Be able to explore your data - no programming required
@@ -97,6 +95,7 @@ grid.arrange(p1,p2,p3,ncol=3)
     + Know where to get help
     + Be able to explore new technologies, methods, tools as they come out
     + Meet your colleagues from other CRUK institutes
+    + Have fun!
 - All materials will be online after the course
     + tell your colleagues, friends!
     + you'll be able to take the data away with you
@@ -138,6 +137,7 @@ grid.arrange(p1,p2,p3,ncol=3)
 
 
 - Bring your own data
+- Finish-off exercises from previous day
 
 ## Disclaimer
 
@@ -186,7 +186,7 @@ A breast-cancer cell-line on which we have data available and has been used as p
     + The Sanger institute have wrapped their genome analysis pipeline in a *docker container* 
     + We have created one too for other software required for the course; ***CRUK Docker***
 
-![](https://pbs.twimg.com/profile_images/378800000124779041/fbbb494a7eef5f9278c6967b6072ca3e_400x400.png)
+![](https://www.docker.com/sites/default/files/vertical_large.png)
 
 
 - We'll go through this at the end of the course
