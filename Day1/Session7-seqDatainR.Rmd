@@ -1,0 +1,167 @@
+---
+title: "Understanding Alignments"
+author: "Mark Dunning"
+date: '`r format(Sys.time(), "Last modified: %d %b %Y")`'
+output: 
+  html_notebook: 
+    toc: yes
+    toc_float: yes
+---
+
+# Outline
+
+- importing reads from a `.bam` file into R
+- exploring a `.bam` file using Bioconductor
+- useful objects and functions for dealing with genomic intervals
+
+ 
+# <a name="bioc"></a> Processing aligned reads with R and Bioconductor
+
+We will now look at how we can represent and access genomic intervals in R and Bioconductor which fit best within the framework of the course. There are also tools outside of R that are extremely powerful; such as [***bedtools***](http://bedtools.readthedocs.io/en/latest/) which are worth considering if you want to go further with NGS analysis.
+
+
+## Importing aligned data
+
+We can import reads from a `.bam` file into Bioconductor. However, to set expectations we are not going to be processing the entire set of reads from a whole-genome sequencing run in this manner. This can be a useful way of diving-into a particular region of interest and exploring the data.
+
+A package that can be used to parse a `.bam` file is `GenomicAlignments`. You should notice that although the `.bam` file is not particularly big (~ 12.5 Million reads), but already takes a little while to read.
+
+```{r message=FALSE}
+library(GenomicAlignments)
+mybam <- readGAlignments("/home/participant/Course_Materials/data/test/paired.bam")
+mybam
+```
+
+
+readGAlignments has provided us with an object that can be manipulated using the standard vector conventions. 
+
+```{r}
+mybam[1:10]
+```
+
+There are also a number of *accessor* functions that can get particular items from the object; `cigar` to obtain the CIGAR strings, `start` / `end` to get the start and end positions, `width` to get the width of each read.
+
+
+******
+******
+******
+
+### Exercise
+
+- How many reads have an exact match to the genome
+    + what cigar string would this be?
+- What proportion of all reads is this?
+
+```{r}
+## Your code here....
+
+
+```
+
+
+******
+******
+******
+
+The object we have created, `bam`, contains only a small amount of the information available in a `.bam` file. If we wish we can import extra fields such as the read sequence, mapping quality and flag:-
+
+
+```{r}
+bam <- readGAlignments("/home/participant/Course_Materials/data/test/paired.bam",param=ScanBamParam(what=c("seq","mapq","flag")))
+bam[1:3]
+```
+
+
+The command takes longer to run, but we get more detail on each of the reads. The extra fields make up the *metadata* for each read and can be accessed using the `mcols` function. If we save this metadata as an object, we can treat it as a `data frame` and therefore have the usual `$` operator to access the columns
+
+```{r}
+meta <- mcols(bam)
+```
+
+The sequences are stored in `Biostrings` format
+```{r}
+meta$seq
+```
+
+The flags should be valid values as [explained](https://broadinstitute.github.io/picard/explain-flags.html) online
+
+```{r}
+table(meta$flag)
+```
+
+Finally the mapping qualities are numeric quantities that will vary according to aligner
+
+```{r}
+summary(meta$mapq)
+hist(meta$mapq)
+```
+
+
+Rather than taking a whole-genome view, we often want to view the reads for a particular gene or region of interest. This we can do using the functions we have already seen.
+
+```{r}
+my.reads <- which(seqnames(mybam)=="17" & start(mybam) > 7577851 & end(mybam) < 7598063)
+mybam[my.reads]
+```
+
+However, there are much more efficient ways to do such queries in Bioconductor. 
+
+`GenomicAlignments` is part of a family of packages that provide object-types and functionality for dealing with genomic intervals; which are described in a [PLoS Computational Biology paper](http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1003118) from 2013. 
+
+The basic type of interval we can define is an `IRanges` object
+
+```{r}
+ir <- IRanges(
+start = c(7,9,12,14,22:24), 
+end=c(15,11,13,18,26,27,28))
+ir
+```
+
+There is an extensive list of operations that we can perform on this object
+
+![](images/ranges-fns.png)
+
+
+```{r}
+shift(ir, 5)
+resize(ir ,2)
+reduce(ir)
+coverage(ir)
+```
+
+
+To start using these operations in a genome context, we can create a `GRanges` object. This has all the same information as an `IRanges` object with extra capability to store the sequence name, strand and other (optional) metadata.
+
+```{r}
+mygene <- GRanges("17", ranges=IRanges(7577851, 7598063),strand="+")
+mygene
+```
+
+
+## Extracting a subset of reads
+
+We might want to focus on a subset of reads from the start, is when we want to analyse a particular gene. Provided that the `.bam` file has been indexed (creating a `.bam.bai` file in the same directory), we can *very* quickly jump to a particular genomic region. 
+
+The region filer can be used in conjuction with the `what` argument to `ScanBamParam` function to provide a detailed picture of the reads for your gene
+
+```{r eval=FALSE}
+mygene.reads <- readGAlignments(file="/home/participant/Course_Materials/data/test/paired.bam",param=ScanBamParam(which=mygene, what=c("seq","mapq","flag","qual","isize")))
+mygene.reads
+```
+
+```{r echo=FALSE}
+mygene.reads <- readGAlignments(file="/home/participant/Course_Materials/data/test/paired.bam",param=ScanBamParam(which=mygene, what=c("seq","mapq","flag","qual","isize")))
+mygene.reads[1:3]
+```
+
+
+
+
+# Summary
+
+We have explored the properties of bam files using Bioconductor. The techniques and types of object we have learnt about will crop-up again-and-again in the course. The vast majority of NGS analysis tools in Bioconductor will use `GenomicRanges` and `TxDb` objects in some form. 
+
+Due to the high-volume of the dataset, some of the tools and pipelines we use will not be in R. However, you will still be able to interrogate the results you obtain and explore them in more detail using R.
+
+
+

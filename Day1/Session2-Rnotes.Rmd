@@ -54,24 +54,6 @@ The R programming language is now recognised beyond the academic community as an
 ![](https://cdn-images-2.medium.com/max/1200/1*BTMbVFh_hziJJcaQ7TBRwg.png)
 
 
-
-
-
-
-
-
-
-
-## Key features
-
-- Open-source
-- Cross-platform
-- Access to existing visualisation / statistical tools
-- Flexibility
-- Visualisation and interactivity
-- Add-ons for many fields of research
-- Facilitates ***Reproducible Research***
-
 ![duke-scandal](../images/rep-research-nyt.png)
 
 Two Biostatiscians (later termed '*Forensic Bioinformaticians*') from M.D. Anderson used R extensively during their re-analysis and investigation of a Clinical Prognostication paper from Duke. The subsequent [scandal](https://www.youtube.com/watch?v=W5sZTNPMQRM) put Reproducible Research at the forefront of everyone's mind.
