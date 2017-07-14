@@ -1,3 +1,8 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
 # CRUK Bioinformatics Summer School 2017
 # 24th - 28th July 2017
 
@@ -21,16 +26,23 @@ The course will include a great deal of hands-on work in R and at the command li
 - Unix
 - Introductory statistics
 
-More specific requirements and references can be found [here](http://www.cruk.cam.ac.uk/bioinformatics-course-prerequisites)
+More specific requirements and references can be found here (http://www.cruk.cam.ac.uk/bioinformatics-course-prerequisites)
 
 
 # Instructors
 
-- [Mark Dunning](https://github.com/markdunning)
-- [Matthew Eldridge](http://www.cruk.cam.ac.uk/core-facilities/bioinformatics-core)
-- [Geoff Macintyre](http://gmacintyre.com/)
-- [Juliane Perner](http://www.cambridgecancercentre.org.uk/users/julianeperner11162)
-- [Oscar Rueda](http://www.cambridgecancercentre.org.uk/users/oscarrueda)
+(all Cancer Research Uk Cambridge Institute)
+
+- Mark Dunning, Bioinformatics Training Coordinator
+    + http://markdunning.github.io/
+- Matthew Eldridge, Bioinformatics Core Head
+    + http://www.cruk.cam.ac.uk/core-facilities/bioinformatics-core
+- Geoff Macintyre, Research Associate, Markowetz and Brenton labs
+    + http://gmacintyre.com/
+- Juliane Perner, Research Associate, Tavare lab
+    + http://www.cambridgecancercentre.org.uk/users/julianeperner11162
+- Oscar Rueda, Senior Research Associate, Caldas lab
+    + http://www.cambridgecancercentre.org.uk/users/oscarrueda
 
 # Aims
 
@@ -52,15 +64,18 @@ More specific requirements and references can be found [here](http://www.cruk.ca
 
 # Venue
 - Craik-Marshall room, Department of Genetics, University of Cambridge
-
+    + https://training.csx.cam.ac.uk/bioinformatics/venue/1122015
+    
 # Accommodation
-If required, free bed and breakfast accommodation wll be provided for attendees in Downing College - close to the course's location. Please let us know on the registration form if you need accommodation and when you plan to check-in and check-out. Please note that the course ends at 13:30 on Friday 28 July and accommodation is not provided for Friday night.
+If required, free bed and breakfast accommodation will be provided for attendees in Downing College - close to the course's location. Please let us know on the registration form if you need accommodation and when you plan to check-in and check-out. Please note that the course ends at 13:30 on Friday 28 July and accommodation is not provided for Friday night.
 
-# Timetable (Provisional)
+# Timetable
 
 ## Day Zero 18:00 - ..
 
-- Informal get-together the day before the course at a local pub (to be confirmed...)
+- Informal get-together at The Grain and Hop Store (close to accomodation Downing College)
+- Join us for a drink and dinner (self-paying), and to meet your colleagues for the next few days
+    + http://www.grainandhopstore-cambridge.co.uk/
 
 ## Day One 09:30 - 17:00
 
@@ -77,9 +92,9 @@ If required, free bed and breakfast accommodation wll be provided for attendees 
 
 - 09:30 - 10:30 Calling Germline SNVs lecture
 - 10:30 - 12:30 Calling Germline SNVs and working with vcf files
-- 12:30 - 13:30 LUNCH
-- Copy-number analysis using i) Exome data ii) Shallow sequencing data
-- Obtaining allele-specific copy-number estimates
+- 12:30 - 13:30 LUNCH (provided)
+- 13:30 - 17:00 Copy-number analysis 
+- 18:00 - .. Punting trip (weather permitting)
   
 ## Day Three 09:30 - 17:00
 
@@ -87,7 +102,7 @@ If required, free bed and breakfast accommodation wll be provided for attendees 
 - 10:00 - 10:30 Somatic SNV calling (practical)
 - 10:45 - 11:30 SNV Filtering (lecture)
 - 11:30 - 12:30 Assessment and visualiation of SNVs (practical)
-- 12:30 - 13:30 LUNCH
+- 12:30 - 13:30 LUNCH (provided)
 - 13:30 - 14:00 Sumamry of practical and discussion
 - 14:00 - 14:30 Annotating and prioritsing SNVs (lecture)
 - 14:30 - 16:30 Annotating and prioritsing SNVs (practical)
@@ -99,18 +114,22 @@ If required, free bed and breakfast accommodation wll be provided for attendees 
 - 10:15 - 10:30 Understanding SV Calls (hands-on)
 - 10:30 - 11:30 Visualising SV calls (practical)
 - 11:30 - 12:30 Introduction to data portals
-- 12:30 - 13:30 LUNCH
+- 12:30 - 13:30 LUNCH (provided)
 - 13:30 - 14:00 Mutational signatures lecture
-- 14:00 - 16:00 Mutational signatures and cohort analyses practical
+- 14:00 - 16:00 Mutational signatures and cohort analyses (TCGA) practical
 - 16:00 - 17:00 Running an entire somatic calling pipeline with "docker"
 
 ## Day Five (1/2 day) 09:30 - 12:30
-
--  Bring your own data!
--  Our instructors will help you get started processing your own data using the techniques discussed in the previous four days
+- 09:30 - 12:30  Open-ended;
+    + Review results of a somatic-calling pipeline
+    + Get advice on analysing your own data
+    + Installing software on your own laptop
+    + Completing exercises from previous days
+    + Any other outstanding questions you might have
+- 12:30 - 13:30 LUNCH (provided)
 
 # Social Events
 
 - The day before the course, you can join your instructors and fellow participants for a drink and dinner after your journey to Cambridge
 - The workshop dinner will be held in Downing College on Day Four; dress code is smart casual. Please inform us of any dietary requirements when you register. The dinner is free.
-- (Weather permitting), we will have a [punting](http://www.scudamores.com/) trip 
+- (Weather permitting), we will have a [punting](http://www.scudamores.com/) trip on the evening of Day Two of the course
