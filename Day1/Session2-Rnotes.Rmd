@@ -114,19 +114,9 @@ On the [Bioconductor website](www.bioconductor.org),. you will find
 - However, for this course we will use a relatively new feature called *R-notebooks*.
 - An R-notebook mixes plain text with R code
 
-Markdown is a very simple way of writing a template to produce a pdf, HTML or word document. The compiled version of this document is available online and is more convenient to browse [https://bioinformatics-core-shared-training.github.io/cruk-summer-school-2017/Day1/Session2-Rnotes.nb.html](here).
-
-*This will be displayed in italic*
-
-**This will be displayed in bold**
+Markdown is a very simple way of writing a template to produce a pdf, HTML or word document. The compiled version of this document is available online and is more convenient to browse (https://bioinformatics-core-shared-training.github.io/cruk-summer-school-2017/Day1/Session2-Rnotes.nb.html)[here].
 
 
-- this 
-- is 
-- a 
-- list
-
-You can also add hyperlinks, images and tables. More help is available through RStudio **Help -> Markdown Quick Reference**
 
 - "chunks" of R code can be added using the *insert* option from the toolbar, or the CTRL + ALT + I shortcut
 - Each line of R can be executed by clicking on the line and pressing CTRL and ENTER
@@ -140,6 +130,18 @@ You can also add hyperlinks, images and tables. More help is available through R
 print("Hello World")
 
 ```
+
+*This will be displayed in italic*
+
+**This will be displayed in bold**
+
+
+- this 
+- is 
+- a 
+- list
+
+You can also add hyperlinks, images and tables. More help is available through RStudio **Help -> Markdown Quick Reference**
 
 At a basic level, we can use R as a calculator to compute simple sums with the `+`, `-`, `*` (for multiplication) and `/` (for division) symbols. 
 
