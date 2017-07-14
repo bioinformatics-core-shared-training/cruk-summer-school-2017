@@ -114,7 +114,7 @@ On the [Bioconductor website](www.bioconductor.org),. you will find
 - However, for this course we will use a relatively new feature called *R-notebooks*.
 - An R-notebook mixes plain text with R code
 
-Markdown is a very simple way of writing a template to produce a pdf, HTML or word document. The compiled version of this document is available online and is more convenient to browse.
+Markdown is a very simple way of writing a template to produce a pdf, HTML or word document. The compiled version of this document is available online and is more convenient to browse [https://bioinformatics-core-shared-training.github.io/cruk-summer-school-2017/Day1/Session2-Rnotes.nb.html](here).
 
 *This will be displayed in italic*
 
