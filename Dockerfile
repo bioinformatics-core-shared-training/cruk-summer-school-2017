@@ -76,8 +76,6 @@ RUN mkdir -p /home/participant/Course_Materials/Day1
 RUN mkdir -p /home/participant/Course_Materials/Day2
 RUN mkdir -p /home/participant/Course_Materials/Day3
 RUN mkdir -p /home/participant/Course_Materials/Day4
-RUN mkdir -p /home/participant/Course_Materials/data
-RUN mkdir -p /home/participant/Course_Materials/ref_data/annovar
 
 ## Install required R packages
 COPY installBioCPkgs.R /home/participant/Course_Materials/
@@ -91,10 +89,11 @@ COPY Day3/* /home/participant/Course_Materials/Day3/
 COPY Day4/* /home/participant/Course_Materials/Day4/
 
 ## Create data directory
-COPY data/* /home/participant/Course_Materials/data/
+mkdir /data/
+mkdir /reference_data/
 
 
-VOLUME /home/participant/Course_Materials/data/
-VOLUME /home/home/participant/Course_Materials/ref_data/
+VOLUME /data/
+VOLUME /ref_data/
 
 WORKDIR /home/participant/Course_Materials/
