@@ -103,7 +103,7 @@ If required, free bed and breakfast accommodation will be provided for attendees
 - 10:45 - 11:30 SNV Filtering (lecture)
 - 11:30 - 12:30 Assessment and visualiation of SNVs (practical)
 - 12:30 - 13:30 LUNCH (provided)
-- 13:30 - 14:00 Sumamry of practical and discussion
+- 13:30 - 14:00 Summary of practical and discussion
 - 14:00 - 14:30 Annotating and prioritsing SNVs (lecture)
 - 14:30 - 16:30 Annotating and prioritsing SNVs (practical)
 - 16:30 - 17:00 Indel Calling (lecture)
