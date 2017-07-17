@@ -118,7 +118,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Understanding Sequencing Reads: Introduction</h1>
 <h4 class="author"><em>Mark Dunning</em></h4>
-<h4 class="date"><em>Last modified: 14 Jul 2017</em></h4>
+<h4 class="date"><em>Last modified: 17 Jul 2017</em></h4>
 
 </div>
 
@@ -319,18 +319,18 @@ $(document).ready(function () {
 
 </div>
 <p>We don’t need any special software to view these, but bear in mind there can be ~ 250 Million reads (sequences) per Hi-Seq lane. So using Word or Notepad is probably not a great idea.</p>
-<p>An example <code>.fastq</code> file has been provided for you in the folder <code>/home/participant/Course_Materials/data/test</code>. If you are curious how this fastq file was generated, you can see the <a href="#appendix">Appendix</a> for details.</p>
+<p>An example <code>.fastq</code> file has been provided for you in the folder <code>/data/test</code>. If you are curious how this fastq file was generated, you can see the <a href="#appendix">Appendix</a> for details.</p>
 <p>We can launch the <strong><em>CRUK Docker</em></strong> from the Desktop and navigate to the directory containing the files using the <code>cd</code> command</p>
 <ul>
 <li>You don’t need to type the full path. Start typing and use the Tab key to auto-complete</li>
 </ul>
-<pre><code>cd /home/participant/Course_Materials/data/test</code></pre>
+<pre><code>cd /data/test</code></pre>
 <p>If we wanted to check the directory we are currently looking at, we can use the <code>pwd</code> command.</p>
 <pre><code>pwd </code></pre>
 <p>The <code>ls</code> command will <em>list</em> all the files in this directory</p>
 <pre><code>ls</code></pre>
-<p><strong><em>Important</em></strong> The example files described were provided for the CRUK Bioinformatics Summer School; Analysis of Cancer Genomes - July 2017. If you do not see any <code>.fastq</code> files listed in the directory, you will need to download them. A script <code>download.sh</code> is provided for this purpose:-</p>
-<pre><code>sh download.sh</code></pre>
+<p><strong><em>Important</em></strong> The example files described were provided for the CRUK Bioinformatics Summer School; Analysis of Cancer Genomes - July 2017. If you do not see any <code>.fastq</code> files listed in the directory, you will need to download them. A script <code>download-test-data.sh</code> is provided for this purpose:-</p>
+<pre><code>sh /home/participant/Course_Materials/download-test-data.sh</code></pre>
 <p>Assuming the files are present, we can print the first few lines using the standard unix command <code>head</code></p>
 <ul>
 <li>We set the argument <code>-n 12</code> to print the first 12 lines of the file <code>sample.fq1</code></li>
@@ -469,7 +469,7 @@ round(probs,5)</code></pre>
 ## [65] 0.63096 0.63096 0.63096 0.63096</code></pre>
 <p>It is possible to interrogate the <code>fastq</code> files in R. However, in practice we tend to use other tools such as fastqc described in the next section.</p>
 <pre class="r"><code>library(ShortRead)
-fq &lt;- readFastq(&quot;/home/participant/Course_Materials/data/test/sample.fq1&quot;)
+fq &lt;- readFastq(&quot;/data/test/sample.fq1&quot;)
 fq</code></pre>
 </div>
 </div>
@@ -522,8 +522,8 @@ fq</code></pre>
 <div id="running-fastqc" class="section level1">
 <h1>Running <code>fastqc</code></h1>
 <p><code>fastqc</code> can be run from the <strong><em>CRUK Docker</em></strong> as follows;</p>
-<pre><code>cd /home/participant/Course_Materials/data/test/
-fastqc sample.fq1</code></pre>
+<pre><code>cd /home/participant/Course_Materials/Day1
+fastqc /data/test/sample.fq1</code></pre>
 <p>As a result, you should get two files in your working directory; <code>sample.fq1_fastqc.zip</code> and <code>sample.fq1_fastqc.html</code>. The <code>.zip</code> file contains all the metrics that <code>fastqc</code> computes, should you wish to perform extra manipulation and visualisation beyond what <code>fastqc</code> offers.</p>
 <p>The <code>html</code> file can be opened in a web browser. If you follow the link on the Desktop to <code>Course_Materials</code> you should be able to navigate to the folder <code>data/test/</code> and see the files we have created.</p>
 </div>
@@ -549,8 +549,8 @@ java -jar $PICARD SamToFastq I=paired.bam F=sample.fq1 VALIDATION_STRINGENCY=SIL
 <p><code>fastx_toolkit</code> allows us to remove reads that do not have a high enough proportion of high-quality reads.</p>
 <p>You can run these commands after having run the <strong><em>CRUK Docker</em></strong> shortcut</p>
 <pre><code>## Check we're in the correct directory
-cd /home/participant/Course_Materials/data/test/
-fastq_quality_filter -v Q 33 -q 20 -p 75 -i sample.fq1 -o sample_filtered.fq</code></pre>
+cd /home/participant/Course_Materials/Day1
+fastq_quality_filter -v Q 33 -q 20 -p 75 -i /data/test/sample.fq1 -o sample_filtered.fq</code></pre>
 <p>the options were used:-</p>
 <pre><code>-i: input file
 -o: output file
@@ -565,7 +565,7 @@ Input: 6290535 reads.
 Output: 5399767 reads.
 discarded 890768 (14%) low-quality reads.</code></pre>
 <p>It can also do straightforward trimming to a particular read length</p>
-<pre><code>fastx_trimmer -v -f 1 -l 60 -i sample.fq1 -o sample.fastx.trimmed.fq1</code></pre>
+<pre><code>fastx_trimmer -v -f 1 -l 60 -i /data/test/sample.fq1 -o sample.fastx.trimmed.fq1</code></pre>
 <p>the options specified were:-</p>
 <pre><code>-f: first base to keep
 -l: last base to keep
@@ -575,7 +575,7 @@ discarded 890768 (14%) low-quality reads.</code></pre>
 <p>Trimmomatic is interesting as it allows for differently-sized reads.</p>
 <p>To use <code>trimmomatic</code> we can run the following in a Terminal. Here <code>$TRIMMOMATIC</code> is used to refer to the particular location that the tool has been installed to.</p>
 <pre><code>
-java -jar $TRIMMOMATIC SE -phred33 sample.fq1 sample.trimmed.fq1 TRAILING:3 MINLEN:30</code></pre>
+java -jar $TRIMMOMATIC SE -phred33 /data/test/sample.fq1 sample.trimmed.fq1 TRAILING:3 MINLEN:30</code></pre>
 <pre><code>SE: run single-end mode
 -phred33: use the offset of 33 to interpret quality scores
 TRAILING:3 cut bases from the end of the read if below 3</code></pre>

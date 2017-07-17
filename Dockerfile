@@ -89,11 +89,11 @@ COPY Day3/* /home/participant/Course_Materials/Day3/
 COPY Day4/* /home/participant/Course_Materials/Day4/
 
 ## Create data directory
-mkdir /data/
-mkdir /reference_data/
+RUN mkdir /data/
+RUN mkdir /reference_data/
 
 
 VOLUME /data/
-VOLUME /ref_data/
+VOLUME /reference_data/
 
 WORKDIR /home/participant/Course_Materials/

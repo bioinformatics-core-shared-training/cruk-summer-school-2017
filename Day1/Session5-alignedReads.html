@@ -118,7 +118,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Understanding Alignments</h1>
 <h4 class="author"><em>Mark Dunning</em></h4>
-<h4 class="date"><em>Last modified: 14 Jul 2017</em></h4>
+<h4 class="date"><em>Last modified: 17 Jul 2017</em></h4>
 
 </div>
 
@@ -434,7 +434,7 @@ samtools view -bS sample.sam &gt; sample.bam</code></pre>
 <li>However, attempting to read with standard unix tools <code>cat</code>, <code>head</code> etc will print garbage to the screen</li>
 </ul>
 <p>When viewing a <code>.sam</code> or <code>.bam</code>, we can choose to just view the <em>header</em> information</p>
-<pre><code>cd /home/participant/Course_Materials/data/test
+<pre><code>cd /data/test
 samtools view -H paired.bam</code></pre>
 <p>The <code>samtools view</code> command needs to be used with a bit of care if not selecting the <code>-H</code> option. Unless directed otherwise, <code>samtools</code> will print the entire contents of the file to the screen (“the standard output”). We usually “<em>pipe</em>” the output to another unix command, such as <code>head</code></p>
 <pre><code>samtools view paired.bam | head</code></pre>
@@ -487,8 +487,7 @@ samtools view -H paired.bam</code></pre>
 <li>Typically, <a href="http://broadinstitute.github.io/picard/"><strong><em>picard</em></strong></a> is used</li>
 </ul>
 <p>Picard is another very-common tool in NGS analysis with lots of conversion, manipulation tools. If you are seriously considering getting into NGS analysis, it is worth getting to know.</p>
-<pre><code>java -jar $PICARD -h</code></pre>
-<p>Here, <code>$PICARD</code> refers to the location that <code>PICARD</code> is installed within the CRUK Docker</p>
+<pre><code>man picard-tools</code></pre>
 </div>
 </div>
 <div id="summary" class="section level1">
@@ -522,14 +521,11 @@ samtools view -H paired.bam</code></pre>
 </ul></li>
 </ul>
 <p>For completeness, we will show the commands used to aligned these two example fastq files.</p>
-<p>Note, that are assuming that you are still located in the <code>Day1</code> directory.</p>
-<pre><code>cd /home/participant/Course_Materials/data/test</code></pre>
 <p>We have previously downloaded a reference genome from the 1000 genomes into a directory <code>ref_data</code> which is a sub-directory of <code>/home/participant/Course_Materials/</code>. To check what files are present in this directory we can use the <code>ls</code> command.</p>
-<pre><code>ls ../../ref_data</code></pre>
+<pre><code>cd  /reference_data</code></pre>
 <p>If the output of this command did <strong><em>not</em></strong> list <code>Homo_sapiens_assembly19.fasta</code>, we will have to retrieve it from the Broad Institue and un-compress</p>
-<pre><code>wget http://www.broadinstitute.org/ftp/pub/seq/references/Homo_sapiens_assembly19.fasta -P ../../ref_data/
-cd ../../ref_data
-gunzip ref_data/human_g1k_v37.fasta.gz</code></pre>
+<pre><code>wget http://www.broadinstitute.org/ftp/pub/seq/references/Homo_sapiens_assembly19.fasta
+</code></pre>
 <p><code>bwa</code> can <em>index</em> the unzipped <code>.fasta</code> file. The option <code>-p</code> allows us how we want to name all the files that the indexing procedure creates. <strong><em>[N.B this step will take a long time]</em></strong>. The result of which should be files <code>hg19.amb</code>, <code>hg19.ann</code>, <code>hg19.bwt</code>, <code>hg19.pac</code> and <code>hg19,sa</code>.</p>
 <pre><code>bwa index -p hg19 -a bwtsw Homo_sapiens_assembly19.fasta</code></pre>
 <p>The command to perform the alignment is <code>bwa aln</code> which has many options. We are going to stick with the default.</p>
@@ -542,14 +538,14 @@ gunzip ref_data/human_g1k_v37.fasta.gz</code></pre>
 <li><code>sample.fq1</code> the <code>.fastq</code> file that we want to align</li>
 <li><code>&gt; sample_1.sai</code> “redirecting” the output to a file. Without the <code>&gt;</code>, the output would be printed directly to the screen</li>
 </ul>
-<pre><code>cd /home/participant/Course_Materials/data/test
+<pre><code>cd /data/test
 
-bwa aln ../../ref_data/hg19 sample.fq1 &gt; sample_1.sai
+bwa aln /reference_data/hg19 sample.fq1 &gt; sample_1.sai
 
-bwa aln ../../ref_data/hg19 sample.fq2 &gt; sample_2.sai
+bwa aln /reference_data/hg19 sample.fq2 &gt; sample_2.sai
 </code></pre>
 <p>The output from the <code>bwa aln</code> step is in a binary format that we cannot interpret directly. We need to make use of the <code>bwa sampe</code> command to create a human-readable format. We give it the files from the previous step and the fastq files.</p>
-<pre><code>bwa sampe ../../ref_data/hg19 sample_1.sai sample_2.sai sample.fq1 sample.fq2 &gt; sample.sam </code></pre>
+<pre><code>bwa sampe /reference_data/hg19 sample_1.sai sample_2.sai sample.fq1 sample.fq2 &gt; sample.sam </code></pre>
 <p>The output is a <code>.sam</code> file that was the starting point for this section.</p>
 </div>
 <div id="references-" class="section level1">

@@ -15,3 +15,5 @@ samtools index paired.bam
 picard-tools SamToFastq I=paired.bam F=sample.fq1 VALIDATION_STRINGENCY=SILENT F2=sample.fq2 R1_MAX_BASES=68 R2_MAX_BASES=68
 
 rm random.bam
+
+cd ~
