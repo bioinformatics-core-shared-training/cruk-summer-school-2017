@@ -91,7 +91,9 @@ If required, free bed and breakfast accommodation will be provided for attendees
 ## Day Two 09:30 - 17:00
 
 - 09:30 - 10:30 Calling Germline SNVs lecture
-- 10:30 - 12:30 Calling Germline SNVs and working with vcf files
+- 10:30 - 12:30 Calling Germline SNVs
+    + [Calling Germline SNVs](Day2/vcf-intro.nb.html)
+    + [Working with VCF Files](Day2/exploring-vcf.nb.html)
 - 12:30 - 13:30 LUNCH (provided)
 - 13:30 - 17:00 Copy-number analysis 
 - 18:00 - .. Punting trip (weather permitting)
