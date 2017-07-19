@@ -92,7 +92,8 @@ COPY Day4/* /home/participant/Course_Materials/Day4/
 ## These will need to be mounted with local directories containing the data when running the container
 ## scripts are included to download the relevant files
 
-RUN mkdir /data/
+RUN mkdir -p /data/test/
+RUN mkdir -p /data/hapmap/
 RUN mkdir /reference_data/
 
 ## Create a directory for software (i.e. annovar)

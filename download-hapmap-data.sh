@@ -1,4 +1,4 @@
-mkdir -p /data/hapmap
+
 cd /data/hapmap
 
 wget ftp://ftp.ncbi.nlm.nih.gov/1000genomes/ftp/phase3/data/NA12878/alignment/NA12878.chrom20.ILLUMINA.bwa.CEU.low_coverage.20121211.bam -O NA12878.chr20.bam

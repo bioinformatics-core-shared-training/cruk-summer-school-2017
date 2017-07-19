@@ -1,6 +1,6 @@
 ## Run this command from within the docker container
 
-mkdir -p /data/test
+
 cd /data/test/
 
 wget ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/other_exome_alignments/NA06984/exome_alignment/NA06984.mapped.illumina.mosaik.CEU.exome.20111114.bam
