@@ -12,3 +12,5 @@ tar zxf SNV_INDEL_ref_GRCh37d5.tar.gz
 
 find . -type f | xargs chmod ugo+r
 find . -type d | xargs chmod ugo+rx
+
+cd ~
