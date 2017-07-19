@@ -64,7 +64,7 @@ grid.arrange(p1,p2,p3,ncol=1)
 # Admin
 
 - Course runs 09:30 ~ 17:00 each day
-    + Room open fom 09:00 each day
+    + Room open from 09:00 each day
 - Lunch provided 12:30 - 13:30 each day
     + different room on the same campus, we'll take you there
 - No fixed coffee and tea breaks
@@ -123,7 +123,7 @@ grid.arrange(p1,p2,p3,ncol=1)
 
 - Theory of Somatic calling
 - Hands-on practice assessing and filtering Somatic calls
-- Annotating and prioritsing calls
+- Annotating and prioritizing calls
 
 ## Day 4
 
@@ -154,7 +154,7 @@ If you haven't designed your experiment properly, then all the Bioinformatics we
 
 # About the data
 
-We will use publically-available datasets that you can take away with you at the end of the course
+We will use publicly-available datasets that you can take away with you at the end of the course
 
 ## HCC1143
 
@@ -164,7 +164,7 @@ A breast-cancer cell-line on which we have data available and has been used as p
 
 - http://www.pawefish.path.cam.ac.uk/BreastCellLineDescriptions/HCC1143.html
 - https://cansar.icr.ac.uk/cansar/cell-lines/HCC1143/copy_number_variation/
-- https://cghub.ucsc.edu/datasets/benchmark_download.html
+- https://portal.gdc.cancer.gov/legacy-archive/search/f
 
 # Choice of software
 
@@ -190,3 +190,10 @@ A breast-cancer cell-line on which we have data available and has been used as p
 
 
 - We'll go through this at the end of the course
+
+# Live note-taking and documentation
+
+- We have an "etherpad" at https://public.etherpad-mozilla.org/p/2017-07-24-cancer-genomes
+- Use this to ask questions during the talks
+- We can post code snippets, links and corrections here too
+
