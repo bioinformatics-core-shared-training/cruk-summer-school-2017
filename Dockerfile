@@ -105,7 +105,7 @@ RUN mkdir -p /home/participant/Course_Materials/software/annovar
 
 COPY download-hapmap-data.sh /home/participant/Course_Materials/
 COPY download-ref-data.sh /home/participant/Course_Materials/
-COPY download download-test-data.sh /home/participant/Course_Materials/
+COPY download-test-data.sh /home/participant/Course_Materials/
 
 VOLUME /data/
 VOLUME /reference_data/
