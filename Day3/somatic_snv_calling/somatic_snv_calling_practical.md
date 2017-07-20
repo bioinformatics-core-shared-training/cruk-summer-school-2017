@@ -220,15 +220,19 @@ caveman estep -i 3
 
 ### Questions
 
-Look at the first somatic mutation call in the file `1_9673176.muts.vcf` and try to answer the following questions.
+Locate the `vcfProcessLog` header line in the VCF file, `1_9673176.muts.vcf`.
 
-* What is the base substitution for the first somatic mutation call?
+* _What prior probabilities were used for the SNP rate and the somatic mutation rate?_
 
-* What is the number of sequence reads aligned at this position (depth) in the normal? What is the depth in the tumour?
+Look at the first somatic mutation call in the VCF file and try to understand the information provided about this SNV, referring to the `INFO` and `FORMAT` header lines.
 
-* How many reads support the alternate allele in the tumour? And the normal?
+* _What is the base substitution for the first somatic mutation call?_
 
-* What is the proportion of the mutant allele in the tumour and in the normal?
+* _What is the number of sequence reads aligned at this position (depth) in the normal? What is the depth in the tumour?_
+
+* _How many reads support the alternate allele in the tumour? And the normal?_
+
+* _What is the proportion of the mutant allele in the tumour and in the normal?_
 
 <div style="line-height: 250%;"><br></div>
 

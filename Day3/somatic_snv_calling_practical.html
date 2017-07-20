@@ -339,12 +339,16 @@ caveman estep -i 3</code></pre>
 </div>
 <div id="questions" class="section level3">
 <h3>Questions</h3>
-<p>Look at the first somatic mutation call in the file <code>1_9673176.muts.vcf</code> and try to answer the following questions.</p>
+<p>Locate the <code>vcfProcessLog</code> header line in the VCF file, <code>1_9673176.muts.vcf</code>.</p>
 <ul>
-<li><p>What is the base substitution for the first somatic mutation call?</p></li>
-<li><p>What is the number of sequence reads aligned at this position (depth) in the normal? What is the depth in the tumour?</p></li>
-<li><p>How many reads support the alternate allele in the tumour? And the normal?</p></li>
-<li><p>What is the proportion of the mutant allele in the tumour and in the normal?</p></li>
+<li><em>What prior probabilities were used for the SNP rate and the somatic mutation rate?</em></li>
+</ul>
+<p>Look at the first somatic mutation call in the VCF file and try to understand the information provided about this SNV, referring to the <code>INFO</code> and <code>FORMAT</code> header lines.</p>
+<ul>
+<li><p><em>What is the base substitution for the first somatic mutation call?</em></p></li>
+<li><p><em>What is the number of sequence reads aligned at this position (depth) in the normal? What is the depth in the tumour?</em></p></li>
+<li><p><em>How many reads support the alternate allele in the tumour? And the normal?</em></p></li>
+<li><p><em>What is the proportion of the mutant allele in the tumour and in the normal?</em></p></li>
 </ul>
 <div style="line-height: 250%;">
 <br>
