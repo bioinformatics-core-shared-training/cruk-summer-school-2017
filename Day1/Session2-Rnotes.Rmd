@@ -101,11 +101,11 @@ On the [Bioconductor website](www.bioconductor.org),. you will find
 - Installation instructions
 - [Course Materials](http://bioconductor.org/help/course-materials/)
 - [Support forum](https://support.bioconductor.org/)
-  + means of communicating with developers and power-users
+    + a means of communicating with developers and power-users
 - [Example datasets](http://bioconductor.org/packages/release/BiocViews.html#___ExperimentData)
 - [Annotation Resources](http://bioconductor.org/packages/release/BiocViews.html#___AnnotationData)
-- [Conferences]()
-    + upcoming conference in Cambridge
+- Conferences
+    + upcoming conference in Cambridge - December 2017
 
 
 # Entering commands in R
@@ -114,7 +114,7 @@ On the [Bioconductor website](www.bioconductor.org),. you will find
 - However, for this course we will use a relatively new feature called *R-notebooks*.
 - An R-notebook mixes plain text with R code
 
-Markdown is a very simple way of writing a template to produce a pdf, HTML or word document. The compiled version of this document is available online and is more convenient to browse (https://bioinformatics-core-shared-training.github.io/cruk-summer-school-2017/Day1/Session2-Rnotes.nb.html)[here].
+Markdown is a very simple way of writing a template to produce a pdf, HTML or word document. The compiled version of this document is available online and is more convenient to browse [https://bioinformatics-core-shared-training.github.io/cruk-summer-school-2017/Day1/Session2-Rnotes.nb.html](here).
 
 
 
@@ -140,6 +140,7 @@ print("Hello World")
 - is 
 - a 
 - list
+    + this is a *sub-list*
 
 You can also add hyperlinks, images and tables. More help is available through RStudio **Help -> Markdown Quick Reference**
 
@@ -577,9 +578,9 @@ gapminder[gapminder$country == "Zambia" & gapminder$lifeExp < 40,]
 
 ### Exercise
 
-- Which row in the data frame contains the entry with the highest population?
-- Which row in the data frame contains the entry with the lowest life expectancy?
-- Can you create a data frame of countries with a population less than a million in the year 2002
+- Print the contents of the row in the data frame that contains the entry with the highest population?
+- Print the contents of the row in the data frame that contains the entry with the lowest life expectancy?
+- Create a data frame of countries with a population less than a million in the year 2002
 - A data frame of countries with a population less than a million in the year 2002, that are not in Africa?
 
 
@@ -646,6 +647,7 @@ All your favourite types of plot can be created in R
 - References..
     + [Introductory R course](http://cambiotraining.github.io/r-intro/)
     + [Quick-R](http://www.statmethods.net/graphs/index.html)
+    + [More advanced plotting; ggplot2](http://bioinformatics-core-shared-training.github.io/r-intermediate/)
     
 Plots can be constructed from vectors of numeric data, such as the data we get from a particular column in a data frame.
 
@@ -721,7 +723,7 @@ boxplot(gapminder$gdpPercap ~ gapminder$continent,col=c("red","orange","green","
 - First, create a subset of observations from the year **1952**
 - Do countries with a higher GDP tend to have a higher life expectancy?
     + use a scatter plot to find out
-- Is there an overall difference in life expectancy between continents?
+- Was there an overall difference in life expectancy between continents in this year?
     + use a boxplot to find out
 
 ******
@@ -849,22 +851,11 @@ points(newData$gdpPercap, newData$lifeExp,col="blue",pch=16)
 legend("topright", legend=c(1952,2002),col=c("red","blue"),pch=16)
 ```
 
-As an aside, what is that outlier on the GDP axis?
-
-- We should now know how to create a logical vector
-- The `which` function can then be used to identify the particular indices that are `TRUE`
-
-```{r}
-
-## Some code here
-
-```
-
 The `text` function works in a similar way to `points`
 
 - You give it the set of x and y coordinates you want to plot
     + plus also a set of labels
-    
+
 ```{r}
 plot(oldData$gdpPercap, oldData$lifeExp,col="red",
      pch=16,
@@ -872,10 +863,42 @@ plot(oldData$gdpPercap, oldData$lifeExp,col="red",
      ylab="Life Expectancy",
      xlim=c(0,1.1e5),ylim=c(30,90))
 points(newData$gdpPercap, newData$lifeExp,col="blue",pch=16)
+text(c(2e04,4e04),c(40,40),labels = c("Hello","World"))
+
 legend("topright", legend=c(1952,2002),col=c("red","blue"),pch=16)
-crazyValue <- which(oldData$gdpPercap > 100000)
-text(oldData$gdpPercap[crazyValue], oldData$lifeExp[crazyValue],labels = oldData$country[crazyValue])
+
 ```
+
+
+******
+******
+******
+
+## Exercise
+
+- What is that outlier on the x axis (GDP)?
+    + use a logical test to find out
+- Use the text function to annotate the plot with the corresponding country name
+
+```{r}
+plot(oldData$gdpPercap, oldData$lifeExp,col="red",
+     pch=16,
+     xlab="GDP",
+     ylab="Life Expectancy",
+     xlim=c(0,1.1e5),ylim=c(30,90))
+points(newData$gdpPercap, newData$lifeExp,col="blue",pch=16)
+
+## Some code here to find the outlier here...
+
+```
+
+******
+******
+******
+
+
+    
+
 
 
 ### Specifying a vector of colours
@@ -961,7 +984,9 @@ There is plenty more to know about plotting that we don't have time to cover
 - adding lines of best fit with `abline`
 - adding grids with `grid`
 - control over axis appearance and labels with `axis`
-- see references at start of section
+- for more inspiration, see the [R graph gallery](http://www.r-graph-gallery.com/)
+
+## (***Optional***)
 
 ## Statistical Testing
 
@@ -992,33 +1017,20 @@ If our data were paired we could set the argument `paired=TRUE` to use a differe
 ```{r}
 t.test(x,y,paired = TRUE)
 ```
+
+Similarly, if our data have different variances we can adjust the test accordingly:-
+
+```{r}
+x <- rnorm(20)
+y <- rnorm(20, 5,4)
+df <- data.frame(x,y)
+boxplot(df)
+t.test(x,y,var.equal = FALSE)
+```
+
 Were our data not normally-distributed we could use `wilcox.test`, for example.  Fortunately, most statistical tests can be accessed in a similar manner, so it is easy to switch between using different tests provided your data are in the correct format. To re-iterate, the skill is in choosing which test is appropriate.
 
 ```{r}
 wilcox.test(x,y,var.equal = FALSE)
-```
-
-
-******
-******
-******
-
-### Exercise
-
-Between the years 1952 and 2002, was there a significant improvement in the life expectancy?
-
-  - Use the data in `oldData` and `newData` to find out
-  - Do the data look to be normally-disributed?
-      + if not, which test would you use?
-      + are these paired or independant data?
-      
-******
-******
-******
-
-```{r}
-
-### Your answer here ###
-
 ```
 
