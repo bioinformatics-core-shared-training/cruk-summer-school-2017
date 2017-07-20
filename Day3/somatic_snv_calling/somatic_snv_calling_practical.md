@@ -1,15 +1,15 @@
 ---
 title: "Somatic SNV Calling Practical"
-author: "Matt Eldridge"
-date: "17 July 2017"
-output: html_document
+author: "Matt Eldridge, Cancer Research UK Cambridge Institute"
+date: "July 2017"
+output:
+  html_document:
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-## Introduction
+### Introduction
 
 In this practical you will be running CaVEMan to identify somatic single nucleotide variants (SNVs) in the HCC1143 breast cancer cell line using aligned sequence data from both the tumour cell line and a cell line dervied from a matched peripheral blood sample taken from the same patient (HCC1143_BL).
 
@@ -17,8 +17,8 @@ In this practical you will be running CaVEMan to identify somatic single nucleot
 
 CaVEMan applies an expectation maximisation algorithm to call single nucleotide substitutions. Through comparison of reads from both tumour and normal with the reference genome, CaVEMan calculates a probability for each possible genotype per base (given tumour and normal copy number). In order to provide more accurate estimates of sequence error rates within the algorithm, thus aid identification of true variants, variables such as base quality, read position, lane, and read orientation are incorporated into the calculations.
 
-## Start a CGP docker container in interactive mode
 
+### Create a CGP docker container
 
 Open a terminal window and change directory to the working directory for the CaVEMan practical.
 
@@ -46,7 +46,7 @@ ubuntu@361c36165465:~$
 
 This is a running docker container based on the Sanger CGP docker image and allows you type commands and access software and tools provided by the image.
 
-### The Sanger CGP docker image: technical details
+#### The Sanger CGP docker image: technical details
 
 [Docker](https://www.docker.com) is an open platform for developers to build and ship applications, whether on laptops, servers in a data center, or the cloud.
 
@@ -61,8 +61,7 @@ The above `docker run` command tells docker to start a new instance of the CGP i
 
 If you are interested you can open another terminal window and type `docker run --help` to check the meaning of the various options in the above command.
 
-
-### Check that the reference data and BAM files are accessible
+#### Check that the reference data and BAM files are accessible
 
 Change directory to the directory containing the BAM files and view the header of BAM file for the tumour cell line by typing the following at the command-line prompt.
 
@@ -86,13 +85,13 @@ cd core_ref_GRCh37d5
 cat genome.fa.fai
 ```
 
-## Running CaVEMan
+### Running CaVEMan
 
 CaVEMan is executed in several distinct steps in the order given below. While running these steps it may help to follow the CaVEMan [guide](http://cancerit.github.io/CaVEMan) in parallel. This provides some more information about each step and lists the available optional settings for each.
 
 The CGP pipeline executes all the steps for CaVEMan in a single workflow, along with the tools for calling the other types of variants. In this practical we will run the separate steps manually for a region of chromosome 21.
 
-### Set up a CaVEMan run
+#### Set up a CaVEMan run
 
 Change directory to the working directory in which we'll run CaVEMan.
 
@@ -106,10 +105,12 @@ Run the following command.
 
 ```
 caveman setup \
-  -t /data/HCC1143.bam \
-  -n /data/HCC1143_BL.bam \
-  -r /reference_data/core_ref_GRCh37d5/genome.fa.fai \
-  -g /reference_data/SNV_INDEL_ref/caveman/HiDepth.tsv
+  --tumour-bam /data/HCC1143.bam \
+  --normal-bam /data/HCC1143_BL.bam \
+  --reference-index /reference_data/core_ref_GRCh37d5/genome.fa.fai \
+  --ignore-regions-file /reference_data/SNV_INDEL_ref/caveman/HiDepth.tsv \
+  --tumour-copy-no-file tum.cn.bed \
+  --normal-copy-no-file norm.cn.bed
 ```
 
 This creates two configuration files, `caveman.cfg.ini` and `alg_bean`. Take a look at the contents of these files.
@@ -119,7 +120,7 @@ cat caveman.cfg.ini
 cat alg_bean
 ```
 
-### Split chromosome 21 into chunks
+#### Split chromosome 21 into chunks
 
 CaVEMan divides the computational work into a number of jobs to be run in parallel on a multi-processor computer, by splitting the genome into regions. The size of each region is determined based on these containing a configurable number of aligned reads each.
 
@@ -141,7 +142,7 @@ The Sanger CGP pipeline runs `caveman split` for all chromosomes and then concat
 head -3 splitList.21 > splitList
 ```
 
-### Run the maximization step
+#### Run the maximization step
 
 Run the following to perform the maximization step (M-step) for the first chunk.
 
@@ -164,7 +165,7 @@ caveman mstep -i 2
 caveman mstep -i 3
 ```
 
-### Merge the covariate files
+#### Merge the covariate files
 
 The next step is to merge the covariates files generated for every region. In a full pipeline run there would be one such file for each of a large number of regions. We just have the three regions for this cut-down example.
 
@@ -174,7 +175,7 @@ caveman merge
 
 This should produce two files, `probs_arr` and `covs_arr`, in the working directory.
 
-### Run the expectation step
+#### Run the expectation step
 
 The expectation step (E-step) is the final step in calling variants using CaVEMan. Like the maximization step, this needs to be run as separate jobs, one for each chunk.
 
@@ -214,7 +215,8 @@ caveman estep -i 2
 caveman estep -i 3
 ```
 
-## Questions
+
+### Questions
 
 Look at the first somatic mutation call in the file `1_9673176.muts.vcf` and try to answer the following questions.
 
