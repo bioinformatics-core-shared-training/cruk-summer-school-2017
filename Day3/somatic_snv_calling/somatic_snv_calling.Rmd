@@ -149,7 +149,7 @@ In this example the tumour was sequenced to an average depth of 50.
 
 * Finally, remember that we are taking a random sample
 
-* We may not get lucky
+* We may not get lucky!
 
 <div style="line-height: 100%;"><br></div>
 
