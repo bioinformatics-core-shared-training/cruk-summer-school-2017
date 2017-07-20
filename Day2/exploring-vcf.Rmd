@@ -1,0 +1,312 @@
+---
+title: "Exploring VCF files"
+date: '`r format(Sys.time(), "Last modified: %d %b %Y")`'
+output: 
+  html_notebook: 
+    toc: yes
+    toc_float: yes
+---
+
+
+## Importing into Bioconductor
+
+The `VariantAnnotation` package allows `.vcf` files to be imported. The `readVcf` function can be used and requires the file of a vcf file. You also need to specify a genome name. As we have seen already with other Bioconductor objects, typing the name of the object will print a summary to the screen. In the case of a "`CollapsedVCF`" object this is very detailed
+
+```{r message=FALSE}
+library(VariantAnnotation)
+hapmap.calls <- readVcf("combined.chr20.subset.freebayes.vcf","hg19")
+
+```
+
+
+
+The "header" information can be extracted using `header`. This will contain the definitions of all the per-genotype (`INFO`) and per-sample information stored in the file
+
+
+
+## `INFO`
+
+As described above, the `INFO` column in a `.vcf` file gives per-variant metadata as a series of key-value pairs. We can interrogate these data using the `info` function, which returns a data-frame-like object. Consequently, we can use the `$` operator to select a particular column of interest.
+
+The name of each row is derived from the genomic location and base-change for each variant. There are too many columns to go through in detail, so we will just describe a few that are likely to be common to different callers.
+
+```{r eval=FALSE}
+infoMatrix <- info(hapmap.calls)
+infoMatrix
+```
+
+
+`NS` represents the number of samples with data. We would expect this to be 3 in all cases. However, as we are dealing with low-coverage data there are some sites where data could not be observed for all samples.
+
+`DP` gives the depth observed at each position, which is given to us in the form of a vector. By looking at the distribtion of the depths, we see some variants with extremely low coverage. Later-on, we will see how we can develop filters to remove unreliable calls from our dataset. Variants with low depth would seem to be a good candidate for exclusion.
+
+******
+******
+******
+
+### Exercise
+
+- Using the `info` from the vcf file, plot the distribution of depth observed at each position
+- How many calls were observed at depth 50 or above?
+
+
+******
+******
+******
+
+
+
+## Accessing genotypes
+
+The called genotypes can be accessed using the `geno` function. Recall that in the `.vcf` file, we have one column of genotype information for each sample, with each column consisting of `key:value` pairs. Using `geno` we can access all the values for a particular keys and be able to compare across samples. 
+
+The column names of the data frame returned by `geno` are the same as the `FORMAT` in the `.vcf` description. Thus we can use a `$` operator to access a particular set of values; `GT` in this case
+
+```{r}
+geno(hapmap.calls)
+head(geno(hapmap.calls)$GT)
+```
+The output allows us to compare the genotype for a particular variant across all samples; which we could not easily do from the `.vcf`.
+
+Usually each entry is `0/0` for a homozygous reference, `0/1` for a heterozygous call and `1/1` for a homozyous alternate allele. An entry of `.` indicates a position where no call could be made due to insufficient data. Moreover, we can also find `0/2` and `1/2` in rare cases where a second alternative allele was found. 
+
+With `table` we can tabulate the calls between one sample and another
+
+```{r}
+table(geno(hapmap.calls)$GT[,1])
+table(geno(hapmap.calls)$GT[,2])
+table(geno(hapmap.calls)$GT[,1], geno(hapmap.calls)$GT[,2])
+
+
+```
+
+
+
+## Overlapping variant positions with genes
+
+In this section we will see how we can overlap the calls we have made with other genomic features. For example, we are often interested in how many calls were made within a particular gene of interest. 
+
+For this section, we are going to use all calls made on chromosome 20 for a single sample; `NA12878`. 
+
+The `rowRanges` function will retrieve the positions of our variants as a familiar `GRanges` object. Along with the usual positional information, we also get extra "metadata" (`mcols`) about the base-change, a quality-score from `freebayes` and a placeholder for a filter (which has not been applied in this case).
+
+```{r}
+NA12878.calls <- readVcf("NA12878.chr20.freebayes.vcf","hg19")
+NA12878.calls.ranges <- rowRanges(NA12878.calls)
+```
+
+If we happen to know the genomic region corresponding to a particular gene, we can restrict our list of variants using standard R syntax.
+
+- let's take the Gene **PRND** which is located between `chr20:4,700,556-4,711,106` on the human genome version `hg19`
+
+```{r}
+NA12878.calls.ranges[start(NA12878.calls.ranges) > 4700556   & end(NA12878.calls.ranges) < 4711106]
+```
+
+However, we might want to something more sophisticated and only consider variants in coding regions. For this we can take advantage of some pre-built packages in Bioconductor.
+
+### Pre-built databases of gene coordinates
+
+Aside from the many useful software packages, Bioconductor also provides numerous annotation resources that we can utilise in our analysis. Firstly, we have a set of organism-level packages that can translate between different types of identifer. The package for humans is called `org.Hs.eg.db`. The advantage of such a package, rather than services such as biomaRt, is that we can do queries offline. The packages are updated every 6 months, so we can always be sure of what version of the relevant databases are being used.
+
+```{r message=FALSE, echo=FALSE}
+library(org.Hs.eg.db)
+org.Hs.eg.db
+```
+
+There are several types of “key” we can use to make a query, and we have to specify one of these names.
+
+```{r}
+keytypes(org.Hs.eg.db)
+
+```
+
+For the given keytype we have chosen, we can also choose what data we want to retrieve. We can think of these as columns in a table, and the pre-defined values are given by:-
+
+```{r}
+columns(org.Hs.eg.db)
+
+```
+
+
+
+```{r}
+eg <- select(org.Hs.eg.db, keys=c("BRCA1","PTEN"), keytype = "SYMBOL",columns = c("REFSEQ","ENSEMBL"))
+```
+
+You should see that the above command prints a message to the screen:- `select() returned 1:many mapping between keys and columns`. This is not an error message and R has still been able to generate the output requested.
+
+```{r}
+eg
+```
+
+In this case, we have "many"" (well, two) values of ENSEMBL for the gene PTEN. In practice this means we probably want to think carefully about merging this data with other tables.
+
+
+******
+******
+******
+
+### Exercise
+
+- Use the `org.Hs.eg.db` package to retrieve the Entrez Gene ID for the Gene `PRND`
+
+```{r}
+
+```
+
+******
+******
+******
+
+
+
+You might expect to be able to retrieve information about the coordinates for a particular gene using the same interface. This was supported until recently, but the recommended approach now is to use another class of packages which describe the structure of genes in more detail.
+
+The packages with the prefix `TxDb....` represent the structure of all genes for a given organism in an efficient manner. For humans, we can use the package `TxDb.Hsapiens.UCSC.hg19.knownGene` to tell us about transcripts for the hg19 build of the genome. The package was generated using tables from the UCSC genome browser
+
+As with the `org.Hs.eg.db` package we can load the package and inspect the kind of mappings available to us.
+
+```{r eval=FALSE}
+library(TxDb.Hsapiens.UCSC.hg19.knownGene)
+txdb <- TxDb.Hsapiens.UCSC.hg19.knownGene
+columns(txdb)
+```
+
+```{r eval=FALSE}
+keytypes(txdb)
+```
+
+You’ll see that all the mappings are regarding the coordinates and IDs of various genomic features. There is only one type of identifier used, in this case `Entrez ID`. If we know a genes Entrez ID, we can get the exon coordinates with the following query.
+
+
+
+******
+******
+******
+
+### Exercise
+
+- Use the `org.Hs.eg.db` package to retrieve the exon coordinates for the Gene `PRND`
+    + you will need to use the Entrez gene ID you found in the previous exercise
+
+```{r}
+mygene <- .....
+
+```
+
+******
+******
+******
+
+It is useful to be able to retrive the coordinates in this manner. However, we should now be familiar with the way intervals can be represented using GRanges. We have the ability to create a GRanges object from the result:-
+
+```{r eval=FALSE}
+my.gr <- GRanges(mygene$EXONCHROM, IRanges(mygene$EXONSTART,mygene$EXONEND))
+my.gr
+```
+
+The `txdb` packages also allow us to construct `GenomicRanges` representations for the exon structure of all genes. The results is a list, which the names of the list being a gene ID in Entrez format
+
+```{r eval=FALSE}
+all.exons <- exonsBy(txdb, "gene")
+all.exons
+
+my.gene <- all.exons[["23627"]]
+my.gene
+```
+
+We are almost ready to do the overlap. However, there is an inconsistency in the naming conventions of the two sets of regions we are trying to overlap;
+
+```{r eval=FALSE}
+seqlevelsStyle(NA12878.calls.ranges)
+seqlevelsStyle(my.gene)
+```
+
+Fortunately, we can rename the chromosome names of the variants with a single call. We can also modify the object so only information about chromosome 20 is retained (later-on we would receive an error due to the `MT` chromosomes being different length)
+
+```{r eval=FALSE}
+seqlevelsStyle(NA12878.calls.ranges) <- "UCSC"
+NA12878.calls.ranges <- keepSeqlevels(NA12878.calls.ranges, "chr20")
+
+```
+
+The `%over` function can be comapre two sets of ranges and produce a *logical vector*. Each entry in this vector being whether a particular location in the first set of ranges is present in the other. The vector can then be used to subset the variants in the usual manner.
+
+```{r eval=FALSE} 
+in.gene <- NA12878.calls.ranges %over% mygene
+NA12878.calls.ranges[in.gene]
+
+
+```
+
+We can even write-out a vcf file containing just the positions we have identified
+
+```{r}
+writeVcf(NA12878.calls[in.gene],filename = "selected.variants.vcf")
+```
+
+
+We are not just restricted to overlapping with these pre-defined gene models. If we have a set of generic regions in `.bed` or similar format we can import as a `GRanges` object using the `rtracklayer` package and call the `countOverlaps` and `%over%` functions as before
+
+```{r}
+library(rtracklayer)
+regions.of.interest <- import("regions.of.interest.bed")
+regions.of.interest
+```
+
+
+******
+******
+******
+
+### Exercise
+
+- Navigate to PRND in IGV and verify that the number of variants we have identified is correct
+- Investigate the `countOverlaps` function
+- Find the number of variants called in NA12878 for each of the regions defined in the file `regions.of.interest.bed`
+
+******
+******
+******
+
+
+## Summary
+
+- We have used a respectable genotype caller `freebayes` to call SNVs from a set of healthy individuals
+    + there are many paramters that can be tweaked that we haven't described here
+- The `.vcf` format contains a rich description of the called variants
+- Bioconducor tools can be used to import and parse `.vcf` files
+- We can use `GenomicRanges` to overlap our calls with other genomic features of interest
+- Production-level manipulation of `.vcf` would probably involve other non-R tools
+    + [bedtools](http://bedtools.readthedocs.io/en/latest/)
+    + [vcftools](https://vcftools.github.io/index.html)
+  
+
+# <a name="appendix"></a> Appendix
+
+## Files used in session
+
+Commands used to generate bam files for genotype calling
+
+```{}
+samtools view -h ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/other_exome_alignments/NA19239/exome_alignment/NA19239.mapped.solid.mosaik.YRI.exome.20111114.bam 22 | samtools view -bS - > /data/hapmap/NA19239.chr22.bam
+samtools index /data/hapmap/NA19239.chr22.bam
+
+wget ftp://ftp.ncbi.nlm.nih.gov/1000genomes/ftp/phase3/data/NA12878/alignment/NA12878.chrom20.ILLUMINA.bwa.CEU.low_coverage.20121211.bam -O NA12878.chr20.bam
+samtools index NA12878.chr20.bam
+
+wget ftp://ftp.ncbi.nlm.nih.gov/1000genomes/ftp/phase3/data/NA12874/alignment/NA12874.chrom20.ILLUMINA.bwa.CEU.low_coverage.20130415.bam -O NA12874.chr20.bam
+samtools index NA12874.chr20.bam
+```
+
+
+
+# References
+
+- [freebayes tutorial](http://clavius.bc.edu/~erik/CSHL-advanced-sequencing/freebayes-tutorial.html)
+- [freebayes tutorial 2](https://libraries.io/github/benjaypunto/freebayes)
+- [vcf files tutorial](https://faculty.washington.edu/browning/beagle/intro-to-vcf.html)
+- [bedtools tutorial](http://quinlanlab.org/tutorials/bedtools/bedtools.html)
+
+

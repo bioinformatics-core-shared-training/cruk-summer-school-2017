@@ -28,7 +28,7 @@ A package that can be used to parse a `.bam` file is `GenomicAlignments`. You sh
 
 ```{r message=FALSE}
 library(GenomicAlignments)
-mybam <- readGAlignments("/home/participant/Course_Materials/data/test/paired.bam")
+mybam <- readGAlignments("/data/test/paired.bam")
 mybam
 ```
 
@@ -42,32 +42,19 @@ mybam[1:10]
 There are also a number of *accessor* functions that can get particular items from the object; `cigar` to obtain the CIGAR strings, `start` / `end` to get the start and end positions, `width` to get the width of each read.
 
 
-******
-******
-******
-
-### Exercise
-
-- How many reads have an exact match to the genome
-    + what cigar string would this be?
-- What proportion of all reads is this?
-
 ```{r}
-## Your code here....
+## space to try out some of the accessor functions
 
 
 ```
 
 
-******
-******
-******
 
 The object we have created, `bam`, contains only a small amount of the information available in a `.bam` file. If we wish we can import extra fields such as the read sequence, mapping quality and flag:-
 
 
 ```{r}
-bam <- readGAlignments("/home/participant/Course_Materials/data/test/paired.bam",param=ScanBamParam(what=c("seq","mapq","flag")))
+bam <- readGAlignments("/data/test/paired.bam",param=ScanBamParam(what=c("seq","mapq","flag","isize","qual")))
 bam[1:3]
 ```
 
@@ -76,6 +63,7 @@ The command takes longer to run, but we get more detail on each of the reads. Th
 
 ```{r}
 meta <- mcols(bam)
+meta
 ```
 
 The sequences are stored in `Biostrings` format
@@ -89,13 +77,30 @@ The flags should be valid values as [explained](https://broadinstitute.github.io
 table(meta$flag)
 ```
 
-Finally the mapping qualities are numeric quantities that will vary according to aligner
+Finally the mapping qualities are numeric quantities that will vary according to aligner. Mapping qualities of 0 are usually reserved for reads that map to multiple locations. Many calling algorithms will employ a filter on mapping quality; with values of 10 to 20 typically used to discard reads
+
 
 ```{r}
 summary(meta$mapq)
-hist(meta$mapq)
 ```
 
+******
+******
+******
+
+### Exercise
+
+- Visualise the distribution of mapping qualities for this set of reads
+- How many reads would be removed at a cut-off of 10 or 20?
+- What would seem to be a reasonable cut-off to discard poor quality reads?
+- How many reads are classified as *PCR-duplicates*?
+    + HINT: Use the URL mentioned above to find out the explanation of flags observed in our data
+
+
+
+******
+******
+******
 
 Rather than taking a whole-genome view, we often want to view the reads for a particular gene or region of interest. This we can do using the functions we have already seen.
 
@@ -104,33 +109,21 @@ my.reads <- which(seqnames(mybam)=="17" & start(mybam) > 7577851 & end(mybam) < 
 mybam[my.reads]
 ```
 
-However, there are much more efficient ways to do such queries in Bioconductor. 
+However, there are much more efficient ways to do such queries in Bioconductor as we will see later in the course
 
 `GenomicAlignments` is part of a family of packages that provide object-types and functionality for dealing with genomic intervals; which are described in a [PLoS Computational Biology paper](http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1003118) from 2013. 
 
-The basic type of interval we can define is an `IRanges` object
-
-```{r}
-ir <- IRanges(
-start = c(7,9,12,14,22:24), 
-end=c(15,11,13,18,26,27,28))
-ir
-```
-
-There is an extensive list of operations that we can perform on this object
+The basic type of interval we can define is an `IRanges` object. There is an extensive list of operations that we can perform on this object
 
 ![](images/ranges-fns.png)
 
 
-```{r}
-shift(ir, 5)
-resize(ir ,2)
-reduce(ir)
-coverage(ir)
-```
 
+## Extracting a subset of reads
 
-To start using these operations in a genome context, we can create a `GRanges` object. This has all the same information as an `IRanges` object with extra capability to store the sequence name, strand and other (optional) metadata.
+We might want to focus on a subset of reads from the start, is when we want to analyse a particular gene. Provided that the `.bam` file has been indexed (creating a `.bam.bai` file in the same directory), we can *very* quickly jump to a particular genomic region. 
+
+The region filer can be used in conjuction with the `what` argument to `ScanBamParam` function to provide a detailed picture of the reads for your gene. First we need to define a region:-
 
 ```{r}
 mygene <- GRanges("17", ranges=IRanges(7577851, 7598063),strand="+")
@@ -138,28 +131,131 @@ mygene
 ```
 
 
-## Extracting a subset of reads
 
-We might want to focus on a subset of reads from the start, is when we want to analyse a particular gene. Provided that the `.bam` file has been indexed (creating a `.bam.bai` file in the same directory), we can *very* quickly jump to a particular genomic region. 
-
-The region filer can be used in conjuction with the `what` argument to `ScanBamParam` function to provide a detailed picture of the reads for your gene
-
-```{r eval=FALSE}
-mygene.reads <- readGAlignments(file="/home/participant/Course_Materials/data/test/paired.bam",param=ScanBamParam(which=mygene, what=c("seq","mapq","flag","qual","isize")))
+```{r echo=FALSE}
+mygene.reads <- readGAlignments(file="/home/participant/Course_Materials/data/test/paired.bam",
+                                param=ScanBamParam(which=mygene, 
+                                                   what=c("seq","mapq","flag","qual","isize")
+                                                   )
+                                )
 mygene.reads
 ```
 
-```{r echo=FALSE}
-mygene.reads <- readGAlignments(file="/home/participant/Course_Materials/data/test/paired.bam",param=ScanBamParam(which=mygene, what=c("seq","mapq","flag","qual","isize")))
-mygene.reads[1:3]
+## Data Summaries
+
+We will now look into the couple of ways that we can summarise the data that will motivate some of the methods to come in the rest of the course.
+
+Firstly, we can compute how many bases are observed at each position using the `pileupAsGRanges` convenience function from the `biovizBase` package.
+
+- the output is a summary of base counts for each position, and an overall depth
+- the function is also able to do clever things such as excluding reads with low mapping quality or PCR duplicates
+
+
+```{r}
+library(biovizBase)
+baseSummary <- pileupAsGRanges("/data/test/paired.bam",regions = mygene)                         
+baseSummary
+```
+
+- the output is a `GenomicRanges` object with *metadata* corresponding to the base counts and depth
+- as before we can extract the metadata with the `mcols` function
+
+```{r}
+meta <- mcols(baseSummary)
+
 ```
 
 
+******
+******
+******
+
+### Exercise
+
+- Extract the depth values for each position, in order to plot the read coverage over this genomic region
+- Navigate to `chr17:7577851-7598063` in IGV
+    + does the plot roughly agree?
+- How many positions in this region have a depth of over 10?
+
+
+******
+******
+******
+
+Another piece of information that would be useful at this point is to determine what the reference base is at each position. This can be achieved using the one of the pre-built genome packages in Bioconductor
+
+- we will encounter several annotation packages during the course; the full list is given on the [Bioconductor website](http://bioconductor.org/packages/release/BiocViews.html#___AnnotationData)
+- you need to make sure to select the appropriate genome build
+    + and organism
+- these packages are installed in the usual fashion with `biocLite`
+    + they are much larger than standard Bioconductor software packages
+    + essentially they comprise a pre-built database
+
+```{r eval=FALSE}
+### Don't run this during the course
+source("https://bioconductor.org/biocLite.R")
+biocLite("BSgenome.Hsapiens.UCSC.hg19")
+```
+
+Some basic information about the package can be obtained by typing the object name
+
+```{r}
+library("BSgenome.Hsapiens.UCSC.hg19")
+hg19 <- BSgenome.Hsapiens.UCSC.hg19
+hg19
+
+```
+
+- there is a convenient `getSeq` function that can obtain the genome sequence for a given genomic region
+- however, there is a problem when we try and run this using the region we created previously
+    + can you work out why?
+
+```{r eval=FALSE}
+refSeq <- getSeq(hg19, mygene)
+refSeq
+```
+
+- a solution to this common headache is provided by the `renameSeqlevels` function
+
+```{r}
+refSeq <- getSeq(hg19, renameSeqlevels(mygene, c("17"="chr17")))
+refSeq
+```
+
+- we can determine which base was called at each position we can use the following R magic
+    + here `apply` is used to run the same function on each row of the data frame
+    + `which.max` returns the index of the highest value in each row
+    + `mycalls` is then a vector of "calls" for each base; the same length as the genomic region
+
+```{r}
+mycalls <- apply(meta[,c("A","T","C","G")], 1,
+      function(x) names(x)[which.max(x)]
+      )
+
+mycalls[1:5]
+baseSummary[1:5]
+```
+
+
+******
+******
+******
+
+### Exercise
+
+- How many positions have a "call" different from the reference genome?
+    HINT: what does the R code `mycalls == refSeq` return?
+- How many of these positions have a depth greater than 10?
+- Verify your result in IGV
+
+******
+******
+******
 
 
 # Summary
 
-We have explored the properties of bam files using Bioconductor. The techniques and types of object we have learnt about will crop-up again-and-again in the course. The vast majority of NGS analysis tools in Bioconductor will use `GenomicRanges` and `TxDb` objects in some form. 
+We have explored the properties of bam files using Bioconductor. The techniques and types of object we have learnt about will crop-up again-and-again in the course. The vast majority of NGS analysis tools in Bioconductor will use `GenomicRanges` objects in some form. 
 
 Due to the high-volume of the dataset, some of the tools and pipelines we use will not be in R. However, you will still be able to interrogate the results you obtain and explore them in more detail using R.
 
