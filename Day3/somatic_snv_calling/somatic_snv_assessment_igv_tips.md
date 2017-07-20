@@ -32,7 +32,7 @@ summarizes the number of reads aligned at the position for each of the different
 
 * Right click in the main panel to get the context menu and ensure that the `Shade mismatched bases` and `Shade bases by quality` options are selected.
 
-![](igv_context_menu.png)
+![](images/igv_context_menu.png)
 
 Bases in reads that match the reference are coloured grey while bases that do not match are colour coded by base.
 
@@ -56,14 +56,14 @@ Zoom out to visualize the broader context and how well the region is mapped. Are
 
 * Click the tooltip to remove it so you can see the reads underneath (sometimes the tooltips get annoying!).
 
-![](igv_tooltip.png)
+![](images/igv_tooltip.png)
 
 
 ### Sorting reads
 
 * Right-click over the variant position to bring up the context menu and select `Sort alignments by`, then choose which attribute by which to sort.
 
-![](igv_sort_by_base_quality.png)
+![](images/igv_sort_by_base_quality.png)
 
 It is usually quite helpful to sort by base in the first instance. This brings all the variant reads to the top.
 
@@ -74,7 +74,7 @@ It may also help to sort by mapping quality to see if the variant reads tend to 
 
 * Right-click to bring up the context menu and select `Colour alignments by` to choose an attribute to use in colouring reads.
 
-![](igv_colour_by_strand.png)
+![](images/igv_colour_by_strand.png)
 
 Colouring by insert size and pair orientation is very useful for identifying read pairs that align in an unusual manner that may be indicative of a structural rearrangement.
 
@@ -91,8 +91,8 @@ In regions where there are genomic rearrangements, a useful IGV feature is to tu
 
 * Select the `Show soft-clipped bases` option.
 
-![](igv_alignment_view_preferences.png)
+![](images/igv_alignment_view_preferences.png)
 
 The clipped bases are displayed as if they had not been clipped from the alignment and will be mostly not match the reference sequence. Make sure you have the 'Shade mismatched bases' option turned on as well (see above).
 
-![](igv_soft_clipping.png)
+![](images/igv_soft_clipping.png)
