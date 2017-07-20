@@ -15,11 +15,14 @@ You might find this [set of hints](https://rawgit.com/bioinformatics-core-shared
 
 Open the IGV genome browser.
 
-- Load the Tumour `.bam` file `/home/participant/Course_Materials/data/HCC1143.bam`
+* Load the Tumour `.bam` file `/home/participant/Course_Materials/data/HCC1143.bam`
 
-- Load the Normal `.bam` file `/home/participant/Course_Materials/data/HCC1143_BL.bam`
+* Load the Normal `.bam` file `/home/participant/Course_Materials/data/HCC1143_BL.bam`
 
-- Load the `.vcf` file containing variants called by Caveman for this tumour /normal pair `/home/participant/Course_Materials/Day3/HCC1143_vs_HCC1143_BL.annot.muts.vcf`
+* Load the `.vcf` file containing variants called by Caveman for this tumour /normal pair `/home/participant/Course_Materials/Day3/HCC1143_vs_HCC1143_BL.annot.muts.vcf`
+
+* Load annotations from the IGV server by choosing `Load from Server...` from the `File` menu
+    * Select the `dbSNP` and `Repeat Masker` options within the `Variation and Repeats` annotations section
 
 All but one of the following set of candidate somatic SNVs were called by CaVEMan. The VCF track shows whether the call was made by CaVEMan; hovering over the bar representing the call will bring up a tooltip with details of the SNV call including whether it was filtered.
 
