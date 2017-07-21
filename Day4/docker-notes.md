@@ -135,14 +135,120 @@ The Sanger CGP docker image packages a complete environment including all the to
 * **ASCAT** for detecting copy number changes
 * **BRASS** for identifying somatic genomic rearrangements, also known as structural variants (SVs)
 
-On Day3, we ran CaVEMan using the 
+On Day3, we ran CaVEMan using the the ***Sanger Docker*** shortcut. What this was actually doing is below.
 
 ```
+
 docker run \
-	--rm \
-	-it --entrypoint=bash \
-	-v ${PWD}:/caveman_practical \
-	-v /PATH_TO/HCC1143:/data \
-	-v /PATH_TO/reference_data:/reference_data \
-	quay.io/wtsicgp/dockstore-cgpwgs:1.0.8
+--rm \
+-it --entrypoint=bash \
+-v /data:/data \
+-v /reference_data:/reference_data \
+-v /home/participant/Course_Materials/Day3:/caveman_practical \
+quay.io/wtsicgp/dockstore-cgpwgs:1.0.8
 ```
+
+As you can hopefully see, the structure is pretty similar to how we ran the ***CRUK Docker***. The container being used is called `quay.io/wtsicgp/dockstore-cgpwgs:1.0.8`. 
+
+## Running the Sanger Somatic pipeline
+
+However, the intended usage for this container is to run the entire pipeline on a matched tumour and normal sample. The tools listed above are used in an automated fashion with, say, the output of ascat being automatically passed to caveman etc.
+
+To run the pipeline, we need another piece of software called `cwltool` and a configuration file that will define the locations of the input tumour and normal files, reference data, and where the output is to be stored.
+
+To ensure that the pipeline runs in reasonable time, we have provided a *downsampled* version of the HCC1143 cell-line and its matched normal in the directory `/data/downsampled` and downloaded the reference files required by the pipeline to `/reference_data` (the url for these files can be found in the script `/home/participant/Course_Materials/download-ref-data.sh`)
+
+***This time open a Terminal using the icon on the left-side of the Desktop***
+
+```
+ls /data/downsampled
+ls /reference_data
+```
+
+The config file to run the pipeline can be found in the directory `/home/participant/Course_Materials/pipeline_test/`
+
+```
+cd /home/participant/Course_Materials/
+cat cgpwgs.json
+```
+Which should look something like:-
+
+```
+{
+  "normal": {
+    "path": "/data/downsampled/HCC1143_BL.bam",
+    "class": "File"
+  },
+  "subcl": {
+    "path": "/reference_data/SUBCL_ref_GRCh37d5.tar.gz",
+    "class": "File"
+  },
+  "cnv_sv": {
+    "path": "/reference_data/CNV_SV_ref_GRCh37d5.tar.gz",
+    "class": "File"
+  },
+  "cavereads": 350000,
+  "annot": {
+    "path": "/reference_data/VAGrENT_ref_GRCh37d5_ensembl_75.tar.gz",
+    "class": "File"
+  },
+  "skipbb": false,
+  "run_params": {
+    "path": "/home/participant/pipeline_test/params.txt",
+    "class": "File"
+  },
+  "reference": {
+    "path": "/reference_data/core_ref_GRCh37d5.tar.gz",
+    "class": "File"
+  },
+  "snv_indel": {
+    "path": "/reference_data/SNV_INDEL_ref_GRCh37d5.tar.gz",
+    "class": "File"
+  },
+  "species": "human",
+  "tumour": {
+    "path": "/data/downsampled/HCC1143.bam",
+    "class": "File"
+  },
+  "assembly": "GRCh37d5",
+  "timings": {
+    "path": "/home/participant/pipeline_test/timings_WGS.tar.gz",
+    "class": "File"
+  },
+  "exclude": "NC_007605,hs37d5,GL%",
+  "global_time": {
+    "path": "/home/participant/pipeline_test/global_WGS.time",
+    "class": "File"
+  },
+  "result_archive": {
+    "path": "/home/participant/pipeline_test/result_WGS.tar.gz",
+    "class": "File"
+  },
+  "sv_cyto": {
+    "path": "/reference_data/cytoband_GRCh37d5.txt",
+    "class": "File"
+  }
+}
+
+
+```
+
+The command to run the pipeline is then
+
+```
+mkdir -p tmp
+mkdir -p output
+
+cwltool \
+	--leave-container \
+	--leave-tmpdir \
+	--copy-outputs \
+	--tmpdir-prefix /home/participant/pipeline_test/tmp/ \
+	--tmp-outdir-prefix /home/participant/pipeline_test/output/ \
+	--non-strict \
+	https://www.dockstore.org:8443/api/ga4gh/v1/tools/quay.io%2Fwtsicgp%2Fdockstore-cgpwgs/versions/1.0.8/plain-CWL/descriptor \
+	cgpwgs.json
+
+```
+
+If all goes well, we should have some results to look at in the morning :tada:
