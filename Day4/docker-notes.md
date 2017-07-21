@@ -62,9 +62,10 @@ To use the container in interactive mode we have to specify a `-it` argument. Wh
 docker run --rm -it markdunning/cancer-genome-toolkit bash
 ```
 
-Once inside the container we can run any tools that have been installed. 
+Once inside the container we can run any tools that have been installed. However, what is not included is *data*. In order to use the Docker container to analyse our own data. This is achieved by *mounting* directories within our own OS so they are available within the Docker environment. 
 
-When you click the CRUK Docker icon on the Desktop, what is being run is actually:-
+- the `-v` argument to `docker run` allows certain directories on your machine to be visible inside docker. 
+- when you click the ***CRUK Docker*** icon on the Desktop, what is being run is actually:-
 
 ```
 docker run \
@@ -77,6 +78,53 @@ docker run \
 markdunning/cancer-genome-toolkit
 ```
 
+The machines used in Genetics for the course already happen to have a `/data/` and `/reference_data/` directory. However, when you try and run the course on your own machine, you will need to type the paths to where you have stored the data from the course.
+
+```
+docker run \
+--rm \
+-it --entrypoint=bash \
+-v /PATH/TO/YOUR/data:/data \
+-v /PATH/TO/YOUR/reference_data:/reference_data \
+-v /PATH/TO/YOUR/Course_Materials:/home/participant/Course_Materials \
+-v /PATH/TO/YOUR/software:/home/participant/Course_Materials/software \
+markdunning/cancer-genome-toolkit
+```
+As we have provided a hard drive with the data, the command would look something like this on a Mac:-
+
+```
+docker run \
+--rm \
+-it --entrypoint=bash \
+-v /Volumes/CRUKSummer/data:/data \
+-v /Volumes/CRUKSummer/reference_data:/reference_data \
+-v /Volumes/CRUKSummer/Course_Materials:/home/participant/Course_Materials \
+-v /Volumes/CRUKSummer/software:/home/participant/Course_Materials/software \
+markdunning/cancer-genome-toolkit
+
+
+```
+And on Windows it will depend on what drive letter the external hard drive appears as:-
+
+```
+docker run \
+--rm \
+-it --entrypoint=bash \
+-v D:/CRUKSummer/YOUR_USERNAME/data:/data \
+-v D:/CRUKSummer/YOUR_USERNAME/reference_data:/reference_data \
+-v D:/CRUKSummer/YOUR_USERNAME/Course_Materials:/home/participant/Course_Materials \
+-v D:/CRUKSummer/YOUR_USERNAME/software:/home/participant/Course_Materials/software \
+markdunning/cancer-genome-toolkit
+
+```
+You don't just have to use the container with the data shipped with the course. If you have other files that you want to play with you just need to change the first line that uses`-v`
+
+### Checklist for using the CRUK Docker on your own machine
+
+- Install Docker
+- `docker pull markdunning/cancer-genome-toolkit`
+- work out where the data you want to analyse are located and modify the `-v` arguments accordingly
+
 
 ## The Sanger Docker
 
@@ -86,6 +134,8 @@ The Sanger CGP docker image packages a complete environment including all the to
 * **Pindel** for identifying somatic indels (short insertions and deletions)
 * **ASCAT** for detecting copy number changes
 * **BRASS** for identifying somatic genomic rearrangements, also known as structural variants (SVs)
+
+On Day3, we ran CaVEMan using the 
 
 ```
 docker run \

@@ -95,7 +95,9 @@ If required, free bed and breakfast accommodation will be provided for attendees
     + [Calling Germline SNVs](Day2/vcf-intro.nb.html)
     + [Working with VCF Files](Day2/exploring-vcf.nb.html)
 - 12:30 - 13:30 LUNCH (provided)
-- 13:30 - 17:00 Copy-number analysis 
+- 13:30 - 17:00 Copy-number analysis
+    +  Copy Number Analysis Lecture
+    + [Copy Number Analysis Practical](Day2/practical_copy-number.html)
 - 18:00 - .. Punting trip (weather permitting)
   
 ## Day Three 09:30 - 17:00
@@ -112,9 +114,7 @@ If required, free bed and breakfast accommodation will be provided for attendees
   
 ## Day Four 09:30 - 17:00
 
-- 09:30 - 10:15 Calling Structural Variants (lecture)
-- 10:15 - 10:30 Understanding SV Calls (hands-on)
-- 10:30 - 11:30 Visualising SV calls (practical)
+- 09:30 - 11:30 [Structural Variants](Day4/structural_variation.html)
 - 11:30 - 12:30 Introduction to data portals
 - 12:30 - 13:30 LUNCH (provided)
 - 13:30 - 14:00 Mutational signatures lecture
