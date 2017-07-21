@@ -22,9 +22,9 @@ source("plots.R")
 
 * What makes somatic SNV detection difficult?
 
-* Some calling tools
+* CaVEMan and some other calling tools
 
-* Statistical approaches to calling SNVs
+* Statistical approaches to calling somatic SNVs
 
 * How well should you expect a tool to perform?
 
@@ -34,13 +34,6 @@ source("plots.R")
 <div style="line-height: 50%;"><br></div>
 
 <img src="images/somatic_and_germline_snv.svg" style="width: 75%; margin: 0 6em;"/>
-
-
-<!--
-## Somatic vs Germline SNVs {#less_space_after_title}
-
-<img src="igv_snapshot.png" style="width: 100%"/>
--->
 
 
 ## Numbers of somatic SNVs in different cancer types
@@ -80,9 +73,9 @@ Somatic SNV callers typically set the expected mutation rate to be around 5 muta
 
 <div style="line-height: 100%;"><br></div>
 
-- Sequencing errors
+* Sequencing errors
 
-- Alignment artefacts
+* Alignment artefacts
 
 [Mwenifumbo & Marra, Nat Rev Genet. 2013](http://www.ncbi.nlm.nih.gov/pubmed/23594910)
 
@@ -409,9 +402,9 @@ $G^N, G^T$ = genotypes of normal and tumour
 
 $$
 \begin{eqnarray}
-\boldsymbol{P(G^N, G^T \mid D^N, D^T)} &\propto& P(D^N, D^T \mid G^N, G^T)P(G^T, G^N)
-\\[5pt]
-&\propto& P(D^N \mid D^T, G^N, G^T)P(D^T \mid G^N, G^T)P(G^N, G^T)
+\boldsymbol{P(G^N, G^T \mid D^N, D^T)}\ \ &\propto&\ \ P(D^N, D^T \mid G^N, G^T)P(G^T, G^N)
+\\[10pt]
+&\propto&\ \ P(D^N \mid D^T, G^N, G^T)P(D^T \mid G^N, G^T)P(G^N, G^T)
 \end{eqnarray}
 $$
 
@@ -498,13 +491,13 @@ $FN$ -- false negatives, i.e. number of missed calls
 </div>
 
 $$
-\textrm{Precision} = \frac{TP}{TP + FP}\ \ \ \ \ \ \ \ \textrm{Recall} = \frac{TP}{TP + FN}
+\textrm{Precision} = \frac{TP}{TP + FP}\ \ \ \ \ \ \ \ \ \ \ \ \textrm{Recall} = \frac{TP}{TP + FN}
 $$
 
 <div style="line-height: 100%;"><br></div>
 
-<span style="font-size: 85%">
-$$\textrm{Balanced accuracy} = \tfrac{1}{2}(\textrm{Precision} + \textrm{Recall}),\ \ F\textrm{-score} = \frac{2 \times \textrm{Precision} \times \textrm{Recall}}{\textrm{Precision} + \textrm{Recall}},\ \ \textrm{Jaccard index} = \frac{TP}{TP + FP + FN}$$
+<span style="font-size: 75%">
+$$\textrm{Balanced accuracy} = \tfrac{1}{2}(\textrm{Precision} + \textrm{Recall})\ \ \ \ \ \ \ \ F\textrm{-score} = \frac{2 \times \textrm{Precision} \times \textrm{Recall}}{\textrm{Precision} + \textrm{Recall}}\ \ \ \ \ \ \ \ \textrm{Jaccard index} = \frac{TP}{TP + FP + FN}$$
 </span>
 
 
