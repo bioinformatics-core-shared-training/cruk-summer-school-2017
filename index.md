@@ -84,24 +84,26 @@ If required, free bed and breakfast accommodation will be provided for attendees
 - 11:30 - 12:30 Overview of Cancer Genomics
 - 12:30 - 13:30 LUNCH (provided)
 - 13:30 - 14:30 [Understanding raw sequencing reads](Day1/Session3-seqIntro.html)
-- 14:30 - 15:00 [Understanding aligned reads](Day1/Session4-alignedReads.html)
+- 14:30 - 15:00 [Understanding aligned reads](Day1/Session5-alignedReads.html)
 - 15:00 - 16:00 [Introduction to IGV](Day1/Session6-IGV.html)
 - 16:00 - 17:00 [Dealing with sequencing data in R](Day1/Session7-seqDatainR.nb.html)
 
 ## Day Two 09:30 - 17:00
 
 - 09:30 - 10:30 Calling Germline SNVs lecture
-- 10:30 - 12:30 Calling Germline SNVs and working with vcf files
+- 10:30 - 12:30 Calling Germline SNVs
+    + [Calling Germline SNVs](Day2/vcf-intro.nb.html)
+    + [Working with VCF Files](Day2/exploring-vcf.nb.html)
 - 12:30 - 13:30 LUNCH (provided)
 - 13:30 - 17:00 Copy-number analysis 
 - 18:00 - .. Punting trip (weather permitting)
   
 ## Day Three 09:30 - 17:00
 
-- 09:30 - 10:00 Somatic SNV calling (lecture)
-- 10:00 - 10:30 Somatic SNV calling (practical)
-- 10:45 - 11:30 SNV Filtering (lecture)
-- 11:30 - 12:30 Assessment and visualiation of SNVs (practical)
+- 09:30 - 10:15 [Somatic SNV calling (lecture)](Day3/somatic_snv_calling.html)
+- 10:15 - 10:45 [Somatic SNV calling (practical)](Day3/somatic_snv_calling_practical.html)
+- 11:00 - 11:30 SNV Filtering (lecture)
+- 11:30 - 12:30 [Assessment and visualiation of SNVs (practical)](Day3/somatic_snv_assessment_exercise.html)
 - 12:30 - 13:30 LUNCH (provided)
 - 13:30 - 14:00 Summary of practical and discussion
 - 14:00 - 14:30 Annotating and prioritsing SNVs (lecture)

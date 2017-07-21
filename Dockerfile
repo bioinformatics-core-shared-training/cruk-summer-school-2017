@@ -88,10 +88,24 @@ COPY Day2/* /home/participant/Course_Materials/Day2/
 COPY Day3/* /home/participant/Course_Materials/Day3/
 COPY Day4/* /home/participant/Course_Materials/Day4/
 
-## Create data directory
-RUN mkdir /data/
+## Create data, reference data directories
+## These will need to be mounted with local directories containing the data when running the container
+## scripts are included to download the relevant files
+
+RUN mkdir -p /data/test/
+RUN mkdir -p /data/hapmap/
 RUN mkdir /reference_data/
 
+## Create a directory for software (i.e. annovar)
+## annovar cannot be included in the container due to license restrictions
+
+RUN mkdir -p /home/participant/Course_Materials/software/annovar
+
+## Copy download scripts
+
+COPY download-hapmap-data.sh /home/participant/Course_Materials/
+COPY download-ref-data.sh /home/participant/Course_Materials/
+COPY download-test-data.sh /home/participant/Course_Materials/
 
 VOLUME /data/
 VOLUME /reference_data/
