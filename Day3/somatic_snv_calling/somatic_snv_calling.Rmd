@@ -20,6 +20,14 @@ source("plots.R")
 
 ## Outline
 
+* What makes somatic SNV detection difficult?
+
+* Some calling tools
+
+* Statistical approaches to calling SNVs
+
+* How well should you expect a tool to perform?
+
 
 ## Somatic vs Germline SNVs {#less_space_after_title}
 
@@ -238,7 +246,7 @@ Tumour: 50 reads, 7 of which have an alternate <span style="color: #2e3192">$\bo
 
 <div style="line-height: 250%;"><br></div>
 
-<span style="color: #2e3192">**2 x 2 contingency table**</span><img src="images/contingency_table.svg" style="vertical-align: top; margin: 0 3em;"/>
+<span style="color: #2e3192">**2 x 2 contingency table**</span><img src="images/contingency_table.svg" style="vertical-align: top; width: 25%; margin: 0 6em;"/>
 
 <!--
 <div style='width:30%; margin:auto'>
@@ -250,7 +258,7 @@ Normal            48                0
 </div>
 -->
 
-<div style="line-height: 100%;"><br></div>
+<div style="line-height: 150%;"><br></div>
 
 * Allele fraction of the alternate allele in the tumour, $AF = 7/50 = 0.14$
 
@@ -299,25 +307,45 @@ $$
 
 ## Germline SNV calling (single sample)
 
-Reference $\boldsymbol{C}$, observe 6 reads $\boldsymbol{\{\ 4C,\ 2T\ \}}$ all with base quality $\mathrm{Q} = 30\ \left(P = 10^{-30/10} = 0.001\right)$
+Reference $\boldsymbol{C}$, observe 6 reads $\boldsymbol{\{\ 4C,\ 2T\ \}}$ all with base quality $\mathrm{Q} = 30\ \left(P_{error} = 10^{-\frac{30}{10}} = 0.001\right)$
+
+
+## Germline SNV calling (single sample)
+
+Reference $\boldsymbol{C}$, observe 6 reads $\boldsymbol{\{\ 4C,\ 2T\ \}}$ all with base quality $\mathrm{Q} = 30\ \left(P_{error} = 10^{-\frac{30}{10}} = 0.001\right)$
 
 **<span style="color: #3d42c2">Likelihood of data</span>**
 
 $$
 \begin{eqnarray}
-\boldsymbol{P(D \mid CC)} &=& \mathrm{Probability\ of\ two\ Q30\ errors} &=& 10^{-3}\times10^{-3} &=&\ \ 10^{-6}
+\boldsymbol{P(D \mid CC)} &=& \textrm{Probability of two Q30 errors} &=& 10^{-3}\times10^{-3} &=&\ \ 10^{-6}
 \\[5pt]
-\boldsymbol{P(D \mid TT)} &=& \mathrm{Probability\ of\ four\ Q30\ errors} &=& \left(10^{-3}\right)^4 &=&\ \ 10^{-12}
+\boldsymbol{P(D \mid TT)} &=& \textrm{Probability of four Q30 errors} &=& \left(10^{-3}\right)^4 &=&\ \ 10^{-12}
 \\[5pt]
-\boldsymbol{P(D \mid CT)} &=& \mathrm{Probability\ of} \{ C, C, C, C, T, T \} &=& \left(1/2\right)^6 &=&\ \ 0.0156
+\boldsymbol{P(D \mid CT)} &=& \textrm{Probability of }\{C,C,C,C,T,T\} &=& \left(\tfrac{1}{2}\right)^6 &=&\ \ 0.0156
+\end{eqnarray}
+$$
+
+
+## Germline SNV calling (single sample)
+
+Reference $\boldsymbol{C}$, observe 6 reads $\boldsymbol{\{\ 4C,\ 2T\ \}}$ all with base quality $\mathrm{Q} = 30\ \left(P_{error} = 10^{-\frac{30}{10}} = 0.001\right)$
+
+**<span style="color: #3d42c2">Likelihood of data</span>**
+
+$$
+\begin{eqnarray}
+\boldsymbol{P(D \mid CC)} &=& \textrm{Probability of two Q30 errors} &=& 10^{-3}\times10^{-3} &=&\ \ 10^{-6}
+\\[5pt]
+\boldsymbol{P(D \mid TT)} &=& \textrm{Probability of four Q30 errors} &=& \left(10^{-3}\right)^4 &=&\ \ 10^{-12}
+\\[5pt]
+\boldsymbol{P(D \mid CT)} &=& \textrm{Probability of }\{C,C,C,C,T,T\} &=& \left(\tfrac{1}{2}\right)^6 &=&\ \ 0.0156
 \end{eqnarray}
 $$
 
 <div style="line-height: 50%;"><br></div>
 
 **<span style="color: #3d42c2">Priors</span>**\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ $\boldsymbol{P(CC)} = 0.9985,\ \ \boldsymbol{P(CT)} = 0.001,\ \ \boldsymbol{P(TT)} = 0.0005$
-
-<div style="line-height: 50%;"><br></div>
 
 **<span style="color: #3d42c2">Probability of observing $\boldsymbol{\{ 4C, 2T \}}$</span>**
 
@@ -332,17 +360,17 @@ $$
 
 ## Germline SNV calling (single sample)
 
-Reference $\boldsymbol{C}$, observe 6 reads $\boldsymbol{\{\ 4C,\ 2T\ \}}$ all with base quality $\mathrm{Q} = 30\ \left(P = 10^{-30/10} = 0.001\right)$
+Reference $\boldsymbol{C}$, observe 6 reads $\boldsymbol{\{\ 4C,\ 2T\ \}}$ all with base quality $\mathrm{Q} = 30\ \left(P_{error} = 10^{-\frac{30}{10}} = 0.001\right)$
 
 **<span style="color: #3d42c2">Likelihood of data</span>**
 
 $$
 \begin{eqnarray}
-\boldsymbol{P(D \mid CC)} &=& \mathrm{Probability\ of\ two\ Q30\ errors} &=& 10^{-3}\times10^{-3} &=&\ \ 10^{-6}
+\boldsymbol{P(D \mid CC)} &=& \textrm{Probability of two Q30 errors} &=& 10^{-3}\times10^{-3} &=&\ \ 10^{-6}
 \\[5pt]
-\boldsymbol{P(D \mid TT)} &=& \mathrm{Probability\ of\ four\ Q30\ errors} &=& \left(10^{-3}\right)^4 &=&\ \ 10^{-12}
+\boldsymbol{P(D \mid TT)} &=& \textrm{Probability of four Q30 errors} &=& \left(10^{-3}\right)^4 &=&\ \ 10^{-12}
 \\[5pt]
-\boldsymbol{P(D \mid CT)} &=& \mathrm{Probability\ of} \{ C, C, C, C, T, T \} &=& \left(1/2\right)^6 &=&\ \ 0.0156
+\boldsymbol{P(D \mid CT)} &=& \textrm{Probability of }\{C,C,C,C,T,T\} &=& \left(\tfrac{1}{2}\right)^6 &=&\ \ 0.0156
 \end{eqnarray}
 $$
 
@@ -407,3 +435,138 @@ $\boldsymbol{P(G^N, G^T)}$ --- prior for joint genotype; could treat as independ
 <div style="line-height: 50%;"><br></div>
 
 <img src="images/somatic_snv_vcf.svg" style="width: 100%"/>
+
+
+## How well can we expect a somatic SNV caller to perform?
+
+<span style="color: #2e3192">**Sensitivity**</span> = _ability to correctly identify the true mutations_
+
+<span style="color: #2e3192">**Specificity**</span> = _ability to only call true mutations, i.e. no false positives_
+
+<div style="line-height: 100%;"><br></div>
+
+* Sensitivity and specificity of a function of the biology, the sample and data quality, and the calling method.
+
+* Each new tool promises better accuracy than all before, but how will it perform in your hands?
+
+* Need some representative datasets with established ground truth
+
+    * <span>Recent benchmarking exercises/challenges (TCGA, ICGC, DREAM)</span>
+
+
+## Benchmark datasets
+
+[ICGC benchmarking exercise](https://www.ncbi.nlm.nih.gov/pubmed/26647970)
+
+<div style="line-height: 15%;"><br></div>
+
+* Medulloblastoma tumour/normal pair sequenced in 6 different centres to combined 300-fold coverage (used to establish 'truth')
+
+* 16 ICGC project teams ran their pipelines on data from one centre (40x)
+
+<div style="line-height: 100%;"><br></div>
+
+[ICGC-TCGA DREAM Somatic Mutation Calling challenge](https://www.synapse.org/#!Synapse:syn312572)
+
+<div style="line-height: 15%;"><br></div>
+
+* 6 synthetic datasets based on cell line sequenced to 80x
+
+    - BAM randomly sampled into 2 non-overlapping subsets of equal size, mutations added to one using BAMSurgeon
+
+    - Synthetic dataset 4: 80% cellularity; 50% and 35% subclone VAF (effectively 30% and 15%)
+
+<div style="line-height: 15%;"><br></div>
+
+* <span>Real challenge: 5 pancreatic and 5 prostate cancer patients</span>
+
+
+## Assessing SNV calling
+
+<div class="columns-2">
+
+<img src="images/snv_call_accuracy_venn_diagram.svg"/>
+
+<div style="line-height: 250%;"><br></div>
+
+$TP$ -- true positives, i.e. correct calls
+
+$FP$ -- false positives, i.e. incorrect calls
+
+$FN$ -- false negatives, i.e. number of missed calls
+
+</div>
+
+$$
+\textrm{Precision} = \frac{TP}{TP + FP}\ \ \ \ \ \ \ \ \textrm{Recall} = \frac{TP}{TP + FN}
+$$
+
+<div style="line-height: 100%;"><br></div>
+
+<span style="font-size: 85%">
+$$\textrm{Balanced accuracy} = \tfrac{1}{2}(\textrm{Precision} + \textrm{Recall}),\ \ F\textrm{-score} = \frac{2 \times \textrm{Precision} \times \textrm{Recall}}{\textrm{Precision} + \textrm{Recall}},\ \ \textrm{Jaccard index} = \frac{TP}{TP + FP + FN}$$
+</span>
+
+
+## ICGC Benchmark -- medulloblastoma MB99
+
+```{r echo=FALSE}
+mb99 <- read.delim("icgc_benchmark_mb99.txt",
+                   stringsAsFactors = FALSE, check.names = FALSE)
+
+scatterPlot(
+  mb99 %>%
+    transmute(
+      x = Precision,
+      y = Recall,
+      series = ifelse(grepl("^MB.F", Group), "CRUK-CI",
+               ifelse(grepl("^MB", Group), "Submissions",
+               Group)),
+      tooltip = paste(
+        Group,
+        "<br>TP: ", TP, ", FP: ", FP, ", FN: ", (1255 - TP),
+        "<br>Precision: ", Precision,
+        "<br>Recall: ", Recall,
+        "<br>Balanced accuracy: ", Balanced_accuracy,
+        sep = ""
+      )
+    ),
+  series = c(
+    "MuTect2",
+    "CaVEMan Sanger CGP",
+    "MuSE",
+    "Strelka",
+    "CRUK-CI",
+    "Submissions"
+  ),
+  colours = c(
+    "#73e600",
+    "#b23aee",
+    "#ff0066",
+    "#ffcc4d",
+    "#ffb700",
+    "#8fc1ef"
+  ),
+  visible = c(FALSE, FALSE, FALSE, FALSE, TRUE, TRUE),
+  sizes = c(6.0, 6.0, 6.0, 6.0, 4.5, 4.5),
+  xLabel = "Precision",
+  yLabel = "Recall",
+  xmin = 0.0, xmax = 1.0,
+  ymin = 0.0, ymax = 1.0,
+  yLine = 1019 / 1255, yLineColour = "#696969"
+)
+```
+
+
+## Summary
+
+* Several factors complicate the detection of somatic SNVs (tumour purity, tumour heterogeneity, copy number changes, low sequencing depth, etc.)
+
+* Most somatic SNV callers employ sophisticated Bayesian statistical techniques
+
+* Some callers, including CaVEMan, incorporate copy number information and estimates of tumour purity
+
+* There is a trade off between sensitivity and specificity
+
+* Additional filtering of SNV calls can be helpful
+
