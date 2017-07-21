@@ -12,7 +12,7 @@ mkdir tmp
 # perform gene-based annotation, by default against RefGene database
 ../software/annovar/annotate_variation.pl \
 	-buildver hg19 \
-	—outfile tmp/HCC1143_vs_HCC1143_BL.annot.muts.avinput \
+  --outfile tmp/HCC1143_vs_HCC1143_BL.annot.muts.avinput \
 	tmp/HCC1143_vs_HCC1143_BL.annot.muts.avinput \
 	../software/annovar/humandb/;
 
@@ -28,9 +28,9 @@ mkdir tmp
 # choose one of the following cytoband wgRna phastConsElements46way tfbsConsSites gwasCatalog dgvMerged genomicSuperDups
 db=tfbsConsSites;
 ../software/annovar/annotate_variation.pl \
-	-regionanno \
-	-build hg19 \
-	-dbtype ${db} \
+	--regionanno \
+	--build hg19 \
+  --dbtype ${db} \
 	tmp/HCC1143_vs_HCC1143_BL.annot.muts.avinput \
 	../software/annovar/humandb/; 
 
