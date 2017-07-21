@@ -12,6 +12,8 @@ output:
 
 The `VariantAnnotation` package allows `.vcf` files to be imported. The `readVcf` function can be used and requires the file of a vcf file. You also need to specify a genome name. As we have seen already with other Bioconductor objects, typing the name of the object will print a summary to the screen. In the case of a "`CollapsedVCF`" object this is very detailed
 
+We will use the file `combined.chr20.subset.freebayes.vcf` that you should have generated in the previous section.
+
 ```{r message=FALSE}
 library(VariantAnnotation)
 hapmap.calls <- readVcf("combined.chr20.subset.freebayes.vcf","hg19")
@@ -49,6 +51,10 @@ infoMatrix
 - Using the `info` from the vcf file, plot the distribution of depth observed at each position
 - How many calls were observed at depth 50 or above?
 
+```{r}
+
+
+```
 
 ******
 ******
@@ -93,6 +99,7 @@ The `rowRanges` function will retrieve the positions of our variants as a famili
 ```{r}
 NA12878.calls <- readVcf("NA12878.chr20.freebayes.vcf","hg19")
 NA12878.calls.ranges <- rowRanges(NA12878.calls)
+NA12878.calls.ranges
 ```
 
 If we happen to know the genomic region corresponding to a particular gene, we can restrict our list of variants using standard R syntax.
@@ -109,7 +116,7 @@ However, we might want to something more sophisticated and only consider variant
 
 Aside from the many useful software packages, Bioconductor also provides numerous annotation resources that we can utilise in our analysis. Firstly, we have a set of organism-level packages that can translate between different types of identifer. The package for humans is called `org.Hs.eg.db`. The advantage of such a package, rather than services such as biomaRt, is that we can do queries offline. The packages are updated every 6 months, so we can always be sure of what version of the relevant databases are being used.
 
-```{r message=FALSE, echo=FALSE}
+```{r message=FALSE}
 library(org.Hs.eg.db)
 org.Hs.eg.db
 ```
@@ -190,8 +197,9 @@ You’ll see that all the mappings are regarding the coordinates and IDs of vari
 - Use the `org.Hs.eg.db` package to retrieve the exon coordinates for the Gene `PRND`
     + you will need to use the Entrez gene ID you found in the previous exercise
 
-```{r}
-mygene <- .....
+```{r eval=FALSE}
+
+mygene <- 
 
 ```
 
@@ -218,7 +226,7 @@ my.gene
 
 We are almost ready to do the overlap. However, there is an inconsistency in the naming conventions of the two sets of regions we are trying to overlap;
 
-```{r eval=FALSE}
+```{r}
 seqlevelsStyle(NA12878.calls.ranges)
 seqlevelsStyle(my.gene)
 ```
@@ -234,7 +242,7 @@ NA12878.calls.ranges <- keepSeqlevels(NA12878.calls.ranges, "chr20")
 The `%over` function can be comapre two sets of ranges and produce a *logical vector*. Each entry in this vector being whether a particular location in the first set of ranges is present in the other. The vector can then be used to subset the variants in the usual manner.
 
 ```{r eval=FALSE} 
-in.gene <- NA12878.calls.ranges %over% mygene
+in.gene <- NA12878.calls.ranges %over% my.gene
 NA12878.calls.ranges[in.gene]
 
 
@@ -263,7 +271,7 @@ regions.of.interest
 ### Exercise
 
 - Navigate to PRND in IGV and verify that the number of variants we have identified is correct
-- Investigate the `countOverlaps` function
+- Explore how to use the `countOverlaps` function to count the number of variants that overlap with `PRND`
 - Find the number of variants called in NA12878 for each of the regions defined in the file `regions.of.interest.bed`
 
 ******
