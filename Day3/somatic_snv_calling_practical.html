@@ -227,24 +227,12 @@ div.tocify {
 <p><a href="http://cancerit.github.io/CaVEMan">CaVEMan</a> (<strong>Ca</strong>ncer <strong>V</strong>ariants through <strong>E</strong>xpectation <strong>Ma</strong>ximizatio<em>n</em>) is part of an integrated bioinformatics analysis pipeline developed at the Wellcome Trust Sanger Institute as part of their Cancer Genome Project (<strong>CGP</strong>). It has been used on a number of projects as part of the International Cancer Genome Consortium (<a href="http://icgc.org">ICGC</a>).</p>
 <p>CaVEMan applies an expectation maximisation algorithm to call single nucleotide substitutions. Through comparison of reads from both tumour and normal with the reference genome, CaVEMan calculates a probability for each possible genotype per base (given tumour and normal copy number). In order to provide more accurate estimates of sequence error rates within the algorithm, thus aid identification of true variants, variables such as base quality, read position, lane, and read orientation are incorporated into the calculations.</p>
 </div>
-<div id="create-a-cgp-docker-container" class="section level3">
-<h3>Create a CGP docker container</h3>
-<p>Open a terminal window and change directory to the working directory for the CaVEMan practical.</p>
-<pre><code>cd /PATH_TO/day3/caveman_practical</code></pre>
-<p>Create a new instance of the Sanger CGP image by typing, or copying and pasting, the following command.</p>
-<pre><code>docker run \
-    --rm \
-    -it --entrypoint=bash \
-    -v ${PWD}:/caveman_practical \
-    -v /PATH_TO/HCC1143:/data \
-    -v /PATH_TO/reference_data:/reference_data \
-    quay.io/wtsicgp/dockstore-cgpwgs:1.0.8</code></pre>
-<p>You should see a command-line prompt something like the following.</p>
-<pre><code>ubuntu@361c36165465:~$ </code></pre>
-<p>This is a running docker container based on the Sanger CGP docker image and allows you type commands and access software and tools provided by the image.</p>
-<div id="the-sanger-cgp-docker-image-technical-details" class="section level4">
-<h4>The Sanger CGP docker image: technical details</h4>
-<p><a href="https://www.docker.com">Docker</a> is an open platform for developers to build and ship applications, whether on laptops, servers in a data center, or the cloud.</p>
+<div id="start-up-a-sanger-cgp-docker-container" class="section level3">
+<h3>Start up a Sanger CGP docker container</h3>
+<p>Double click on the <code>Sanger_Docker</code> desktop icon.</p>
+<p>Alternatively, if you don’t have this desktop icon, open a new terminal window and type <code>Sanger_Docker</code> at the command line.</p>
+<p>This should open a terminal window with a command-line prompt something like the following.</p>
+<pre><code>ubuntu@7882e0f18d5f:~$</code></pre>
 <p>The Sanger CGP docker image packages a complete environment including all the tools to run the CGP analysis pipeline. These tools include:</p>
 <ul>
 <li><strong>CaVEMan</strong> for identifying somatic SNVs</li>
@@ -252,27 +240,23 @@ div.tocify {
 <li><strong>ASCAT</strong> for detecting copy number changes</li>
 <li><strong>BRASS</strong> for identifying somatic genomic rearrangements, also known as structural variants (SVs)</li>
 </ul>
-<p>The above <code>docker run</code> command tells docker to start a new instance of the CGP image named <code>quay.io/wtsicgp/dockstore-cgpwgs:1.0.8</code> in interactive mode running a <code>bash</code> linux shell. Some directories from the host operating system containing reference data, the HCC1143 BAM files and a working directory have been mapped to directories within the docker container.</p>
-<p>If you are interested you can open another terminal window and type <code>docker run --help</code> to check the meaning of the various options in the above command.</p>
 </div>
-<div id="check-that-the-reference-data-and-bam-files-are-accessible" class="section level4">
-<h4>Check that the reference data and BAM files are accessible</h4>
+<div id="check-the-data-are-accessible" class="section level3">
+<h3>Check the data are accessible</h3>
+<p>The Sanger docker environment should have access to the BAM files and reference data but we’ll check this before attempting to run CaVEMan.</p>
 <p>Change directory to the directory containing the BAM files and view the header of BAM file for the tumour cell line by typing the following at the command-line prompt.</p>
 <pre><code>cd /data
 samtools view -H HCC1143.bam</code></pre>
-<p>Note that the docker image comes with a number of popular tools, such as <code>samtools</code>, for working with aligned sequence data (BAM files) and variants (VCF files). There are all within the <code>/opt/wtsi-cgp/bin</code> directory.</p>
-<p>You can list the available tools as follows.</p>
-<pre><code>ls /opt/wtsi-cgp/bin</code></pre>
 <p>Now check that the reference data is also accessible.</p>
 <pre><code>cd /reference_data
 cd core_ref_GRCh37d5
 cat genome.fa.fai</code></pre>
-</div>
+<p>The <code>cat</code> command lists the contents of the index for the reference genome sequence. There is a row for each chromosome or contig.</p>
 </div>
 <div id="running-caveman" class="section level3">
 <h3>Running CaVEMan</h3>
-<p>CaVEMan is executed in several distinct steps in the order given below. While running these steps it may help to follow the CaVEMan <a href="http://cancerit.github.io/CaVEMan">guide</a> in parallel. This provides some more information about each step and lists the available optional settings for each.</p>
-<p>The CGP pipeline executes all the steps for CaVEMan in a single workflow, along with the tools for calling the other types of variants. In this practical we will run the separate steps manually for a region of chromosome 21.</p>
+<p>CaVEMan is executed in several distinct steps in the order given below. While running these steps it may be helpful to follow the CaVEMan <a href="http://cancerit.github.io/CaVEMan">guide</a> in parallel. This provides some more information about each step and lists the available optional settings for each.</p>
+<p>The Sanger CGP pipeline executes all the steps for CaVEMan in a single workflow, along with the tools for calling the other types of variants. In this practical we will run the separate steps manually for a region of chromosome 21.</p>
 <div id="set-up-a-caveman-run" class="section level4">
 <h4>Set up a CaVEMan run</h4>
 <p>Change directory to the working directory in which we’ll run CaVEMan.</p>
@@ -296,7 +280,7 @@ cat alg_bean</code></pre>
 <p>CaVEMan divides the computational work into a number of jobs to be run in parallel on a multi-processor computer, by splitting the genome into regions. The size of each region is determined based on these containing a configurable number of aligned reads each.</p>
 <p>In this run we will just be looking at a region of chromosome 21. To split this chromosome into chunks type the following at the command prompt.</p>
 <pre><code>caveman split -i 21</code></pre>
-<p>This creates a file called <code>splitList.21</code> which can be viewed as follows.</p>
+<p>This takes a couple of minutes to scan through the reads on chromosome 21 and creates a file called <code>splitList.21</code> which can be viewed as follows.</p>
 <pre><code>cat splitList.21</code></pre>
 <p>The Sanger CGP pipeline runs <code>caveman split</code> for all chromosomes and then concatenates these into a single file called <code>splitList</code>. For this practical we will just work on the first 3 chunks of chromosome 21, so we’ll use the <code>head</code> command to take just the first 3 rows.</p>
 <pre><code>head -3 splitList.21 &gt; splitList</code></pre>
@@ -305,8 +289,8 @@ cat alg_bean</code></pre>
 <h4>Run the maximization step</h4>
 <p>Run the following to perform the maximization step (M-step) for the first chunk.</p>
 <pre><code>caveman mstep -i 1</code></pre>
-<p>While this is running, you can run <code>top</code> in another terminal window (doesn’t have to be within the docker container) to check the CaVEMan process is running. <em>Is it running at 100%?</em></p>
-<p>This step is computationally expensive. The outputs are covariates files within a results directory. These files are binary files, the contents of which cannot be easily viewed.</p>
+<p>It should take about half a minute for this one chunk. In total the genome will typically be split into a few thousand chunks so overall this is a computationally expensive step.</p>
+<p>The outputs are covariates files within a results directory. These files are binary files, the contents of which cannot be easily viewed.</p>
 <pre><code>ls results/21</code></pre>
 <p>Now run <code>caveman mstep</code> for the second and third chunks.</p>
 <pre><code>caveman mstep -i 2
@@ -323,15 +307,11 @@ caveman mstep -i 3</code></pre>
 <p>The expectation step (E-step) is the final step in calling variants using CaVEMan. Like the maximization step, this needs to be run as separate jobs, one for each chunk.</p>
 <p>Run the expectation step for the first chunk.</p>
 <pre><code>caveman estep -i 1</code></pre>
-<p>This is another computationally expensive step. Run <code>top</code> in another terminal window to see how much CPU the CaVEMan process is using.</p>
+<p>This is a another computationally expensive step but for a single chunk it should take a couple of minutes.</p>
 <p>This step produces variant files in the Variant Call Format (VCF) for both germline and somatic variants, ending in <code>.snps.vcf</code> and <code>.muts.vcf</code> respectively.</p>
 <pre><code>ls results/21</code></pre>
-<p>To make these files accessible from outside the docker container we need to change the permissions so that everyone can read these files.</p>
-<pre><code>find . -type f | xargs chmod ugo+r
-find . -type d | xargs chmod ugo+rx</code></pre>
-<p>Now from another terminal window locate and open the <code>1_9673176.muts.vcf</code> file in a text editor, e.g. <code>nano</code>.</p>
-<pre><code>nano /PATH_TO/day3/caveman_practical/results/21/1_9673176.muts.vcf</code></pre>
-<p>Look at the header lines, those starting with <code>#</code>, and match the FORMAT definitions with the values given for the first mutation listed.</p>
+<p>List the contents of the file <code>1_9673176.muts.vcf</code> file, scroll back through the file and look at the header lines, those staring with <code>#</code>. Match the <code>FORMAT</code> definitions with the values given for the first mutation listed.</p>
+<pre><code>cat results/21/1_9673176.muts.vcf</code></pre>
 <p>If you wish, run the expectation step for the other two regions.</p>
 <pre><code>caveman estep -i 2
 caveman estep -i 3</code></pre>
@@ -343,12 +323,14 @@ caveman estep -i 3</code></pre>
 <ul>
 <li><em>What prior probabilities were used for the SNP rate and the somatic mutation rate?</em></li>
 </ul>
-<p>Look at the first somatic mutation call in the VCF file and try to understand the information provided about this SNV, referring to the <code>INFO</code> and <code>FORMAT</code> header lines.</p>
+<p>Find the mutation call at position <code>9413844</code> on chromosome 21 and try to understand the information provided about this SNV, referring to the <code>INFO</code> and <code>FORMAT</code> header lines.</p>
 <ul>
-<li><p><em>What is the base substitution for the first somatic mutation call?</em></p></li>
-<li><p><em>What is the number of sequence reads aligned at this position (depth) in the normal? What is the depth in the tumour?</em></p></li>
+<li><p><em>What is the base substitution for this mutation?</em></p></li>
+<li><p><em>What is the number of sequence reads aligned at this position in the normal? What is the depth in the tumour?</em></p></li>
 <li><p><em>How many reads support the alternate allele in the tumour? And the normal?</em></p></li>
 <li><p><em>What is the proportion of the mutant allele in the tumour and in the normal?</em></p></li>
+<li><p><em>What does CaVEMan think is the most probable joint genotype? What is the second most probable genotype? What are the probabilities for each?</em></p></li>
+<li><p><em>Does this seem like a credible somatic SNV?</em></p></li>
 </ul>
 <div style="line-height: 250%;">
 <br>
