@@ -209,17 +209,17 @@ _**Caveat**_ --- full details of CaVEMan are not explicitly reported anywhere.
 
 ## Other somatic SNV callers
 
-Tool           Approach          Source                          Publication
--------------  ----------------  ------------------------------  ---------------------
-SomaticSniper  Bayesian          Washington University           [Larson et al., 2012](https://www.ncbi.nlm.nih.gov/pubmed/22155872)
-VarScan 2      Fisher's exact    Washington University           [Koboldt et al., 2012](https://www.ncbi.nlm.nih.gov/pubmed/22300766)
-JointSNVmix    Bayesian          British Columbia Cancer Agency  [Roth et al., 2012](https://www.ncbi.nlm.nih.gov/pubmed/22285562)
-mutationSeq    Machine learning  British Columbia Cancer Agency  [Ding et al., 2012](https://www.ncbi.nlm.nih.gov/pubmed/22084253)
-Strelka        Bayesian          Illumina                        [Saunders et al., 2012](https://www.ncbi.nlm.nih.gov/pubmed/22581179)
-MuTect         Bayesian          Broad Institute                 [Cibulskis et al., 2013](https://www.ncbi.nlm.nih.gov/pubmed/23396013)
-EBcall         Bayesian          University of Tokyo             [Shiraishi et al., 2013](https://www.ncbi.nlm.nih.gov/pubmed/23471004)
-qSNP           Heuristic         University of Queensland        [Kassahn et al., 2013](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3826759)
-VarDict        Fisher's exact    AstraZeneca                     [Lai et al., 2016](https://www.ncbi.nlm.nih.gov/pubmed/27060149)
+Tool           Approach                              Source                          Publication
+-------------  ------------------------------------  ------------------------------  ---------------------
+SomaticSniper  Bayesian                              Washington University           [Larson et al., 2012](https://www.ncbi.nlm.nih.gov/pubmed/22155872)
+VarScan 2      Fisher's exact                        Washington University           [Koboldt et al., 2012](https://www.ncbi.nlm.nih.gov/pubmed/22300766)
+JointSNVmix    Bayesian                              British Columbia Cancer Agency  [Roth et al., 2012](https://www.ncbi.nlm.nih.gov/pubmed/22285562)
+mutationSeq    Machine learning                      British Columbia Cancer Agency  [Ding et al., 2012](https://www.ncbi.nlm.nih.gov/pubmed/22084253)
+Strelka        Bayesian                              Illumina                        [Saunders et al., 2012](https://www.ncbi.nlm.nih.gov/pubmed/22581179)
+MuTect         Bayesian                              Broad Institute                 [Cibulskis et al., 2013](https://www.ncbi.nlm.nih.gov/pubmed/23396013)
+qSNP           Heuristic                             University of Queensland        [Kassahn et al., 2013](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3826759)
+VarDict        Fisher's exact                        AstraZeneca                     [Lai et al., 2016](https://www.ncbi.nlm.nih.gov/pubmed/27060149)
+MuSE           Markov substitution model (Bayesian)  MD Anderson Cancer Center       [Fan et al., 2016](https://www.ncbi.nlm.nih.gov/pubmed/27557938)
 
 <div style="line-height: 10%;"><br></div>
 
@@ -402,4 +402,8 @@ $\boldsymbol{P(D^T \mid G^N, G^T)}$ --- scope to incorporate estimates of tumour
 $\boldsymbol{P(G^N, G^T)}$ --- prior for joint genotype; could treat as independent events, $P(G^N, G^T) = P(G^N)P(G^T)$, but not realistic since $T$ and $N$ samples from same individual so share germline variants.
 
 
+## VCF output file {#less_space_after_title}
 
+<div style="line-height: 50%;"><br></div>
+
+<img src="images/somatic_snv_vcf.svg" style="width: 100%"/>
