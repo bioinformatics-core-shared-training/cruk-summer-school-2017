@@ -1,0 +1,120 @@
+---
+title: "CRUK Summer School 2016 - Day 4"
+author: "Geoff Macintyre"
+date: "20/07/2016"
+output: html_document
+---
+
+##The biology underlying somatic structural variation
+[Lecture 1](lecture1.pdf)
+
+```{r echo=FALSE}
+show_answers<-FALSE
+```
+
+
+###Exercise 1: Understanding the relationship between SVs and short read sequencing
+1. How might the following double-stranded break repair mechanisms manifest in short read sequence data aligned to reference genome at the breakpoint?
+    + Homologous recombination
+    + Non-homologous end-joining
+
+2. How would the following structural variants manifest in short read sequence data aligned to reference genome? 
+    + Deletion
+    + Tandem duplication
+    + Inversion
+    
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*(Hint: How many breaks are there? Consider both reads that overlap the break and those that span the break.)*
+
+*Advanced: Can you sketch how reads might overlap translocations?*
+
+******
+
+##Methods for calling SVs
+[Lecture 2](lecture2.pdf)
+
+###Exercise 2: SV classification
+1. Manually (using pen and paper) reconstruct the following set of breakpoints into a single rearrangement event:
+    + 2:47676199	+	2:50629634	+
+    + 2:49437116	-	2:47678469	-
+    + 2:50632712	-	2:49431472	+
+
+
+2. What might the functional consequence of this rearrangement be?
+```{r echo=FALSE}
+if(show_answers==TRUE)
+{
+"http://www.nature.com/ncomms/2015/150401/ncomms7605/extref/ncomms7605-s1.pdf"
+}
+```
+##Working with SVs
+[Lecture 3](lecture3.pdf)
+
+###Exercise 3 - Visualising SVs
+1. Open the test tumour and normal genomes in IGV, navigate to the following locations and record the number of reads supporting each breakpoint.
+    + chr1:150447295-150447299
+    + chr4:92896530-92896534
+    + chr6:24910138-24910139
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*(Hint: switch "Show soft-clipped bases" on under Tracks -> Preferences -> Alignments)*
+
+2. Load the deep whole-genome cell-line BRASS output (SV bedpe format) into R. 
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*(Hint: Use the read.table function with the parameters: header, sep, stringsAsFactors, skip and comment.char. You will also need to reformat the chromosome co-ordinates e.g. change 1 to chr1.)*
+
+```{r echo=show_answers}
+SVbedpe<-read.table(gzfile("HCC1143_vs_HCC1143_BL.annot.bedpe.gz"), 
+                    header = T, sep="\t",stringsAsFactors = F, skip=69, comment.char = "")
+colnames(SVbedpe)[1]<-"chr1"
+SVbedpe$chr1<-paste0("chr",SVbedpe$chr1)
+SVbedpe$chr2<-paste0("chr",SVbedpe$chr2)
+```
+
+3. Generate a plot showing the size distributions of the different SV classes.
+
+```{r echo=show_answers, warning=F}
+library(ggplot2)
+ggplot(SVbedpe[SVbedpe$bkdist>0,],aes(bkdist))+geom_density()+facet_grid(svclass ~ .,scales = "free_y")+xlim(0,1e6)
+```
+
+
+4. Using the circlize package generate a circos plot with SVs as links (use [this](https://cran.r-project.org/web/packages/circlize/vignettes/genomic_plot.pdf) documentation to assist you) 
+
+```{r echo=show_answers,fig.height=4,fig.width=4}
+suppressMessages(library(circlize))
+par(mar = c(1, 1, 1, 1))
+circos.initializeWithIdeogram(plotType = c('axis', 'labels'))
+bed1<-SVbedpe[,1:3]
+bed2<-SVbedpe[,4:6]
+cbbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+colours<-cbbPalette[1:length(unique(SVbedpe$svclass))]
+names(colours)<-unique(SVbedpe$svclass)
+circos.genomicLink(bed1, bed2,col=colours[SVbedpe$svclass])
+legend("topright", legend = names(colours),fill=colours,cex=0.35)
+```
+
+******
+
+###Advanced: Add copy-number calls to your circos plot
+1. Load the ASCAT copy-number calls into R (for convenience these are stored in HCC1143.Rdata). Find the data object which contains segmented copy numbers and output the first 10 lines.
+```{r echo=show_answers, fig.width=4,fig.height=4}
+ascat.output<-readRDS("ascat.output.rds")
+head(ascat.output$segments)
+```
+
+2. Using these segments, add the copy-number calls to your circos plot.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*(Hint: use the genomicTrackPlotRegion function)*
+```{r echo=show_answers}
+totalcn<-ascat.output$segments[,c("chr","startpos","endpos")]
+totalcn<-cbind(totalcn,value=ascat.output$segments$nMajor+ascat.output$segments$nMinor)
+totalcn$chr<-paste0("chr",totalcn$chr)
+totalcn$value[totalcn$value>10]<-10
+circos.initializeWithIdeogram(plotType = c('axis', 'labels'))
+circos.genomicTrackPlotRegion(totalcn,ylim=c(0,10),
+                              panel.fun=function(region,value,...){
+                                i=getI(...)
+                 circos.genomicLines(region,value,type="segment",lwd=3,col="blue",...)})
+circos.genomicLink(bed1, bed2,col=colours[SVbedpe$svclass])
+legend("topright", legend = names(colours),fill=colours,cex=0.35)
+```
+
