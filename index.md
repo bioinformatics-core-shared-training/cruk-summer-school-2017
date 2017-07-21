@@ -119,7 +119,7 @@ If required, free bed and breakfast accommodation will be provided for attendees
 - 12:30 - 13:30 LUNCH (provided)
 - 13:30 - 14:00 Mutational signatures lecture
 - 14:00 - 16:00 Mutational signatures and cohort analyses (TCGA) practical
-- 16:00 - 17:00 [Running an entire somatic calling pipeline with "docker"](docker-notes.md)
+- 16:00 - 17:00 [Running an entire somatic calling pipeline with "docker"](Day4/docker-notes)
 
 ## Day Five (1/2 day) 09:30 - 12:30
 - 09:30 - 12:30  Open-ended;
