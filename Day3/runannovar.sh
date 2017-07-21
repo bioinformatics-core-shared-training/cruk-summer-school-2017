@@ -11,7 +11,7 @@ mkdir tmp
 
 # perform gene-based annotation, by default against RefGene database
 ../software/annovar/annotate_variation.pl \
-	-buildver hg19 \
+	--buildver hg19 \
   --outfile tmp/HCC1143_vs_HCC1143_BL.annot.muts.avinput \
 	tmp/HCC1143_vs_HCC1143_BL.annot.muts.avinput \
 	../software/annovar/humandb/;
@@ -38,9 +38,9 @@ db=tfbsConsSites;
 # choose one of the following snp138 exac03 esp6500si_all cg69 clinvar_20160302 cosmic70 icgc21 1000g2015aug nci60
 db=snp138;
 ../software/annovar/annotate_variation.pl \
-	-filter \
-	-buildver hg19 \
-	-dbtype ${db} \
+	--filter \
+	--buildver hg19 \
+	--dbtype ${db} \
 	tmp/HCC1143_vs_HCC1143_BL.annot.muts.avinput \
 	../software/annovar/humandb/;
 
@@ -48,10 +48,10 @@ db=snp138;
 ../software/annovar/table_annovar.pl \
 	tmp/HCC1143_vs_HCC1143_BL.annot.muts.avinput \
 	../software/annovar/humandb/ -buildver hg19 \
-	-out HCC1143_vs_HCC1143_BL.flagged.muts.annovar \
-	-remove \
-	-protocol refGene,cytoBand,gwasCatalog,genomicSuperDups,dgvMerged,snp129,esp6500si_all,cosmic70,nci60,ljb23_sift \
-	-operation g,r,r,r,r,f,f,f,f,f \
-	-nastring NA \
-	-csvout;
+	--out HCC1143_vs_HCC1143_BL.flagged.muts.annovar \
+	--remove \
+	--protocol refGene,cytoBand,gwasCatalog,genomicSuperDups,dgvMerged,snp129,esp6500si_all,cosmic70,nci60,ljb23_sift \
+	--operation g,r,r,r,r,f,f,f,f,f \
+	--nastring NA \
+	--csvout;
 
