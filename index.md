@@ -83,7 +83,7 @@ If required, free bed and breakfast accommodation will be provided for attendees
 - 10:00 - 11:30 [R crash course](Day1/Session2-Rnotes.nb.html)
 - 11:30 - 12:30 Overview of Cancer Genomics
 - 12:30 - 13:30 LUNCH (provided)
-- 13:30 - 14:30 [Understanding raw sequencing reads](Day1/Session3-seqIntro.html)
+- 13:30 - 14:30 [Understanding raw sequencing reads](Day1/Session4-seqIntro.html)
 - 14:30 - 15:00 [Understanding aligned reads](Day1/Session5-alignedReads.html)
 - 15:00 - 16:00 [Introduction to IGV](Day1/Session6-IGV.html)
 - 16:00 - 17:00 [Dealing with sequencing data in R](Day1/Session7-seqDatainR.nb.html)
