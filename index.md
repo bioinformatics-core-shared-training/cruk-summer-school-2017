@@ -96,7 +96,7 @@ If required, free bed and breakfast accommodation will be provided for attendees
     + [Working with VCF Files](Day2/exploring-vcf.nb.html)
 - 12:30 - 13:30 LUNCH (provided)
 - 13:30 - 17:00 Copy-number analysis
-    + [Copy Number Analysis Lecture](Day2/)
+    +  Copy Number Analysis Lecture
     + [Copy Number Analysis Practical](Day2/practical_copy-number.html)
 - 18:00 - .. Punting trip (weather permitting)
   
@@ -114,11 +114,7 @@ If required, free bed and breakfast accommodation will be provided for attendees
   
 ## Day Four 09:30 - 17:00
 
-- 09:30 - 11:30 Structural Variants
-    + [Practical](Day4/structural_variation.html)
-    + [Lecture 1](Day4/lecture1.pdf)
-    + [Lecture 2](Day4/lecture2.pdf)
-    + [Lecture 3](Day4/lecture3.pdf)
+- 09:30 - 11:30 [Structural Variants](Day4/structural_variation.html)
 - 11:30 - 12:30 Introduction to data portals
 - 12:30 - 13:30 LUNCH (provided)
 - 13:30 - 14:00 Mutational signatures lecture
