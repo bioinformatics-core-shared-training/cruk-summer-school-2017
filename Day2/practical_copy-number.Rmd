@@ -1,0 +1,157 @@
+---
+title: "Calling copy-number using sWGS or SNP arrays"
+author: "Dr Geoff Macintyre - geoff.macintyre@cruk.cam.ac.uk"
+output: html_document
+---
+
+In this practical you will learn how to identify copy-number changes in a breast cancer cell-line (HCC1143) using two different datatypes: shallow whole-genome sequencing and SNP arrays. The code for each task has been hidden and will only be provided after the practical. Links have been provided to documentation that will assist you in carrying out each task. It is recommended you understand the commands being executed at each step, rather than simply cut and paste code.
+
+###Download data
+The data for this practical can be downloaded [here](https://www.dropbox.com/sh/i0ujvez9f813njv/AABDskdOX4etmN4BpQwDx_Iza?dl=0). You should have 8 files:
+
+* HCC1143.mix1.n20t80.subsampled.bam - a bam alignment file from sWGS of HCC1143 cell-line
+* HCC1143.mix1.n20t80.subsampled.bam.bai - bam index
+* HCC1143.normal.BAF.txt - SNP6 HCC1143BL matched normal cell-line b-allele frequency
+* HCC1143.normal.LogR.txt - SNP6 HCC1143BL matched normal cell-line logR
+* HCC1143.tumor.BAF.txt - SNP6 HCC1143 cell-line b-allele frequency
+* HCC1143.tumor.LogR.txt - SNP6 HCC1143 cell-line logR
+* GC_AffySNP6_102015.txt - annotation file for GC correction
+* sWGS_helper_functions.R - helper function for extracting segment table
+
+```{r echo=FALSE,eval=TRUE}
+#setwd("/scratch/macint01/mphil_functional_genomics/for_class/")
+show_code<-FALSE
+```
+
+###Relative copy-number calling using shallow whole-genome sequencing
+Tasks:
+
+1. Install the QDNAseq package (instuctions [here](http://bioconductor.org/packages/release/bioc/html/QDNAseq.html)).
+```{r echo=show_code, message=FALSE}
+suppressMessages(source("https://bioconductor.org/biocLite.R"))
+suppressMessages(biocLite("QDNAseq"))
+suppressMessages(library(QDNAseq))
+```
+
+2. Get 30kb bin annotations for hg19 genome (instructions [here](http://bioconductor.org/packages/release/bioc/vignettes/QDNAseq/inst/doc/QDNAseq.pdf))
+```{r echo=show_code, message=FALSE}
+bins <- getBinAnnotations(binSize=30)
+```
+3. Plot the readcounts with filtered reads highlighted
+```{r echo=show_code, message=FALSE}
+readCounts <- binReadCounts(bins,"HCC1143.mix1.n20t80.subsampled.bam")
+plot(readCounts, logTransform=FALSE, ylim=c(-50, 200))
+highlightFilters(readCounts, logTransform=FALSE,residual=TRUE, blacklist=TRUE)
+```
+4. Apply QDNAseq filters.
+```{r echo=show_code, message=FALSE}
+readCountsFiltered <- applyFilters(readCounts,residual=TRUE, blacklist=TRUE)
+```
+5. Calculate CG correction.
+```{r echo=show_code, message=FALSE}
+readCountsFiltered <- estimateCorrection(readCountsFiltered)
+```
+6. Apply GC correction.
+```{r echo=show_code, message=FALSE}
+copyNumbers <- correctBins(readCountsFiltered)
+```
+7. Normalise and smooth outliers.
+```{r echo=show_code, message=FALSE}
+copyNumbersNormalized <- normalizeBins(copyNumbers)
+copyNumbersSmooth <- smoothOutlierBins(copyNumbersNormalized)
+```
+8. Plot the smoothed copy-number.
+```{r echo=show_code, message=FALSE}
+plot(copyNumbersSmooth)
+```
+9. Segment the copy-number profile.
+```{r echo=show_code, message=FALSE}
+copyNumbersSegmented <- segmentBins(copyNumbersSmooth, transformFun="sqrt")
+copyNumbersSegmented <- normalizeSegmentedBins(copyNumbersSegmented)
+```
+10. Plot the segmented profile.
+```{r echo=show_code, message=FALSE}
+plot(copyNumbersSegmented)
+```
+11. Call copy-number.
+```{r echo=show_code, message=FALSE, warning=FALSE}
+copyNumbersCalled <- callBins(copyNumbersSegmented)
+```
+12. Plot final profile.
+```{r echo=show_code, message=FALSE}
+plot(copyNumbersCalled)
+```
+
+Advanced: Output a table of all segments with a probability of loss is greater than 0.99 
+
+* Hint1: use expressionSet object functions in the Biobase package, fData and assayDataElement, to extract regions of interest.
+* Hint2: use the function in sWGS_helper_function.R to get the segment table.
+
+```{r echo=show_code, message=FALSE}
+suppressMessages(library(Biobase))
+filteredCN<-copyNumbersCalled[fData(copyNumbersCalled)$use,]
+regions_of_loss<-filteredCN[assayDataElement(filteredCN,"probloss")>0.99,]
+source("sWGS_helper_functions.R")
+relative_loss<-getSegTable(regions_of_loss)
+relative_loss
+```
+
+
+###Absolute copy-number calling using affy SNP6 chip
+Tasks:
+
+1. Download ASCAT [here](https://www.crick.ac.uk/peter-van-loo/software/ASCAT).
+2. Load the ascat R source
+```{r echo=show_code, message=FALSE}
+source("ascat.R")
+```
+3. Load the BAF and logR input files using ASCAT (instructions can be found here: https://www.crick.ac.uk/peter-van-loo/software/ASCAT)
+```{r echo=show_code, message=FALSE, eval=show_code}
+file.tumor.LogR <- dir(pattern="tumor.LogR")
+file.tumor.BAF <- dir(pattern="tumor.BAF")
+file.normal.LogR <- dir(pattern="normal.LogR")
+file.normal.BAF <- dir(pattern="normal.BAF")
+samplename <- sub(".tumor.LogR.txt", "", file.tumor.LogR)
+ascat.bc <- ascat.loadData(file.tumor.LogR, file.tumor.BAF, file.normal.LogR, file.normal.BAF, chrs=c(1:22))
+```
+4. Apply ASCAT's GC wave correction
+```{r echo=show_code, message=FALSE, eval=show_code}
+ascat.bc <- ascat.GCcorrect(ascat.bc, "GC_AffySNP6_102015.txt")
+```
+5. Plot the raw data
+```{r echo=show_code, message=FALSE, eval=show_code}
+ascat.plotRawData(ascat.bc)
+```
+6. Segment and plot
+```{r echo=show_code, message=FALSE, eval=show_code}
+ascat.bc <- ascat.aspcf(ascat.bc)
+ascat.plotSegmentedData(ascat.bc)
+```
+7. Run ASCAT
+```{r echo=show_code, message=FALSE, eval=show_code}
+ascat.output <- ascat.runAscat(ascat.bc)
+```
+8. Inspect the output files. Does this look like a good purity fit? Is the profile accurate? Are there any unusual observations? (Hint: use the [SKY karyotyping](http://www.pawefish.path.cam.ac.uk/BreastCellLineDescriptions/HCC1143.html) of this cell-line to help you).
+
+Advanced: Extract regions of loss (compared to a diploid genome) from the ascat calls. Compare these to those obtained using the relative copy-number profile above. Do they agree? 
+
+* Hint1: all data is contained the object output by the ascat.runAscat function
+* Hint2: regions of loss should include those at 1 and 0 copies
+
+```{r echo=show_code, message=FALSE,eval=FALSE, eval=show_code}
+#get segments from ascat output
+segTab<-ascat.output$segments
+
+#extract regions where at least one copy has been lost
+absolute_loss<-segTab[segTab$nMinor==0,]
+
+#load granges library to assit with comparing genomic regions
+library(GenomicRanges)
+
+#get affected chromosomes
+abs_gr<-GRanges(seqnames=absolute_loss$chr,IRanges(start=absolute_loss$startpos,end=absolute_loss$endpos))
+rel_gr<-GRanges(seqnames=relative_loss$chromosome,IRanges(start=as.numeric(relative_loss$start),
+                                                          end=as.numeric(relative_loss$end)))
+setdiff(abs_gr,rel_gr)
+```
+
