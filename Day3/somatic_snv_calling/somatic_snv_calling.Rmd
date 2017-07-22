@@ -185,17 +185,17 @@ densityPlot(
 
 <div style="line-height: 100%;"><br></div>
 
-* <span style="color: #2e3192">**Bayesian probabilistic classifier**</span>
+* <span style="color: #2e3192">**Bayesian**</span> probabilistic classifier
 
-* Can make use of <span style="color: #2e3192">**copy number profiles**</span> and estimate of <span style="color: #2e3192">**normal contamination**</span> of the tumour if available
+* Can make use of <span style="color: #2e3192">**copy number profiles**</span> and estimate of <span style="color: #2e3192">**normal contamination**</span> if available
 
-* Considers <span style="color: #2e3192">_base quality_</span>, <span style="color: #2e3192">_lane_</span> and <span style="color: #2e3192">_read position and orientation_</span> to provide more accurate estimates of <span style="color: #2e3192">**sequencing error rates**</span> within the algorithm
+* Considers _base quality_, _lane_ and _read position_ and _orientation_ to provide more accurate estimates of sequencing error rates
 
-* Several <span style="color: #2e3192">**post-processing filters**</span> applied to increase specificity of calls
+* The CaVEMan wrapper in the CGP pipeline contains several <span style="color: #2e3192">**post-processing filters**</span> applied to increase specificity of calls
 
 <div style="line-height: 100%;"><br></div>
 
-_**Caveat**_ --- full details of CaVEMan are not explicitly reported anywhere.
+<span style="font-size: 75%">cgpCaVEManWrapper [Jones et al., 2016](https://www.ncbi.nlm.nih.gov/pubmed/27930805)</span>
 
 
 ## Other somatic SNV callers
@@ -568,7 +568,7 @@ scatterPlot(
 
 * Some callers, including CaVEMan, incorporate copy number information and estimates of tumour purity
 
-* There is a trade off between sensitivity and specificity
+* There is a trade-off between sensitivity and specificity
 
 * Additional filtering of SNV calls can be helpful
 
