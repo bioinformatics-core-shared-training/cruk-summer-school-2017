@@ -203,13 +203,15 @@ datatable(
 * <span>Computers can potentially be trained to recognize characteristics that distinguish true variants from erroneous calls <span style="font-size: 80%">([GATK Variant Quality Score Recalibration](https://gatkforums.broadinstitute.org/gatk/discussion/39/variant-quality-score-recalibration-vqsr), [mutationSeq](http://compbio.bccrc.ca/software/mutationseq/))</span>
 
 
-## Creating and tuning filters
+## Creating, tuning and testing filters
 
-* <span>Benchmark datasets can be used to both tune and assess filters</span>
+* <span>Benchmark datasets can be used to tune and assess filters</span>
 
 <div style="line-height: 50%;"><br></div>
 
-* <span>Ideally need to test filters on separate dataset to that used for training (danger of overfitting)</span>
+* Ideally need to test filters on separate dataset to that used for training
+
+* Danger of overfitting
 
 <div style="line-height: 100%;"><br></div>
 
@@ -221,7 +223,32 @@ datatable(
 
 <div style="line-height: 150%;"><br></div>
 
-<span style="color: #2e3192">**Trade-off between sensitivity and accuracy**</span>
+*Here we use the ICGC medulloblastoma benchmark dataset to derive filters and the ICGC-TCGA DREAM Challenge sythentic dataset 4 to test these filters.*
+
+
+## Benchmark datasets
+
+<span style="color: #2e3192">**ICGC benchmarking exercise**</span>
+
+<div style="line-height: 15%;"><br></div>
+
+* Medulloblastoma tumour/normal pair sequenced in 6 different centres to combined 300-fold coverage used to establish 'truth'
+
+* 16 ICGC project teams ran their pipelines on data from one centre (40x)
+
+<span style="font-size: 75%">[Alioto et al., Nat Commun. 2015](http://www.ncbi.nlm.nih.gov/pubmed/26647970)</span>
+
+<div style="line-height: 100%;"><br></div>
+
+<span style="color: #2e3192">**ICGC-TCGA DREAM Somatic Mutation Calling challenge**</span>
+
+<div style="line-height: 15%;"><br></div>
+
+* 6 synthetic datasets based on cell line sequenced to 80x, BAM randomnly split into 2 ('tumour' and 'normal'), mutations added to one computationally
+
+* Synthetic dataset 4: 80% cellularity; 50% and 35% subclone VAF (effectively 30% and 15%)
+
+<span style="font-size: 75%">[Ewing et al., Nat Methods 2015](http://www.ncbi.nlm.nih.gov/pubmed/25984700) [[leaderboards](https://www.synapse.org/#!Synapse:syn312572/wiki/58893)]</span>
 
 
 ## Average base quality of variant supporting reads
@@ -488,19 +515,19 @@ densityPlot(
 
 * Artefacts usually cancel out in the tumour normal comparison but depends on adequate sampling
 
-* Low depth in normal can cause germline variants to appear as somatic due to insufficient sampling
+    * <span>Low depth in normal can cause germline variants to appear as somatic</span>
 
 <div style="line-height: 50%;"><br></div>
 
 * <span>An approach to detecting likely artefacts is to look for the variant in a panel of unrelated normal samples</span>
 
-    * <span>Filters both polymorphisms and locations prone to aberrant mapping or systematic sequencing artifacts</span>
+    * <span>Filters both polymorphisms and locations prone to aberrant mapping or systematic sequencing artefacts</span>
 
-<span style="font-size: 75%">[Jones et al., 2016](https://www.ncbi.nlm.nih.gov/pubmed/27930805)</span>
+<span style="font-size: 75%">cgpCaVEManWrapper [Jones et al., 2016](https://www.ncbi.nlm.nih.gov/pubmed/27930805)</span>
 
 <div style="line-height: 100%;"><br></div>
 
-<span style="color:#2e3192">**OAC ICGC blacklist**</span>
+<span style="color:#2e3192">**CRUK-CI blacklist**</span>
 
 * Based on 50x sequence data for 149 blood normal samples from the UK oesophageal cancer ICGC project
 
@@ -639,7 +666,7 @@ scatterPlot(
 
 - Using an SNV caller out-of-the-box may give a reasonable set of calls but is likely to result in call sets with higher sensitivity at the expense of precision
 
-- Simple filtering strategies can improve precision but there is a trade-off between accuracy and sensitivity
+- Simple filtering strategies can improve precision but there is a trade-off between sensitivity and accuracy
 
 - The cancer genome sequencing community has been active in establishing benchmark datasets that can be used to assess and improve somatic mutation calling pipelines
 

@@ -460,7 +460,7 @@ $\boldsymbol{P(G^N, G^T)}$ --- prior for joint genotype; could treat as independ
 
 <div style="line-height: 15%;"><br></div>
 
-* Medulloblastoma tumour/normal pair sequenced in 6 different centres to combined 300-fold coverage (used to establish 'truth')
+* Medulloblastoma tumour/normal pair sequenced in 6 different centres to combined 300-fold coverage used to establish 'truth'
 
 * 16 ICGC project teams ran their pipelines on data from one centre (40x)
 
@@ -468,7 +468,7 @@ $\boldsymbol{P(G^N, G^T)}$ --- prior for joint genotype; could treat as independ
 
 <div style="line-height: 100%;"><br></div>
 
-[ICGC-TCGA DREAM Somatic Mutation Calling challenge](https://www.synapse.org/#!Synapse:syn312572)
+<span style="color: #2e3192">**ICGC-TCGA DREAM Somatic Mutation Calling challenge**</span>
 
 <div style="line-height: 15%;"><br></div>
 
@@ -480,7 +480,7 @@ $\boldsymbol{P(G^N, G^T)}$ --- prior for joint genotype; could treat as independ
 
 * <span>Real challenge: 5 pancreatic and 5 prostate cancer patients</span>
 
-<span style="font-size: 75%">[Ewing et al., Nat Methods 2015](http://www.ncbi.nlm.nih.gov/pubmed/25984700)</span>
+<span style="font-size: 75%">[Ewing et al., Nat Methods 2015](http://www.ncbi.nlm.nih.gov/pubmed/25984700) [[leaderboards](https://www.synapse.org/#!Synapse:syn312572/wiki/58893)]</span>
 
 
 ## Assessing SNV calling
