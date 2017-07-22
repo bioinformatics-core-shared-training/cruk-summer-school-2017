@@ -38,19 +38,11 @@ source("plots.R")
 
 ## Numbers of somatic SNVs in different cancer types
 
-<img src="../images/icgc.png" style="width: 20%"/>
-
-<div style="line-height: 25%;"><br></div>
+Somatic SNV callers typically set the expected mutation rate to be around 5 mutations per megabase, i.e. a total of 15,000 mutations across the genome.
 
 <img src="images/icgc_mutations_by_cancer_type.svg" style="width: 100%"/>
 
-<div style="line-height: 50%;"><br></div>
-
-Source: [ICGC Data Portal](https://dcc.icgc.org/projects)
-
-<div style="line-height: 50%;"><br></div>
-
-Somatic SNV callers typically set the expected mutation rate to be around 5 mutations per megabase, i.e. a total of 15,000 mutations across the genome.
+</span><img src="../images/icgc.png" style="vertical-align: top; width: 20%"/><span style="font-size: 75%; float: right">Source: [ICGC Data Portal](https://dcc.icgc.org/projects)
 
 
 ## Several factors complicate somatic SNV calling
@@ -77,7 +69,7 @@ Somatic SNV callers typically set the expected mutation rate to be around 5 muta
 
 * Alignment artefacts
 
-[Mwenifumbo & Marra, Nat Rev Genet. 2013](http://www.ncbi.nlm.nih.gov/pubmed/23594910)
+<span style="font-size: 75%">[Mwenifumbo & Marra, Nat Rev Genet. 2013](http://www.ncbi.nlm.nih.gov/pubmed/23594910)</span>
 
 
 ## Issues affecting mutation detection in cancer
@@ -189,9 +181,7 @@ densityPlot(
 
 ## CaVEMan SNV caller
 
-<span style="font-size:110%; line-height:140%">
-**[CaVEMan](http://cancerit.github.io/CaVEMan/)** (**Ca**ncer **V**ariants through **E**xpectation **Ma**ximizatio**n**) is the somatic SNV caller in the Sanger CGP pipeline
-</span>
+**[CaVEMan](http://cancerit.github.io/CaVEMan/)** (**Ca**ncer **V**ariants through **E**xpectation **Ma**ximizatio**n**) is the somatic SNV caller in the Sanger CGP pipeline.
 
 <div style="line-height: 100%;"><br></div>
 
@@ -251,7 +241,22 @@ Normal            48                0
 </div>
 -->
 
-<div style="line-height: 150%;"><br></div>
+
+## Simple statistical approach {#less_space_after_title}
+
+<div style="line-height: 100%;"><br></div>
+
+<span style="line-height: 200%">
+Reference base <span style="color: #2e3192">$\boldsymbol{C}$</span><br/>
+Normal: 48 reads all supporting reference <span style="color: #2e3192">$\boldsymbol{\{\ 48C\ \}}$</span><br/>
+Tumour: 50 reads, 7 of which have an alternate <span style="color: #2e3192">$\boldsymbol{T}$</span> allele <span style="color: #2e3192">$\boldsymbol{\{\ 43C,\ 7T\ \}}$</span>
+</span>
+
+<div style="line-height: 250%;"><br></div>
+
+<span style="color: #2e3192">**2 x 2 contingency table**</span><img src="images/contingency_table.svg" style="vertical-align: top; width: 25%; margin: 0 6em;"/>
+
+<div style="line-height: 50%;"><br></div>
 
 * Allele fraction of the alternate allele in the tumour, $AF = 7/50 = 0.14$
 
@@ -387,11 +392,13 @@ $$
 
 ## Somatic SNV calling
 
-<span style="color: #2e3192; font-size:125%">**Joint genotypes**</span>
+<span style="color: #2e3192">**Joint genotypes**</span>
 
 <div style="text-align:center">
 <img src="images/joint_genotypes.svg" style="width: 60%"/>
 </div>
+
+<div style="line-height: 50%;"><br></div>
 
 $G^N, G^T$ = genotypes of normal and tumour
 
@@ -438,7 +445,7 @@ $\boldsymbol{P(G^N, G^T)}$ --- prior for joint genotype; could treat as independ
 
 <div style="line-height: 100%;"><br></div>
 
-* Sensitivity and specificity of a function of the biology, the sample and data quality, and the calling method.
+* Sensitivity and specificity is a function of the biology, the sample and data quality, and the calling method.
 
 * Each new tool promises better accuracy than all before, but how will it perform in your hands?
 
@@ -449,7 +456,7 @@ $\boldsymbol{P(G^N, G^T)}$ --- prior for joint genotype; could treat as independ
 
 ## Benchmark datasets
 
-[ICGC benchmarking exercise](https://www.ncbi.nlm.nih.gov/pubmed/26647970)
+<span style="color: #2e3192">**ICGC benchmarking exercise**</span>
 
 <div style="line-height: 15%;"><br></div>
 
@@ -457,21 +464,23 @@ $\boldsymbol{P(G^N, G^T)}$ --- prior for joint genotype; could treat as independ
 
 * 16 ICGC project teams ran their pipelines on data from one centre (40x)
 
+<span style="font-size: 75%">[Alioto et al., Nat Commun. 2015](http://www.ncbi.nlm.nih.gov/pubmed/26647970)</span>
+
 <div style="line-height: 100%;"><br></div>
 
 [ICGC-TCGA DREAM Somatic Mutation Calling challenge](https://www.synapse.org/#!Synapse:syn312572)
 
 <div style="line-height: 15%;"><br></div>
 
-* 6 synthetic datasets based on cell line sequenced to 80x
+* 6 synthetic datasets based on cell line sequenced to 80x, BAM randomnly split into 2 ('tumour' and 'normal'), mutations added to one computationally
 
-    - BAM randomly sampled into 2 non-overlapping subsets of equal size, mutations added to one using BAMSurgeon
-
-    - Synthetic dataset 4: 80% cellularity; 50% and 35% subclone VAF (effectively 30% and 15%)
+    * <span>Synthetic dataset 4: 80% cellularity; 50% and 35% subclone VAF (effectively 30% and 15%)</span>
 
 <div style="line-height: 15%;"><br></div>
 
 * <span>Real challenge: 5 pancreatic and 5 prostate cancer patients</span>
+
+<span style="font-size: 75%">[Ewing et al., Nat Methods 2015](http://www.ncbi.nlm.nih.gov/pubmed/25984700)</span>
 
 
 ## Assessing SNV calling
@@ -497,7 +506,7 @@ $$
 <div style="line-height: 100%;"><br></div>
 
 <span style="font-size: 75%">
-$$\textrm{Balanced accuracy} = \tfrac{1}{2}(\textrm{Precision} + \textrm{Recall})\ \ \ \ \ \ \ \ F\textrm{-score} = \frac{2 \times \textrm{Precision} \times \textrm{Recall}}{\textrm{Precision} + \textrm{Recall}}\ \ \ \ \ \ \ \ \textrm{Jaccard index} = \frac{TP}{TP + FP + FN}$$
+$$\textrm{Balanced accuracy} = \tfrac{1}{2}(\textrm{Precision} + \textrm{Recall})\ \ \ \ \ \ \ \ \ \ F\textrm{-score} = \frac{2 \times \textrm{Precision} \times \textrm{Recall}}{\textrm{Precision} + \textrm{Recall}}\ \ \ \ \ \ \ \ \ \ \textrm{Jaccard index} = \frac{TP}{TP + FP + FN}$$
 </span>
 
 
