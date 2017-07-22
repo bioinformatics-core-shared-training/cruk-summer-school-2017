@@ -21,7 +21,7 @@ source("plots.R")
 
 ## Outline
 
-* What factors complicate somatic SNV calling and why is filtering necessary?
+* What factors complicate somatic SNV calling and why is additional filtering necessary?
 
 * CaVEMan filters
 
@@ -63,9 +63,9 @@ source("plots.R")
 
 * <span>Base qualities drop off toward ends of reads on Illumina sequencing platform, errors in base calls more likely</span>
 
-<span class="blue">**Filter**: *minimum base quality for variant alleles*</span> <span style = "font-size: 75%">(CaVEMan `--min-base-qual` parameter)</span>
+<span class="blue">**Filter**: *minimum base quality for variant alleles*</span> <span style = "font-size: 75%">[CaVEMan `--min-base-qual` parameter]</span>
 
-<span class="blue">**Filter**: *no variant alleles found in first 2/3 of a read*</span> <span style = "font-size: 75%">(CaVEMan RP filter)</span>
+<span class="blue">**Filter**: *no variant alleles found in first 2/3 of a read*</span> <span style = "font-size: 75%">[CaVEMan RP filter]</span>
 
 
 ## Low base qualities for variant alleles toward ends of reads {#less_space_after_title}
@@ -89,7 +89,7 @@ source("plots.R")
 
     * <span>Calls supported mainly by reads aligning to one strand may also be PCR artefacts</span>
 
-<span class="blue">**Filter**: *variant alleles in reads aligning in one direction only*</span> <span style = "font-size: 75%">(SE filter)</span>
+<span class="blue">**Filter**: *variant alleles in reads aligning in one direction only*</span> <span style = "font-size: 75%">[SE filter]</span>
 
 
 ## Strand bias {#less_space_after_title}
@@ -126,9 +126,9 @@ Alignment issues are common source of false positive SNV calls
 
 <span class="blue">**Filter**: *variants supported by reads with many mismatches*</span>
 
-<span class="blue">**Filter**: *variants within or close to germline indels*</span> <span style = "font-size: 75%">(GI filter)</span>
+<span class="blue">**Filter**: *variants within or close to germline indels*</span> <span style = "font-size: 75%">[GI filter]</span>
 
-<span class="blue">**Filter**: *variant position always toward beginning/end of alignment*</span> <span style = "font-size: 75%">(RP filter)</span>
+<span class="blue">**Filter**: *variant position always toward beginning/end of alignment*</span> <span style = "font-size: 75%">[RP filter]</span>
 
 
 ## Missing sequence from reference genome assembly {#less_space_after_title}
@@ -149,9 +149,9 @@ Alignment issues are common source of false positive SNV calls
 
     * Regions of low mappability are usually out of bounds for short read sequencing
 
-<span class="blue">**Filter**: *minimum mapping quality of variant reads*</span> <span style = "font-size: 75%">(MQ filter)</span>
+<span class="blue">**Filter**: *minimum mapping quality of variant reads*</span> <span style = "font-size: 75%">[MQ filter]</span>
 
-<span class="blue">**Filter**: *calls from low-complexity and low-mappability regions*</span> <span style = "font-size: 75%">(CR filter)</span>
+<span class="blue">**Filter**: *calls from low-complexity and low-mappability regions*</span> <span style = "font-size: 75%">[SR, CR filters]</span>
 
 
 ## Low mapping quality {#less_space_after_title}
@@ -172,6 +172,7 @@ datatable(
   rownames = FALSE,
   options = list(
     dom = "t",
+    columnDefs = list(list(className = 'dt-left', targets = 0:1), list(className = 'dt-right', targets = 2)),
     pageLength = 11
   )
 )
@@ -194,7 +195,7 @@ datatable(
 
 <span style="color:#2e3192">**Blacklisting**</span>
 
-* <span>Exclude list of problematic genomic positions and/or substitutions, e.g. based on apparent variants in panel of unmatched normals</span>
+* <span>Exclude list of problematic genomic positions and/or substitutions, e.g. based on panel of normals</span>
 
 <div style="line-height: 50%;"><br></div>
 
@@ -346,7 +347,7 @@ densityPlot(
 
 ## Calculating metrics and applying filters
 
-- CalculateSNVMetrics GATK walker tool available in CRUK-CI [gatk-tools](https://github.com/crukci-bioinformatics/gatk-tools) package
+- CalculateSNVMetrics tool available in CRUK-CI [gatk-tools](https://github.com/crukci-bioinformatics/gatk-tools) package
 
 - [VariantFiltration](https://software.broadinstitute.org/gatk/documentation/tooldocs/org_broadinstitute_gatk_tools_walkers_filters_VariantFiltration.php) tool in the Genome Analysis Toolkit (GATK)
 
