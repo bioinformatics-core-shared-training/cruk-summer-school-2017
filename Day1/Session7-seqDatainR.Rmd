@@ -90,6 +90,8 @@ summary(meta$mapq)
 
 ### Exercise
 
+- How many reads have all bases mapping to the genome
+    + what percentage of the total number of reads is this?
 - Visualise the distribution of mapping qualities for this set of reads
 - How many reads would be removed at a cut-off of 10 or 20?
 - What would seem to be a reasonable cut-off to discard poor quality reads?
@@ -123,18 +125,18 @@ The basic type of interval we can define is an `IRanges` object. There is an ext
 
 We might want to focus on a subset of reads from the start, is when we want to analyse a particular gene. Provided that the `.bam` file has been indexed (creating a `.bam.bai` file in the same directory), we can *very* quickly jump to a particular genomic region. 
 
-The region filer can be used in conjuction with the `what` argument to `ScanBamParam` function to provide a detailed picture of the reads for your gene. First we need to define a region:-
+ First we need to define a region:-
 
 ```{r}
 mygene <- GRanges("17", ranges=IRanges(7577851, 7598063),strand="+")
 mygene
 ```
 
+The region filer can be used in conjuction with the `what` argument to `ScanBamParam` function to provide a detailed picture of the reads for your gene.
 
-
-```{r echo=FALSE}
-mygene.reads <- readGAlignments(file="/home/participant/Course_Materials/data/test/paired.bam",
-                                param=ScanBamParam(which=mygene, 
+```{r}
+mygene.reads <- readGAlignments(file="/data/test/paired.bam",
+                                param=ScanBamParam(which=mygene,
                                                    what=c("seq","mapq","flag","qual","isize")
                                                    )
                                 )
@@ -172,15 +174,37 @@ meta <- mcols(baseSummary)
 
 ### Exercise
 
-- Extract the depth values for each position, in order to plot the read coverage over this genomic region
+- Use the information in the `meta` data frame to plot the read coverage over this genomic region
 - Navigate to `chr17:7577851-7598063` in IGV
     + does the plot roughly agree?
-- How many positions in this region have a depth of over 10?
+- How many positions in this region have a total depth of over 10?
+
+```{r}
 
 
+```
+
 ******
 ******
 ******
+
+
+- We can determine which base was called at each position we can use the following R magic
+    + here `apply` is used to run the same function on each row of the data frame
+    + `which.max` returns the index of the highest value in each row
+    + `mycalls` is then a vector of "calls" for each base; the same length as the genomic region
+
+```{r}
+
+mycalls <- apply(meta[,c("A","T","C","G")], 1,
+      function(x) names(x)[which.max(x)]
+      )
+
+# A test to make sure that it's worked for the first few rows
+mycalls[1:5]
+baseSummary[1:5]
+```
+
 
 Another piece of information that would be useful at this point is to determine what the reference base is at each position. This can be achieved using the one of the pre-built genome packages in Bioconductor
 
@@ -222,19 +246,6 @@ refSeq <- getSeq(hg19, renameSeqlevels(mygene, c("17"="chr17")))
 refSeq
 ```
 
-- we can determine which base was called at each position we can use the following R magic
-    + here `apply` is used to run the same function on each row of the data frame
-    + `which.max` returns the index of the highest value in each row
-    + `mycalls` is then a vector of "calls" for each base; the same length as the genomic region
-
-```{r}
-mycalls <- apply(meta[,c("A","T","C","G")], 1,
-      function(x) names(x)[which.max(x)]
-      )
-
-mycalls[1:5]
-baseSummary[1:5]
-```
 
 
 ******
