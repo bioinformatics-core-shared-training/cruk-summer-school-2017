@@ -38,28 +38,6 @@ infoMatrix
 ```
 
 
-`NS` represents the number of samples with data. We would expect this to be 3 in all cases. However, as we are dealing with low-coverage data there are some sites where data could not be observed for all samples.
-
-`DP` gives the depth observed at each position, which is given to us in the form of a vector. By looking at the distribtion of the depths, we see some variants with extremely low coverage. Later-on, we will see how we can develop filters to remove unreliable calls from our dataset. Variants with low depth would seem to be a good candidate for exclusion.
-
-******
-******
-******
-
-### Exercise
-
-- Using the `info` from the vcf file, plot the distribution of depth observed at each position
-- How many calls were observed at depth 50 or above?
-
-```{r}
-
-
-```
-
-******
-******
-******
-
 
 
 ## Accessing genotypes
@@ -239,7 +217,7 @@ NA12878.calls.ranges <- keepSeqlevels(NA12878.calls.ranges, "chr20")
 
 ```
 
-The `%over` function can be comapre two sets of ranges and produce a *logical vector*. Each entry in this vector being whether a particular location in the first set of ranges is present in the other. The vector can then be used to subset the variants in the usual manner.
+The `%over%` function can be comapre two sets of ranges and produce a *logical vector*. Each entry in this vector being whether a particular location in the first set of ranges is present in the other. The vector can then be used to subset the variants in the usual manner.
 
 ```{r eval=FALSE} 
 in.gene <- NA12878.calls.ranges %over% my.gene
@@ -254,14 +232,12 @@ We can even write-out a vcf file containing just the positions we have identifie
 writeVcf(NA12878.calls[in.gene],filename = "selected.variants.vcf")
 ```
 
-
-We are not just restricted to overlapping with these pre-defined gene models. If we have a set of generic regions in `.bed` or similar format we can import as a `GRanges` object using the `rtracklayer` package and call the `countOverlaps` and `%over%` functions as before
+If all we cared about was the number of variants, we could use `countOverlaps`
 
 ```{r}
-library(rtracklayer)
-regions.of.interest <- import("regions.of.interest.bed")
-regions.of.interest
+countOverlaps(my.gene, NA12878.calls.ranges)
 ```
+
 
 
 ******
@@ -271,8 +247,8 @@ regions.of.interest
 ### Exercise
 
 - Navigate to PRND in IGV and verify that the number of variants we have identified is correct
-- Explore how to use the `countOverlaps` function to count the number of variants that overlap with `PRND`
-- Find the number of variants called in NA12878 for each of the regions defined in the file `regions.of.interest.bed`
+- Count the number of variants called in NA12878 for each of the regions defined in the file `regions.of.interest.bed`
+  + you can import this `.bed` file using the `import` function in the `rtracklayer` package
 
 ******
 ******
