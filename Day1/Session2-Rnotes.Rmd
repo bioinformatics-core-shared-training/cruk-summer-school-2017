@@ -46,7 +46,7 @@ The R programming language is now recognised beyond the academic community as an
 - [google](http://blog.revolutionanalytics.com/2009/05/google-using-r-to-analyze-effectiveness-of-tv-ads.html),
 - [Microsoft](http://blog.revolutionanalytics.com/2014/05/microsoft-uses-r-for-xbox-matchmaking.html) (who recently [invested](http://blogs.microsoft.com/blog/2015/01/23/microsoft-acquire-revolution-analytics-help-customers-find-big-data-value-advanced-statistical-analysis/) in a commerical provider of R)
 - The [New York Times](http://blog.revolutionanalytics.com/2011/03/how-the-new-york-times-uses-r-for-data-visualization.html).
-- [Buzzfeed](http://blog.revolutionanalytics.com/2015/12/buzzfeed-uses-r-for-data-journalism.html) use R for some of their serious articles (i.e. not the ones featuring cat pictures), and have made the code [publically available](https://buzzfeednews.github.io/2016-04-federal-surveillance-planes/analysis.html)
+- [Buzzfeed](http://blog.revolutionanalytics.com/2015/12/buzzfeed-uses-r-for-data-journalism.html) use R for some of their serious articles and have made the code [publically available](https://buzzfeednews.github.io/2016-04-federal-surveillance-planes/analysis.html)
 - The [New Zealand Tourist Board](https://mbienz.shinyapps.io/tourism_dashboard_prod/) have R running in the background of their website
 - [Airbnb](https://medium.com/airbnb-engineering/using-r-packages-and-education-to-scale-data-science-at-airbnb-906faa58e12d)
 - [The BBC](https://github.com/BBC-Data-Unit/music-festivals) makes code available for some of their stories (e.g. gender bias in music festivals)
@@ -58,7 +58,7 @@ The R programming language is now recognised beyond the academic community as an
 
 Two Biostatiscians (later termed '*Forensic Bioinformaticians*') from M.D. Anderson used R extensively during their re-analysis and investigation of a Clinical Prognostication paper from Duke. The subsequent [scandal](https://www.youtube.com/watch?v=W5sZTNPMQRM) put Reproducible Research at the forefront of everyone's mind.
 
-Keith Baggerly's talk on the subject is highy-recommended.
+Keith Baggerly's talk on the subject is highly-recommended.
 
 <iframe width="420" height="315" src="https://www.youtube.com/embed/7gYIs7uYbMo" frameborder="0" allowfullscreen></iframe>
 
@@ -91,7 +91,7 @@ Once installed, you should be able to launch RStudio by clicking on its icon:-
 ![](http://bioconductor.org/images/logo_bioconductor.gif)
 
 
-Established in 2001 as a means of distributing tools for the analysis and comprehension of high-throughput genomic data in R. Initially focussed on microarrays, but now has many tools for NGS data
+Established in 2001 as a means of distributing tools for the analysis and comprehension of high-throughput genomic data in R. Initially focused on microarrays, but now has many tools for NGS data
 
 - primary processing of NGS data nearly-always done in other languages
     + R is extensively-used for visualisation and interpretation once data are in manageable form
@@ -337,15 +337,15 @@ file.exists("gapminder.csv")
 If the file we want to read is not in the current working directory, we will have to write the path to the file; either *relative* to the current working directory (e.g. the directory "up" from the current working directory, or in a sub-folder), or the full path. In an interactive session, you can do use `file.choose` to open a dialogue box. The path to the the file will then be displayed in R.
 
 ```{r eval=FALSE}
-myfile <- "/home/participant/Course_Materials/Day1/gapminder.csv"
-```
-
-
-
-```{r eval=FALSE}
 myfile <- file.choose()
 myfile
 ```
+
+
+```{r eval=FALSE}
+myfile <- "/home/participant/Course_Materials/Day1/gapminder.csv"
+```
+
 
 Assuming the file can be found, we can use `read.csv` to import. Other functions can be used to read tab-delimited files (`read.delim`) or a generic `read.table` function. A data frame object is created.
 
@@ -580,9 +580,11 @@ gapminder[gapminder$country == "Zambia" & gapminder$lifeExp < 40,]
 
 - Print the contents of the row in the data frame that contains the entry with the highest population?
 - Print the contents of the row in the data frame that contains the entry with the lowest life expectancy?
-- Create a data frame of countries with a population less than a million in the year 2002
 - A data frame of countries with a population less than a million in the year 2002, that are not in Africa?
-
+    + you may need to do some googling to find out how to do "not equal" in R
+(Optional)
+- What country has the longest name? Print all the rows containing data for this country
+   + HINT: investigate the `nchar` function
 
 ******
 ******
@@ -612,6 +614,13 @@ leastPop <- gapminder[order(gapminder$pop),]
 head(leastPop)
 ```
 
+We can even order by more than one condition
+
+```{r eval=FALSE}
+gapminder[order(gapminder$year, gapminder$country),]
+```
+
+
 A final point on data frames is that we can export them out of R once we have done our data processing. 
 
 ```{r}
@@ -620,11 +629,6 @@ head(byWealth)
 write.csv(byWealth, file="dataOrderedByWealth.csv")
 ```
 
-We can even order by more than one condition
-
-```{r eval=FALSE}
-gapminder[order(gapminder$year, gapminder$country),]
-```
 
 
 
