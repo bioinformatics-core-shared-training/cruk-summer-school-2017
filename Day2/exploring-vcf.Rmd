@@ -197,7 +197,6 @@ The `txdb` packages also allow us to construct `GenomicRanges` representations f
 ```{r eval=FALSE}
 all.exons <- exonsBy(txdb, "gene")
 all.exons
-
 my.gene <- all.exons[["23627"]]
 my.gene
 ```
@@ -249,6 +248,11 @@ countOverlaps(my.gene, NA12878.calls.ranges)
 - Navigate to PRND in IGV and verify that the number of variants we have identified is correct
 - Count the number of variants called in NA12878 for each of the regions defined in the file `regions.of.interest.bed`
   + you can import this `.bed` file using the `import` function in the `rtracklayer` package
+-  the file `regions.of.interest.bed` contains all exon coordinates of genes on chromosome 20. How could you generate such a file?
+    + HINT: `unlist(all.exons)` will give a `GRanges` object with one entry per-exon (not in the list structure)
+    + HINT: `export` in `rtracklayer` will write out various file types from `GRanges` objects
+- (Optional) Repeat the counting exercise from above, but this time counting variants within introns on chromosome 20
+    + HINT: check out the help for `exonsBy` to see what other options are available for extracting genomic features
 
 ******
 ******
