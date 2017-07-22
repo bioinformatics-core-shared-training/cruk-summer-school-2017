@@ -1,11 +1,12 @@
 ID	Description	Count
-MQ	Mean mapping quality of the mutant allele reads was < 21	39559
-DTH	Less than 1/3 mutant alleles were >= 25 base quality	1258
-RP	Coverage was less than 8 and no mutant alleles were found in the first 2/3 of a read	2961
-MNP	Tumour sample mutant allele proportion - normal sample mutant allele proportion < 0.2	46827
-MN	More than 0.05 of mutant alleles that were >= 15 base quality found in the matched normal	32787
-SE	Coverage is >= 10 on each strand but mutant allele is only present on one strand	27857
-GI	Position falls within a germline indel using the supplied bed file	127
-CR	Position falls within a centromeric repeat using the supplied bed file	15723
-HSD	Position falls within a high sequencing depth region using the supplied bed file	11528
-VUM	Position has >= 3 mutant allele present in at least 1 percent unmatched normal samples in the unmatched VCF	15712
+MQ	Mean mapping quality of the mutant allele reads was < 21	43443
+DTH	Less than 1/3 mutant alleles were >= 25 base quality	21973
+RP	Coverage was less than 8 and no mutant alleles were found in the first 2/3 of a read	9541
+MNP	Tumour sample mutant allele proportion - normal sample mutant allele proportion < 0.2	119779
+MN	More than 0.05 of mutant alleles that were >= 15 base quality found in the matched normal	89613
+SE	Coverage is >= 10 on each strand but mutant allele is only present on one strand	56482
+GI	Position falls within a germline indel using the supplied bed file	5827
+SR	Position falls within a simple repeat using the supplied bed file	34818
+CR	Position falls within a centromeric repeat using the supplied bed file	2126
+HSD	Position falls within a high sequencing depth region using the supplied bed file	5021
+VUM	Position has >= 3 mutant allele present in at least 1 percent unmatched normal samples in the unmatched VCF	51516

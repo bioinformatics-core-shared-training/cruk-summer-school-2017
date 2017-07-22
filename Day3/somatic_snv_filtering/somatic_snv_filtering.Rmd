@@ -21,16 +21,18 @@ source("plots.R")
 
 ## Outline
 
-- What factors complicate somatic SNV calling and why is filtering necessary?
+* What factors complicate somatic SNV calling and why is filtering necessary?
 
-- Metric-based approach to filtering false positives
+* CaVEMan filters
 
-- Benchmarks for assessing SNV calling and filtering
+* Metric-based approach to filtering false positives
 
-- CaVEMan filters
+* Other approaches to filtering (panel of normals, ensemble calling)
+
+* Benchmarks for assessing SNV calling and filtering
 
 
-## Recap: Several factors complicate somatic SNV calling
+## Recap: several factors complicate somatic SNV calling
 
 * <span style="color: #2e3192">**Low cellularity**</span> (tumour DNA content)
 
@@ -54,16 +56,16 @@ source("plots.R")
 
 - Alignment artefacts
 
-[Mwenifumbo & Marra, Nat Rev Genet. 2013](http://www.ncbi.nlm.nih.gov/pubmed/23594910)
+<span style="font-size: 75%">[Mwenifumbo & Marra, Nat Rev Genet. 2013](http://www.ncbi.nlm.nih.gov/pubmed/23594910)</span>
 
 
 ## Sequencing error
 
 * <span>Base qualities drop off toward ends of reads on Illumina sequencing platform, errors in base calls more likely</span>
 
-<span class="blue">**Filter**: *minimum base quality for variant alleles*</span>
+<span class="blue">**Filter**: *minimum base quality for variant alleles*</span> <span style = "font-size: 75%">(CaVEMan `--min-base-qual` parameter)</span>
 
-<span class="blue">**Filter**: *no variant alleles found in first 2/3 of a read in position with low coverage*</span>
+<span class="blue">**Filter**: *no variant alleles found in first 2/3 of a read*</span> <span style = "font-size: 75%">(CaVEMan RP filter)</span>
 
 
 ## Low base qualities for variant alleles toward ends of reads {#less_space_after_title}
@@ -87,7 +89,7 @@ source("plots.R")
 
     * <span>Calls supported mainly by reads aligning to one strand may also be PCR artefacts</span>
 
-<span class="blue">**Filter**: *variant alleles in reads aligning in one direction only*</span>
+<span class="blue">**Filter**: *variant alleles in reads aligning in one direction only*</span> <span style = "font-size: 75%">(SE filter)</span>
 
 
 ## Strand bias {#less_space_after_title}
@@ -99,11 +101,11 @@ source("plots.R")
 
 * GC bias
 
-    * Stretches of high GC or high AT content tend to be under-represented leading to uneven coverage across the genome
+    * Stretches of low GC content tend to be under-represented leading to uneven coverage across the genome
 
     * Poor confidence in calls at these low coverage regions as germline SNVs more likely to be mistaken for somatic SNVs due to inadequate sampling in the matched normal
 
-<span class="blue">**Filter**: *minimum read depth at variant position*</span>
+<span class="blue">**Filter**: *minimum read depth at variant position particularly in the normal*</span>
 
 <span class="blue">**Filter**: *minimum number of reads supporting variant call*</span>
 
@@ -124,9 +126,9 @@ Alignment issues are common source of false positive SNV calls
 
 <span class="blue">**Filter**: *variants supported by reads with many mismatches*</span>
 
-<span class="blue">**Filter**: *variants within or close to germline indels*</span>
+<span class="blue">**Filter**: *variants within or close to germline indels*</span> <span style = "font-size: 75%">(GI filter)</span>
 
-<span class="blue">**Filter**: *variant position always toward beginning/end of alignment*</span>
+<span class="blue">**Filter**: *variant position always toward beginning/end of alignment*</span> <span style = "font-size: 75%">(RP filter)</span>
 
 
 ## Missing sequence from reference genome assembly {#less_space_after_title}
@@ -147,14 +149,33 @@ Alignment issues are common source of false positive SNV calls
 
     * Regions of low mappability are usually out of bounds for short read sequencing
 
-<span class="blue">**Filter**: *minimum mapping quality of variant reads*</span>
+<span class="blue">**Filter**: *minimum mapping quality of variant reads*</span> <span style = "font-size: 75%">(MQ filter)</span>
 
-<span class="blue">**Filter**: *calls from low-complexity and low-mappability regions*</span>
+<span class="blue">**Filter**: *calls from low-complexity and low-mappability regions*</span> <span style = "font-size: 75%">(CR filter)</span>
 
 
 ## Low mapping quality {#less_space_after_title}
 
 <img src="images/low_mapping_quality_centromeric_region.png" style="width: 100%"/>
+
+
+## CaVEMan filters
+
+<span style="color: #2e3192">**HCC1143 dataset:**</span> 138042 of 159001 (**87%**) of initial SNV calls made by CaVEMan are filtered
+
+```{r echo=FALSE}
+caveman_filters <- read.delim("caveman_filters.txt",
+                              stringsAsFactors = FALSE, check.names = FALSE)
+
+datatable(
+  caveman_filters,
+  rownames = FALSE,
+  options = list(
+    dom = "t",
+    pageLength = 11
+  )
+)
+```
 
 
 ## Filtering strategies
@@ -165,7 +186,7 @@ Alignment issues are common source of false positive SNV calls
 
 <div style="line-height: 50%;"><br></div>
 
-<span style="color:#2e3192">**Ensemble approaches**</span>
+<span style="color:#2e3192">**Ensemble calling**</span>
 
 * <span>Consensus call set from majority voting on candidate SNVs called by multiple callers</span>
 
@@ -179,10 +200,7 @@ Alignment issues are common source of false positive SNV calls
 
 <span style="color:#2e3192">**Machine learning techniques**</span>
 
-* <span>Computers can potentially be trained to recognize characteristics that distinguish true variants from erroneous calls, e.g. [GATK Variant Quality Score Recalibration](https://gatkforums.broadinstitute.org/gatk/discussion/39/variant-quality-score-recalibration-vqsr), [mutationSeq](http://compbio.bccrc.ca/software/mutationseq/)
-
-<div style="line-height: 50%;"><br></div>
-
+* <span>Computers can potentially be trained to recognize characteristics that distinguish true variants from erroneous calls <span style="font-size: 80%">([GATK Variant Quality Score Recalibration](https://gatkforums.broadinstitute.org/gatk/discussion/39/variant-quality-score-recalibration-vqsr), [mutationSeq](http://compbio.bccrc.ca/software/mutationseq/))</span>
 
 
 ## Creating and tuning filters
@@ -191,7 +209,7 @@ Alignment issues are common source of false positive SNV calls
 
 <div style="line-height: 50%;"><br></div>
 
-* <span>Ideally need to test filters on separate dataset to that used for training</span>
+* <span>Ideally need to test filters on separate dataset to that used for training (danger of overfitting)</span>
 
 <div style="line-height: 100%;"><br></div>
 
@@ -301,7 +319,7 @@ densityPlot(
 
 ## Calculating metrics and applying filters
 
-- CalculateSNVMetrics GATK walker tool available in [gatk-tools](https://github.com/crukci-bioinformatics/gatk-tools) package
+- CalculateSNVMetrics GATK walker tool available in CRUK-CI [gatk-tools](https://github.com/crukci-bioinformatics/gatk-tools) package
 
 - [VariantFiltration](https://software.broadinstitute.org/gatk/documentation/tooldocs/org_broadinstitute_gatk_tools_walkers_filters_VariantFiltration.php) tool in the Genome Analysis Toolkit (GATK)
 
@@ -333,9 +351,8 @@ scatterPlot(
     transmute(
       x = Precision,
       y = Recall,
-      series = ifelse(grepl("^MB.F", Group), "CRUK-CI",
-               ifelse(grepl("^MB", Group), "Submissions",
-               Group)),
+      series = ifelse(grepl("^MB", Group), "Submissions",
+               Group),
       tooltip = paste(
         Group,
         "<br>TP: ", TP, ", FP: ", FP, ", FN: ", (1255 - TP),
@@ -349,17 +366,15 @@ scatterPlot(
     "MuTect2",
     "MuTect2 filter set 1",
     "MuTect2 filter set 2",
-    "CRUK-CI",
     "Submissions"
   ),
   colours = c(
     "#73e600",
     "#66cc00",
     "#4d9900",
-    "#ffb700",
     "#8fc1ef"
   ),
-  visible = c(TRUE, FALSE, FALSE, TRUE, TRUE),
+  visible = c(TRUE, FALSE, FALSE, TRUE),
   sizes = c(6.0, 6.0, 6.0, 4.5, 4.5),
   xLabel = "Precision",
   yLabel = "Recall",
@@ -410,8 +425,7 @@ scatterPlot(
     "CaVEMan Sanger CGP",
     "MuSE",
     "Strelka",
-    "Submissions",
-    "Ineligible"
+    "Submissions"
   ),
   colours = c(
     "#73e600",
@@ -420,11 +434,10 @@ scatterPlot(
     "#b23aee",
     "#ff0066",
     "#ffcc4d",
-    "#8fc1ef",
-    "#bebebe"
+    "#8fc1ef"
   ),
-  visible = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, FALSE),
-  sizes = c(6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 3.5, 3.0),
+  visible = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE),
+  sizes = c(6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 3.5),
   xLabel = "Precision",
   yLabel = "Recall",
   xmin = 0.0, xmax = 1.0,
@@ -475,13 +488,15 @@ densityPlot(
 
 * Artefacts usually cancel out in the tumour normal comparison but depends on adequate sampling
 
-* Low depth in normal can cause germline variants to appear as somatic because of insufficient sampling of the DNA at that position
+* Low depth in normal can cause germline variants to appear as somatic due to insufficient sampling
 
-    * <span>Also applies to regions that are difficult to map to, i.e. where there are misalignments</span>
-
-<div style="line-height: 100%;"><br></div>
+<div style="line-height: 50%;"><br></div>
 
 * <span>An approach to detecting likely artefacts is to look for the variant in a panel of unrelated normal samples</span>
+
+    * <span>Filters both polymorphisms and locations prone to aberrant mapping or systematic sequencing artifacts</span>
+
+<span style="font-size: 75%">[Jones et al., 2016](https://www.ncbi.nlm.nih.gov/pubmed/27930805)</span>
 
 <div style="line-height: 100%;"><br></div>
 
@@ -528,8 +543,7 @@ scatterPlot(
     "CaVEMan Sanger CGP",
     "MuSE",
     "Strelka",
-    "Submissions",
-    "Ineligible"
+    "Submissions"
   ),
   colours = c(
     "#73e600",
@@ -539,11 +553,10 @@ scatterPlot(
     "#b23aee",
     "#ff0066",
     "#ffcc4d",
-    "#8fc1ef",
-    "#bebebe"
+    "#8fc1ef"
   ),
-  visible = c(TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, FALSE),
-  sizes = c(6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 3.5, 3.0),
+  visible = c(TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE),
+  sizes = c(6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 3.5),
   xLabel = "Precision",
   yLabel = "Recall",
   xmin = 0.0, xmax = 1.0,
@@ -554,15 +567,19 @@ scatterPlot(
 
 ## Combining results from multiple SNV callers
 
-* *Can combining the results from multiple callers improve accuracy?*
+*Can combining the results from multiple callers improve accuracy?*
 
-TODO: reference bcbio
-
-[Fang et al, 2014](https://www.ncbi.nlm.nih.gov/pubmed/26381235)
+<div style="line-height: 100%;"><br></div>
 
 <span style="color:#2e3192">**Ensemble calling**</span>
 
-* Consensus call set from majority voting on candidate SNVs called by multiple callers
+* Majority voting on candidate SNVs from multiple callers to produce consensus call set
+
+* ICGC PanCancer project using SNV calls made by at least 2 out of 4 callers (CaVEMan, MuTect2, MuSE, samtools)
+
+* [bcbio](https://bcbio-nextgen.readthedocs.io/en/latest/) cancer variant calling pipeline -- also see Brad Chapman's [blog](https://bcbio.wordpress.com/2015/03/05/cancerval)
+
+* SomaticSeq <span style="font-size: 75%">([Fang et al, 2014](https://www.ncbi.nlm.nih.gov/pubmed/26381235))</span>
 
 
 ## ICGC MB99 Benchmark -- Ensemble call sets
@@ -573,11 +590,7 @@ scatterPlot(
     transmute(
       x = Precision,
       y = Recall,
-      series = ifelse(grepl("^MB.F", Group), "CRUK-CI",
-               ifelse(grepl("^MB", Group), "Submissions",
-               ifelse(grepl("Ensemble2", Group), "Ensemble 2 from 3",
-               ifelse(grepl("Ensemble3", Group), "Ensemble 3 from 4",
-               Group)))),
+      series = ifelse(grepl("^MB", Group), "Submissions", Group),
       tooltip = paste(
         Group,
         "<br>TP: ", TP, ", FP: ", FP, ", FN: ", (1255 - TP),
@@ -588,56 +601,34 @@ scatterPlot(
       )
     ),
   series = c(
+    "MuTect2 + Strelka",
+    "MuTect2 + Strelka + MuSE",
     "Ensemble 2 from 3",
-    "Ensemble 3 from 4",
-    "MuTect2+Strelka",
-    "MuTect2+Strelka+MuSE",
     "MuTect2",
     "MuTect2 filter set 1",
     "CaVEMan Sanger CGP",
     "MuSE",
     "Strelka",
-    "CRUK-CI",
     "Submissions"
   ),
   colours = c(
-    "#8585e0",
-    "#5c5cd6",
-    "#3333cc",
-    "#2929a3",
+    "#9a9ae5",
+    "#7171da",
+    "#3434cb",
     "#73e600",
     "#66cc00",
     "#b23aee",
     "#ff0066",
     "#ff9900",
-    "#ffb700",
     "#8fc1ef"
   ),
-  visible = c(FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, TRUE, TRUE, TRUE, TRUE, TRUE),
-  sizes = c(6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 4.5, 4.5),
+  visible = c(FALSE, FALSE, FALSE, TRUE, FALSE, TRUE, TRUE, TRUE, TRUE),
+  sizes = c(6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 4.5),
   xLabel = "Precision",
   yLabel = "Recall",
   xmin = 0.0, xmax = 1.0,
   ymin = 0.0, ymax = 1.0,
   yLine = 1019 / 1255, yLineColour = "#696969"
-)
-```
-
-
-## CaVEMan filters
-
-HCC1143 dataset: 74588 of 92286 (80%) of raw SNV calls made by CaVEMan are filtered
-
-```{r echo=FALSE}
-caveman_filters <- read.delim("caveman_filters.txt",
-                              stringsAsFactors = FALSE, check.names = FALSE)
-
-datatable(
-  caveman_filters,
-  rownames = FALSE,
-  options = list(
-    dom = "t"
-  )
 )
 ```
 
