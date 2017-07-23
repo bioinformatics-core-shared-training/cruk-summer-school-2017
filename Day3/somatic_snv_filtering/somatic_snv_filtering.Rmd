@@ -81,7 +81,7 @@ source("plots.R")
 
     * Bioinformatic tools identify likely PCR duplicates based on aligned start positions of both ends of a read pair
 
-<span class="blue">**Filter**: *mark duplicate reads and exclude from SNV calling*</span>
+<span class="blue">**Post-alignment**: *mark duplicate reads and exclude from SNV calling*</span>
 
 <br>
 
@@ -118,13 +118,15 @@ Alignment issues are common source of false positive SNV calls
 
 * <span>Missing sequence in the reference genome causes misalignments, usually with mismatches</span>
 
-<span class="blue">**Filter**: *use decoy sequence from 1000 Genomes project*</span>
+<span class="blue">**Alignment**: *use decoy sequence included in reference genome used by 1000 Genomes project*</span>
+
+<span class="blue">**Filter**: *variants supported by reads with many mismatches*</span>
 
 <div style="line-height: 100%;"><br></div>
 
 * <span>Assembly in region around variant may differ from the the reference sequence causing incorrect alignments, e.g. indels, rearrangements</span>
 
-<span class="blue">**Filter**: *variants supported by reads with many mismatches*</span>
+<span class="blue">**Post-alignment**: *Perform local realignment around indels*</span> <span style = "font-size: 75%">[[GATK IndelRealigner](https://gatkforums.broadinstitute.org/gatk/discussion/7156/howto-perform-local-realignment-around-indels)]</span>
 
 <span class="blue">**Filter**: *variants within or close to germline indels*</span> <span style = "font-size: 75%">[GI filter]</span>
 
@@ -201,7 +203,7 @@ datatable(
 
 <span style="color:#2e3192">**Machine learning techniques**</span>
 
-* <span>Computers can potentially be trained to recognize characteristics that distinguish true variants from erroneous calls <span style="font-size: 80%">([GATK Variant Quality Score Recalibration](https://gatkforums.broadinstitute.org/gatk/discussion/39/variant-quality-score-recalibration-vqsr), [mutationSeq](http://compbio.bccrc.ca/software/mutationseq/))</span>
+* <span>Computers can potentially be trained to recognize characteristics that distinguish true variants from erroneous calls <span style="font-size: 80%">[[GATK Variant Quality Score Recalibration](https://gatkforums.broadinstitute.org/gatk/discussion/39/variant-quality-score-recalibration-vqsr), [mutationSeq](http://compbio.bccrc.ca/software/mutationseq/)]</span>
 
 
 ## Creating, tuning and testing filters
