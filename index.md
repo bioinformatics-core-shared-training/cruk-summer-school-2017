@@ -108,8 +108,8 @@ If required, free bed and breakfast accommodation will be provided for attendees
 - 11:40 - 12:30 [Assessment and visualiation of SNVs (practical)](Day3/somatic_snv_assessment_exercise.html)
 - 12:30 - 13:30 LUNCH (provided)
 - 13:30 - 14:00 Summary of practical and discussion
-- 14:00 - 14:30 Annotating and prioritsing SNVs (lecture)
-- 14:30 - 16:30 Annotating and prioritsing SNVs (practical)
+- 14:00 - 14:30 [Annotating and prioritsing SNVs (lecture)](Day3/lecture_annotatingSNVs.pdf)
+- 14:30 - 16:30 Annotating and prioritsing SNVs (practical)(Day3/practical_annotatingSNVs.pdf)
 - 16:30 - 17:00 Indel Calling (lecture)
   
 ## Day Four 09:30 - 17:00
@@ -117,8 +117,8 @@ If required, free bed and breakfast accommodation will be provided for attendees
 - 09:30 - 11:30 [Structural Variants](Day4/structural_variation.html)
 - 11:30 - 12:30 Introduction to data portals
 - 12:30 - 13:30 LUNCH (provided)
-- 13:30 - 14:00 Mutational signatures lecture
-- 14:00 - 16:00 Mutational signatures and cohort analyses (TCGA) practical
+- 13:30 - 14:00 [Mutational signatures lecture](Day4/lecture_signatures.pdf)
+- 14:00 - 16:00 [Mutational signatures and cohort analyses (TCGA) practical](Day4/makeSignatures.html)
 - 16:00 - 17:00 [Running an entire somatic calling pipeline with "docker"](Day4/docker-notes)
 
 ## Day Five (1/2 day) 09:30 - 12:30
