@@ -96,7 +96,7 @@ If required, free bed and breakfast accommodation will be provided for attendees
     + [Working with VCF Files](Day2/exploring-vcf.nb.html)
 - 12:30 - 13:30 LUNCH (provided)
 - 13:30 - 17:00 Copy-number analysis
-    +  Copy Number Analysis Lecture
+    + [Copy Number Analysis Lecture](Day2/copy_number_lecture.pdf)
     + [Copy Number Analysis Practical](Day2/practical_copy-number.html)
 - 18:00 - .. Punting trip (weather permitting)
   
