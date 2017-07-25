@@ -81,7 +81,7 @@ If required, free bed and breakfast accommodation will be provided for attendees
 
 - 09:30 - 10:00 [Course Introduction](Day1/Session1-intro.html)
 - 10:00 - 11:30 [R crash course](Day1/Session2-Rnotes.nb.html)
-- 11:30 - 12:30 Overview of Cancer Genomics
+- 11:30 - 12:30 [Overview of Cancer Genomics](Day1/CRUK summer school Intro V7 for web.pdf)
 - 12:30 - 13:30 LUNCH (provided)
 - 13:30 - 14:30 [Understanding raw sequencing reads](Day1/Session4-seqIntro.html)
 - 14:30 - 15:00 [Understanding aligned reads](Day1/Session5-alignedReads.html)
