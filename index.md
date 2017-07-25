@@ -94,6 +94,7 @@ If required, free bed and breakfast accommodation will be provided for attendees
 - 10:30 - 12:30 Calling Germline SNVs
     + [Calling Germline SNVs](Day2/vcf-intro.nb.html)
     + [Working with VCF Files](Day2/exploring-vcf.nb.html)
+    + [Solutions to vcf exercises](Day2/vcf-solutions.Rmd)
 - 12:30 - 13:30 LUNCH (provided)
 - 13:30 - 17:00 Copy-number analysis
     + [Copy Number Analysis Lecture](Day2/copy_number_lecture.pdf)
