@@ -1,0 +1,81 @@
+
+Indels
+- second most frequent class of variants in the human genome, after single nucleotide polymorphisms
+- indels range from 1 to 10000bp but here we are mostly considering small indels of 1 - 50bp
+- there are around 200 frameshifting indels in each of us (1000 Genomes project, https://www.ncbi.nlm.nih.gov/pubmed/20981092)
+- indel frequency markedly lower than that of SNPs except near highly repetitive regions, including homopolymers and microsatellites.
+
+Insertions and deletions have been linked to many diseases
+
+Many indels exist in long homopolymers and repeats
+
+
+Large cohort cancer genome sequencing projects
+- mainly catalog indels along with other mutations
+- sometimes include indels with substitutions in mutation clustering analyses
+- recent Sanger Institute paper on 560 Breast Cancers searched for novel indel drivers in non-coding regions with significant recurrence (functional regulatory elements), Nik-Zainal et al., Nature 2016 https://www.ncbi.nlm.nih.gov/pubmed/27135926
+- previously looked at association of indels with mutational signatures
+
+
+Difficulty in sequencing repeat regions, particularly short read sequencers
+
+Indels can cause problems for alignment tools
+- many SNV/indel callers identify likely indels and realign all reads within vicinity
+
+Many SNV calling tools also call indels, e.g. MuTect2, Strelka, VarScan2
+
+
+Sanger CGP pipeline uses a modified version of Pindel
+
+Pindel
+- can identity short and medium sized indels up to 10kb
+- uses a pattern growth algorithm for unmapped paired end read anchored to mapped mate
+- initially written for short 36bp paired end reads
+- updated to use split read mappings available with longer reads (>100bp) using latest aligners (bwa mem)
+
+
+ICGC benchmark shows that indels are harder to call accurately
+- Precision/Recall plot
+- MuTect2 reports AF so use these calls to plot distribution of AF for different classes of indels (poly-A, poly-T, etc.), separate into true and false calls
+
+
+Strelka applies a repeat filter
+- somatic indels with a reference repeat count >8 (i.e. the indel is an expansion/contraction of a homopolymer longer than 8 bases, a dinucleotide repeat longer than 16 bases, etc.)
+
+
+VCF file format
+
+
+HCC1143
+- indel size distribution plot
+- proportion of somatic indel calls that are homopolymer expansion/contraction events
+- any frameshift somatic indels?
+
+
+An initial map of insertion and deletion (INDEL) variation in the human genome.
+Mills et al., Genome Res. 2006
+https://www.ncbi.nlm.nih.gov/pubmed/16902084
+"One of the most common genetic diseases in humans, cystic fibrosis, is frequently caused by an allele of the CFTR gene that contains a three-base pair deletion"
+
+Reducing INDEL calling errors in whole genome and exome sequencing data.
+Fang et al., Genome Med. 2014
+https://www.ncbi.nlm.nih.gov/pubmed/25426171
+- homopolymer A/T indels (poly-A, poly-T) are major source of low quality indel calls
+
+LoFreq blog
+http://csb5.github.io/lofreq/blog/
+"In Illumina data one can often observe low allele frequency indels in poly-AT regions, which are likely false positives."
+
+http://apol1.blogspot.co.uk/2014/05/how-do-i-identify-all-homopolymer-run.html
+"A very famous homopolymer run indel is the one causing medullary cystic kidney disease type 1 by disrupting the coding sequence within a VNTR of MUC1."
+
+VarDict
+https://www.ncbi.nlm.nih.gov/pubmed/27060149
+"Furthermore tumor suppressors, such as TP53, PTEN, BRCA1/2, RB1, STK11 and NF1, often contain large frameshift insertions and deletions (InDels) or complex mutations and sometimes even SVs [Ref: COSMIC] and are often missed by those variant callers."
+"The effect might be even larger for tumor suppressors, such as BRCA1, BRCA2, TP53, RB1 and STK11, where InDel mutations are a common mechanism of loss of function but are poorly detected by other callers."
+
+UK OAC ICGC
+- use of Strelka for indel calling on over 300 oesophageal adenocarcinoma samples
+- 70% of Strelka calls are in homopolymer runs of 5+ bp or 2-, 3- and 4-nucleotide repeats of at least 10bp
+- 57% of indels are poly-A/T expansions or contractions by 1bp
+
