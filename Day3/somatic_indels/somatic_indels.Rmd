@@ -138,13 +138,13 @@ source("plots.R")
 
 <div style="line-height: 50%;"><br></div>
 
-* <span>Homopolymer A/T indels considered to be major source of low quality indel calls<span style="font-size: 75%">[Fang et al., Genome Med. 2014](https://www.ncbi.nlm.nih.gov/pubmed/25426171)</span></span>
+* <span>Homopolymer A/T indels considered to be major source of low quality indel calls<span style="font-size: 75%">[[Fang et al., Genome Med. 2014](https://www.ncbi.nlm.nih.gov/pubmed/25426171)]</span></span>
 
 <div style="line-height: 50%;"><br></div>
 
 * Benchmark exercises show that indels are harder to call accurately that SNVs
 
-    * <span>ICGC medulloblastoma benchmark study <span style="font-size: 75%">[Alioto et al., Nat Commun. 2015](http://www.ncbi.nlm.nih.gov/pubmed/26647970)</span></span>
+    * <span>ICGC medulloblastoma benchmark study <span style="font-size: 75%">[[Alioto et al., Nat Commun. 2015](http://www.ncbi.nlm.nih.gov/pubmed/26647970)]</span></span>
 
 
 ## ICGC MB99 benchmark
