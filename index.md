@@ -116,7 +116,7 @@ If required, free bed and breakfast accommodation will be provided for attendees
 ## Day Four 09:30 - 17:00
 
 - 09:30 - 11:30 [Structural Variants](Day4/structural_variation.html)
-- 11:30 - 12:30 Introduction to data portals
+- 11:30 - 12:30 [Introduction to data portals](Day4/links_to_portals.pdf)
 - 12:30 - 13:30 LUNCH (provided)
 - 13:30 - 14:00 [Mutational signatures lecture](Day4/lecture_signatures.pdf)
 - 14:00 - 16:00 [Mutational signatures and cohort analyses (TCGA) practical](Day4/makeSignatures.html)
