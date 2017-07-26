@@ -22,7 +22,7 @@ You will find these files in the course material directory for Day2
 
 ```{r echo=FALSE,eval=TRUE}
 #setwd("/home/participant/Course_Materials/Day2")
-show_code<-FALSE
+show_code<-TRUE
 ```
 
 ###Exercise 1: Relative copy-number calling using shallow whole-genome sequencing
