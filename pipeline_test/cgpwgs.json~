@@ -1,0 +1,57 @@
+{
+  "normal": {
+    "path": "/data/downsampled/HCC1143_BL.bam",
+    "class": "File"
+  },
+  "tumour": {
+    "path": "/data/downsampled/HCC1143.bam",
+    "class": "File"
+  },
+  "subcl": {
+    "path": "/reference_data/SUBCL_ref_GRCh37d5.tar.gz",
+    "class": "File"
+  },
+  "cnv_sv": {
+    "path": "/reference_data/CNV_SV_ref_GRCh37d5.tar.gz",
+    "class": "File"
+  },
+  "cavereads": 350000,
+  "annot": {
+    "path": "/reference_data/VAGrENT_ref_GRCh37d5_ensembl_75.tar.gz",
+    "class": "File"
+  },
+  "skipbb": false,
+  "run_params": {
+    "path": "/home/participant/Course_Materials/pipeline_test/params.txt",
+    "class": "File"
+  },
+  "reference": {
+    "path": "/reference_data/core_ref_GRCh37d5.tar.gz",
+    "class": "File"
+  },
+  "snv_indel": {
+    "path": "/reference_data/SNV_INDEL_ref_GRCh37d5.tar.gz",
+    "class": "File"
+  },
+  "species": "human",
+
+  "assembly": "GRCh37d5",
+  "timings": {
+    "path": "/home/participant/Course_Materials/pipeline_test/timings_WGS.tar.gz",
+    "class": "File"
+  },
+  "exclude": "NC_007605,hs37d5,GL%",
+  "global_time": {
+    "path": "/home/participant/Course_Materials/pipeline_test/global_WGS.time",
+    "class": "File"
+  },
+  "result_archive": {
+    "path": "/home/participant/Course_Materials/pipeline_test/result_WGS.tar.gz",
+    "class": "File"
+  },
+  "sv_cyto": {
+    "path": "/reference_data/cytoband_GRCh37d5.txt",
+    "class": "File"
+  }
+}
+
