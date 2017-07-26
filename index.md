@@ -94,6 +94,7 @@ If required, free bed and breakfast accommodation will be provided for attendees
 - 10:30 - 12:30 Calling Germline SNVs
     + [Calling Germline SNVs](Day2/vcf-intro.nb.html)
     + [Working with VCF Files](Day2/exploring-vcf.nb.html)
+    + [Solutions to vcf exercises](Day2/vcf-solutions.Rmd)
 - 12:30 - 13:30 LUNCH (provided)
 - 13:30 - 17:00 Copy-number analysis
     + [Copy Number Analysis Lecture](Day2/copy_number_lecture.pdf)
@@ -110,7 +111,7 @@ If required, free bed and breakfast accommodation will be provided for attendees
 - 13:30 - 14:00 Summary of practical and discussion
 - 14:00 - 14:30 [Annotating and prioritsing SNVs (lecture)](Day3/lecture_annotatingSNVs.pdf)
 - 14:30 - 16:30 [Annotating and prioritsing SNVs (practical)](Day3/practical_annotatingSNVs.pdf)
-- 16:30 - 17:00 Indel Calling (lecture)
+- 16:30 - 17:00 [Indel Calling (lecture)](Day3/somatic_indels.html)
   
 ## Day Four 09:30 - 17:00
 
