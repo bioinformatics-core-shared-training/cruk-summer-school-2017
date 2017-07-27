@@ -195,7 +195,7 @@ densityPlot(
 
 <div style="line-height: 100%;"><br></div>
 
-<span style="font-size: 75%">cgpCaVEManWrapper [Jones et al., 2016](https://www.ncbi.nlm.nih.gov/pubmed/27930805)</span>
+<span style="font-size: 75%">cgpCaVEManWrapper [[Jones et al., 2016](https://www.ncbi.nlm.nih.gov/pubmed/27930805)]</span>
 
 
 ## Other somatic SNV callers
