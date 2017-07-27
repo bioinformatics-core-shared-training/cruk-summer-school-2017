@@ -22,7 +22,7 @@ source("plots.R")
 
 * Functional impact of indels in cancer
 
-* Short exercise: exploring indels in TGF-beta receptor 2
+* Short exercise: exploring TGF-beta receptor 2 indels in COSMIC
 
 * Indel calling tools
 
@@ -45,7 +45,7 @@ source("plots.R")
 
 ## Functional impact
 
-* 1000 Genomes Project <span style="font-size: 75%">[[Nature 2010](http://www.ncbi.nlm.nih.gov/pubmed/20981092)]</span> --- loss of function indel variants in each individual
+* 1000 Genomes Project loss of function indel variants in each individual <span style="font-size: 75%">[[Nature 2010](http://www.ncbi.nlm.nih.gov/pubmed/20981092)]</span>
 
     * 340 - 400 premature stop codons, split site disruptions and frame shifts
 
@@ -76,13 +76,13 @@ source("plots.R")
 
 <div style="line-height: 50%;"><br></div>
 
-* Recent Sanger Institute paper on 560 Breast Cancers <span style="font-size: 75%">[[Nik-Zainal et al., Nature 2016](https://www.ncbi.nlm.nih.gov/pubmed/27135926)]</span> searched for novel indel drivers in non-coding regions with significant recurrence (functional regulatory elements)
+* Recent Sanger Institute paper on 560 Breast Cancers searched for novel indel drivers in non-coding regions with significant recurrence (functional regulatory elements)<span style="font-size: 75%">[[Nik-Zainal et al., Nature 2016](https://www.ncbi.nlm.nih.gov/pubmed/27135926)]</span>
 
     * <span>Previously looked at association of indels with mutational signatures <span style="font-size: 75%">[[Nik-Zainal et al., Cell 2012](https://www.ncbi.nlm.nih.gov/pubmed/22608084)]</span></span>
 
 <div style="line-height: 50%;"><br></div>
 
-* <span>Application of 1000 Genomes Project data to cancer genomics <span style="font-size: 75%">[[Science 2013](https://www.ncbi.nlm.nih.gov/pubmed/27135926)]</span> showed that genes linked with cancer showed stronger selection against indels</span>
+* <span>Application of 1000 Genomes Project data to cancer genomics showed that genes linked with cancer showed stronger selection against indels <span style="font-size: 75%">[[Science 2013](https://www.ncbi.nlm.nih.gov/pubmed/27135926)]</span></span>
 
 
 ## Exercise -- Exploring indels in TGF-beta receptor 2
@@ -138,7 +138,7 @@ source("plots.R")
 
 <div style="line-height: 50%;"><br></div>
 
-* <span>Homopolymer A/T indels considered to be major source of low quality indel calls<span style="font-size: 75%">[[Fang et al., Genome Med. 2014](https://www.ncbi.nlm.nih.gov/pubmed/25426171)]</span></span>
+* <span>Homopolymer A/T indels are major source of low quality indel calls<span style="font-size: 75%">[[Fang et al., Genome Med. 2014](https://www.ncbi.nlm.nih.gov/pubmed/25426171)]</span></span>
 
 <div style="line-height: 50%;"><br></div>
 
@@ -214,20 +214,20 @@ deletion_size_counts <- count(data_frame(size = deletion_sizes), size)
 
 counts <- data_frame(size = 1:30) %>%
   left_join(insertion_size_counts, by = "size") %>%
-  mutate(n = ifelse(is.na(n), 0, n)) %>%
   rename(insertions = n) %>%
   left_join(deletion_size_counts, by = "size") %>%
-  mutate(n = ifelse(is.na(n), 0, n)) %>%
-  rename(deletions = n)
+  rename(deletions = n) %>%
+  gather(series, count, -size) %>%
+  select(series, category = size, count)
 
-highchart(width = 900, height = 450) %>%
-  hc_chart(type = "column", animation = TRUE, zoomType = "x", backgroundColor = NULL) %>%
-  hc_xAxis(categories = counts$size, title = list(text = "Size (bp)")) %>%
-  hc_yAxis(title = list(text = "")) %>%
-  hc_add_series(name = "insertions", data = counts$insertions, showInLegend = TRUE) %>%
-  hc_add_series(name = "deletions", data = counts$deletions, showInLegend = TRUE) %>%
-  hc_colors(c("#79b4ec", "#ff3385")) %>%
-  hc_tooltip(formatter = JS("function() { return (this.x + ': ' + this.y) }"))
+barPlot(
+  counts,
+  height = 450,
+  xLabel = "Size (bp)",
+  series = c("insertions", "deletions"),
+  colours = c("#79b4ec", "#ff3385"),
+  legendBorderWidth = 0
+)
 ```
 
 <span style="font-size: 85%">Total of `r number_of_insertions` somatic insertions and `r number_of_deletions` somatic deletions called by Pindel.</span>
@@ -243,18 +243,15 @@ number_of_poly_at <- repeat_expansion_contraction %>%
   summarize_at(vars(n), funs(sum))
 
 repeat_expansion_contraction <- repeat_expansion_contraction %>%
-  spread(type, n) %>%
-  mutate(contraction = ifelse(is.na(contraction), 0, contraction)) %>%
-  mutate(expansion = ifelse(is.na(expansion), 0, expansion))
+  select(series = type, category = seq, count = n)
 
-highchart(height = 450) %>%
-  hc_chart(type = "column", animation = TRUE, zoomType = "x", backgroundColor = NULL) %>%
-  hc_xAxis(categories = repeat_expansion_contraction$seq, title = list(text = "Repeat")) %>%
-  hc_yAxis(title = list(text = "")) %>%
-  hc_add_series(name = "expansion", data = repeat_expansion_contraction$expansion, showInLegend = TRUE) %>%
-  hc_add_series(name = "contraction", data = repeat_expansion_contraction$contraction, showInLegend = TRUE) %>%
-  hc_colors(c("#79b4ec", "#ff3385")) %>%
-  hc_tooltip(formatter = JS("function() { return (this.x + ': ' + this.y) }"))
+barPlot(
+  repeat_expansion_contraction,
+  height = 450,
+  colours = c("#79b4ec", "#ff3385"),
+  legendBorderWidth = 0
+)
 ```
 
 <span style="font-size: 85%">`r number_of_poly_at` hompolymer A/T indels (`r sprintf("%.0f", 100.0 * number_of_poly_at / number_of_indels)`% of all indels), almost all of which are 1-bp insertions or deletions.</span>
+
