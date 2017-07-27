@@ -2,8 +2,11 @@ library(tidyr)
 library(dplyr)
 library(highcharter)
 
+# functions for creating interactive plots using HighCharts (via the highcharter package)
 
-# general-purpose scatter plot using HighCharts (via highcharter package)
+# scatter plot
+# input data is a data frame where the expected columns are x, y and series
+# and an optional tooltip column
 
 scatterPlot <- function(data,
                         width = NULL,
@@ -27,6 +30,7 @@ scatterPlot <- function(data,
                         legendLayout = "vertical",
                         legendAlign = "right",
                         legendVerticalAlign = "middle",
+                        legendBorderWidth = 1,
                         animation = TRUE,
                         zoomType = "xy",
                         clicked = NULL,
@@ -92,7 +96,7 @@ scatterPlot <- function(data,
 
   if (!is.null(colours)) hc <- hc %>% hc_colors(colours)
 
-  hc <- hc %>% hc_tooltip(animation = FALSE, formatter = JS("function() { return (this.point.tooltip) }"))
+  if ("tooltip" %in% colnames(data)) hc <- hc %>% hc_tooltip(animation = FALSE, formatter = JS("function() { return (this.point.tooltip) }"))
 
   if (!is.null(clicked))
   {
@@ -111,17 +115,19 @@ scatterPlot <- function(data,
   }
 
   hc <- hc %>%
-    hc_legend(layout = legendLayout, align = legendAlign, verticalAlign = legendVerticalAlign, floating = FALSE, borderWidth = 1)
+    hc_legend(layout = legendLayout, align = legendAlign, verticalAlign = legendVerticalAlign, floating = FALSE, borderWidth = legendBorderWidth)
 
   if (!is.null(exportFilename))
     hc <- hc %>%
     hc_exporting(enabled = TRUE, filename = exportFilename)
-  
+
   hc
 }
 
 
-# density plot in which the input data is a list of numeric vectors
+# density plot
+# input data is a list of numeric vectors where the name of each vector
+# is used as the series name
 
 densityPlot <- function(data,
                         width = NULL,
@@ -145,6 +151,7 @@ densityPlot <- function(data,
                         legendLayout = "vertical",
                         legendAlign = "right",
                         legendVerticalAlign = "middle",
+                        legendBorderWidth = 1,
                         animation = TRUE,
                         zoomType = "x",
                         exportFilename = NULL)
@@ -184,7 +191,7 @@ densityPlot <- function(data,
     hc_plotOptions(areaspline = list(fillOpacity = fillOpacity))
 
   hc <- hc %>%
-    hc_legend(layout = legendLayout, align = legendAlign, verticalAlign = legendVerticalAlign, floating = FALSE, borderWidth = 1)
+    hc_legend(layout = legendLayout, align = legendAlign, verticalAlign = legendVerticalAlign, floating = FALSE, borderWidth = legendBorderWidth)
 
   hc <- hc %>%
     hc_tooltip(followPointer = TRUE, crosshairs = TRUE, formatter = JS(paste("function() { return (this.x.toFixed(", tooltipDigits, ")) }", sep = "")))
@@ -196,3 +203,74 @@ densityPlot <- function(data,
   hc
 }
 
+
+# bar plot
+# input data is a data frame with the columns series, category and count
+
+barPlot <- function(data,
+                    width = NULL,
+                    height = NULL,
+                    title = "",
+                    subtitle = "",
+                    xLabel = "",
+                    yLabel = "",
+                    showYLabels = TRUE,
+                    xmax = NULL,
+                    series = NULL,
+                    categories = NULL,
+                    colours = NULL,
+                    showInLegend = NULL,
+                    visible = NULL,
+                    legendLayout = "vertical",
+                    legendAlign = "right",
+                    legendVerticalAlign = "middle",
+                    legendBorderWidth = 1,
+                    animation = TRUE,
+                    zoomType = "x",
+                    exportFilename = NULL)
+{
+  if (is.null(categories))
+    categories <- data %>% select(category) %>% distinct %>% unlist %>% as.character
+
+  if (is.null(series))
+    series <- data %>% select(series) %>% distinct %>% arrange(series) %>% unlist %>% as.character
+
+  data <- data %>%
+    filter(category %in% categories) %>%
+    filter(series %in% series) %>%
+    spread(series, count)
+
+  data[is.na(data)] <- 0
+
+  hc <- highchart(width = width, height = height) %>%
+    hc_title(text = title) %>%
+    hc_subtitle(text = subtitle) %>%
+    hc_chart(type = "column", animation = animation, zoomType = zoomType, backgroundColor = NULL) %>%
+    hc_xAxis(categories = data$category, title = list(text = xLabel), max = xmax) %>%
+    hc_yAxis(title = list(text = yLabel), labels = list(enabled = showYLabels))
+
+  for (i in 1:length(series))
+  {
+    seriesi = series[i]
+    hc <- hc %>%
+      hc_add_series(
+        name = seriesi,
+        data = data %>% select(one_of(seriesi)) %>% unlist %>% as.numeric,
+        showInLegend = showInLegend[i],
+        visible = visible[i]
+      )
+  }
+
+  if (!is.null(colours)) hc <- hc %>% hc_colors(colours)
+
+  hc <- hc %>% hc_tooltip(formatter = JS("function() { return (this.x + ': ' + this.y) }"))
+
+  hc <- hc %>%
+    hc_legend(layout = legendLayout, align = legendAlign, verticalAlign = legendVerticalAlign, floating = FALSE, borderWidth = legendBorderWidth)
+
+  if (!is.null(exportFilename))
+    hc <- hc %>%
+    hc_exporting(enabled = TRUE, filename = exportFilename)
+
+  hc
+}
