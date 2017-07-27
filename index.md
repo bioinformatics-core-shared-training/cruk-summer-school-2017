@@ -124,6 +124,7 @@ If required, free bed and breakfast accommodation will be provided for attendees
 - 16:00 - 17:00 [Running an entire somatic calling pipeline with "docker"](Day4/docker-notes.md)
 
 ## Day Five (1/2 day) 09:30 - 12:30
+- [Useful Resources](Day5/resources.md)
 - 09:30 - 12:30  Open-ended;
     + Review results of a somatic-calling pipeline
     + Get advice on analysing your own data
