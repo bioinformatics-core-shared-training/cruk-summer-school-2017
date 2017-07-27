@@ -54,7 +54,7 @@ docker run -it --rm ubuntu
 
 ## The Sanger Docker
 
-The Sanger CGP docker image packages a complete environment including all the tools to run the CGP analysis pipeline. These tools include:
+The Sanger CGP docker container packages a complete environment including all the tools to run the CGP analysis pipeline. These tools include:
 
 * **CaVEMan** for identifying somatic SNVs
 * **Pindel** for identifying somatic indels (short insertions and deletions)
@@ -62,9 +62,9 @@ The Sanger CGP docker image packages a complete environment including all the to
 * **BRASS** for identifying somatic genomic rearrangements, also known as structural variants (SVs)
 
 
-The container being used is called `quay.io/wtsicgp/dockstore-cgpwgs:1.0.8`. 
+The container being used is called `quay.io/wtsicgp/dockstore-cgpwgs:1.0.8`. There are some minimal instructions [here](https://dockstore.org/containers/quay.io/wtsicgp/dockstore-cgpwgs).
 
-Once inside the container we can run any tools that have been installed. However, what is not included is *data*. In order to analyse our own data we *mount* directories within our own OS so they are available within the Docker environment. 
+Once inside the container we can run any tools that have been installed. However, what is not included is *data* and by default the file system is completely isolated from our own machine. In order to analyse our own data we *mount* directories on our own OS so they are available within the Docker environment. 
 
 - the `-v` argument to `docker run` allows certain directories on your machine to be visible inside docker. 
 	+ -v FROM:TO
@@ -74,7 +74,6 @@ Once inside the container we can run any tools that have been installed. However
 On Day3, we ran CaVEMan using the ***Sanger Docker*** shortcut. What this was actually doing is below.
 
 ```
-
 docker run \
 --rm \
 -it --entrypoint=bash \
@@ -90,7 +89,8 @@ quay.io/wtsicgp/dockstore-cgpwgs:1.0.8
 
 However, the intended usage for this container is to run the entire pipeline on a matched tumour and normal sample. The tools listed above are used in an automated fashion as a *workflow* with, say, the output of ascat being automatically passed to caveman etc.
 
-To run the pipeline, we need another piece of software called [`cwltool`](https://github.com/common-workflow-language/cwltool) and a configuration file that will define the locations of the input tumour and normal files, reference data, and where the output is to be stored.
+To run the pipeline, we need another piece of software called [`cwltool`](https://github.com/common-workflow-language/cwltool) and a configuration file that will define the locations of the input tumour and normal files, reference data, and where the output is to be stored. Installing `cwltool` itself requires Python. Some notes are given below for this procedure.
+
 
 To ensure that the pipeline runs in reasonable time, we have provided a *downsampled* version of the HCC1143 cell-line and its matched normal in the directory `/data/downsampled`. We have also downloaded the reference files required by the pipeline to `/reference_data` (the url for these files can be found in the script `/home/participant/Course_Materials/download-ref-data.sh`)
 
@@ -199,6 +199,22 @@ If all goes well, we should have some results to look at in the morning :tada:
 - Check the paths to the reference data
 - Use the `cwltool` command to run the pipeline
 	+ it should download the Sanger Docker container if you don't have it
+	
+### cwltool install on Mac OSX	
+
+- Install [homebrew](https://brew.sh/). This will allow you to install Python easily
+- Install python
+```
+brew install python
+```
+- Install `pip`; python package manager system
+	+ download the script [get-pip.py](https://bootstrap.pypa.io/get-pip.py)
+	+ run `get-pip.py` with python
+	```
+	python get-pip.py
+	```
+- Now use `pip` to install `cwltool`
+
 
 ## The CRUK Docker
 
