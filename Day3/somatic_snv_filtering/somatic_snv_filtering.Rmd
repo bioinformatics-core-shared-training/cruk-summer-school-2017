@@ -52,9 +52,9 @@ source("plots.R")
 
 <div style="line-height: 100%;"><br></div>
 
-- Sequencing errors
+* Sequencing errors
 
-- Alignment artefacts
+* Alignment artefacts
 
 <span style="font-size: 75%">[Mwenifumbo & Marra, Nat Rev Genet. 2013](http://www.ncbi.nlm.nih.gov/pubmed/23594910)</span>
 
@@ -349,12 +349,12 @@ densityPlot(
 
 ## Calculating metrics and applying filters
 
-- CalculateSNVMetrics tool available in CRUK-CI [gatk-tools](https://github.com/crukci-bioinformatics/gatk-tools) package
+* CalculateSNVMetrics tool available in CRUK-CI [gatk-tools](https://github.com/crukci-bioinformatics/gatk-tools) package
 
-- [VariantFiltration](https://software.broadinstitute.org/gatk/documentation/tooldocs/org_broadinstitute_gatk_tools_walkers_filters_VariantFiltration.php) tool in the Genome Analysis Toolkit (GATK)
+* [VariantFiltration](https://software.broadinstitute.org/gatk/documentation/tooldocs/org_broadinstitute_gatk_tools_walkers_filters_VariantFiltration.php) tool in the Genome Analysis Toolkit (GATK)
 
 ```
-# filter set 1 (complement MuTect2's own in-built hard filters)
+# filter set 1 (complements MuTect2's own in-built hard filters)
 
 java -jar GenomeAnalysisTK.jar \
   --analysis_type VariantFiltration \
@@ -526,7 +526,7 @@ densityPlot(
 
     * <span>Filters both polymorphisms and locations prone to aberrant mapping or systematic sequencing artefacts</span>
 
-<span style="font-size: 75%">cgpCaVEManWrapper [Jones et al., 2016](https://www.ncbi.nlm.nih.gov/pubmed/27930805)</span>
+<span style="font-size: 75%">cgpCaVEManWrapper [[Jones et al., 2016](https://www.ncbi.nlm.nih.gov/pubmed/27930805)]</span>
 
 <div style="line-height: 100%;"><br></div>
 
@@ -609,7 +609,7 @@ scatterPlot(
 
 * [bcbio](https://bcbio-nextgen.readthedocs.io/en/latest/) cancer variant calling pipeline -- also see Brad Chapman's [blog](https://bcbio.wordpress.com/2015/03/05/cancerval)
 
-* SomaticSeq <span style="font-size: 75%">([Fang et al, 2014](https://www.ncbi.nlm.nih.gov/pubmed/26381235))</span>
+* SomaticSeq <span style="font-size: 75%">[[Fang et al, 2014](https://www.ncbi.nlm.nih.gov/pubmed/26381235)]</span>
 
 
 ## ICGC MB99 Benchmark -- Ensemble call sets
@@ -665,13 +665,13 @@ scatterPlot(
 
 ## Summary
 
-- SNV calling in cancer genomes is difficult for many reasons
+* SNV calling in cancer genomes is difficult for many reasons
 
-- Using an SNV caller out-of-the-box may give a reasonable set of calls but is likely to result in call sets with higher sensitivity at the expense of precision
+* Using an SNV caller out-of-the-box may give a reasonable set of calls but is likely to result in call sets with higher sensitivity at the expense of precision
 
-- Simple filtering strategies can improve precision but there is a trade-off between sensitivity and accuracy
+* Simple filtering strategies can improve precision but there is a trade-off between sensitivity and accuracy
 
-- The cancer genome sequencing community has been active in establishing benchmark datasets that can be used to assess and improve somatic mutation calling pipelines
+* The cancer genome sequencing community has been active in establishing benchmark datasets that can be used to assess and improve somatic mutation calling pipelines
 
 
 
