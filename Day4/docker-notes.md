@@ -170,7 +170,7 @@ Which should look something like:-
 
 ```
 
-The command to run the pipeline is then
+The command to run the pipeline is taking from the [Dockstore](https://dockstore.org/containers/quay.io/wtsicgp/dockstore-cgpwgs) page for the tool.
 
 ```
 mkdir -p tmp
@@ -231,12 +231,6 @@ To download the ***CRUK Docker*** onto your computer you run the following. It s
 docker pull markdunning/cancer-genome-toolkit
 ```
 
-
-```
-docker run --rm -it markdunning/cancer-genome-toolkit bash
-```
-
-
 - when you click the ***CRUK Docker*** icon on the Desktop, what is being run is actually:-
 
 ```
@@ -250,7 +244,7 @@ docker run \
 markdunning/cancer-genome-toolkit
 ```
 
-The machines used in Genetics for the course already happen to have a `/data/` and `/reference_data/` directory. However, when you try and run the course on your own machine, you will need to type the paths to where you have stored the data from the course.
+The machines used in Genetics for the course already happen to have a `/data/` and `/reference_data/` directory. However, when you try and run the course on your own machine, you will need to type the paths to where you have stored the data from the course. If you wish to run `annovar` as described in the class you will need to [download it](http://annovar.openbioinformatics.org/en/latest/user-guide/download/) and extract into a folder on your laptop `/PATH/TO/YOUR/software`.
 
 ```
 docker run \
@@ -262,6 +256,7 @@ docker run \
 -v /PATH/TO/YOUR/software:/home/participant/Course_Materials/software \
 markdunning/cancer-genome-toolkit
 ```
+
 As we have provided a hard drive with the data, the command would look something like this on a Mac:-
 
 ```
