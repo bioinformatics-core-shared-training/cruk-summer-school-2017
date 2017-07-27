@@ -2,7 +2,7 @@
 
 You only need one!
 
-[google.com](google.com)
+[http://www.google.com](google.com)
 
 Or to be less facetious, there are several good Bioinformatics / R forums
 
