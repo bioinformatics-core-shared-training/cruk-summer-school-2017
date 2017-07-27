@@ -170,7 +170,10 @@ Which should look something like:-
 
 ```
 
-The command to run the pipeline is taking from the [Dockstore](https://dockstore.org/containers/quay.io/wtsicgp/dockstore-cgpwgs) page for the tool.
+The command to run the pipeline is taken from the [Dockstore](https://dockstore.org/containers/quay.io/wtsicgp/dockstore-cgpwgs) page for the tool.
+
+```cat cgpwgs.sh
+```
 
 ```
 mkdir -p tmp
@@ -188,7 +191,13 @@ cwltool \
 
 ```
 
-If all goes well, we should have some results to look at in the morning :tada:
+You can run this script as below. If all goes well, we should have some results to look at in the morning :tada:
+
+
+```
+./cgpwgs.sh
+```
+
 
 ### Sanger pipeline checklist
 
@@ -197,7 +206,7 @@ If all goes well, we should have some results to look at in the morning :tada:
 	+ requires Python and `pip`
 - Modify the `json` file to include the paths to your tumour and normal files
 - Check the paths to the reference data
-- Use the `cwltool` command to run the pipeline
+- Use the `./cgpwgs.sh` command to run the pipeline
 	+ it should download the Sanger Docker container if you don't have it
 	
 ### cwltool install on Mac OSX	
