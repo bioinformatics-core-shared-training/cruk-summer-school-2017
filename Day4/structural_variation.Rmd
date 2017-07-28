@@ -1,7 +1,6 @@
 ---
-title: "CRUK Summer School 2016 - Day 4"
+title: "CRUK Summer School 2017 - Day 4"
 author: "Geoff Macintyre"
-date: "20/07/2016"
 output: html_document
 ---
 
@@ -9,7 +8,7 @@ output: html_document
 [Lecture 1](lecture1.pdf)
 
 ```{r echo=FALSE}
-show_answers<-FALSE
+show_answers<-TRUE
 ```
 
 
