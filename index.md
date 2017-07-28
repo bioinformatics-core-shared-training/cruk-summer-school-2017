@@ -8,6 +8,8 @@ output:
 
 ## Analysis of Cancer Genomes
 
+![](CRUKPhoto.jpg)
+
 # Overview
 
 High-throughput technologies such as next generation sequencing (NGS) can routinely produce massive amounts of data. These technologies allow us to describe all variants in a genome and international collaborative efforts such as The Cancer Genome Atlas (TCGA) and International Cancer Genome Consortium (ICGC) have begun to catalogue and release data on genomic variation in a variety of cancer types.
