@@ -6,11 +6,11 @@ You only need one!
 
 Or to be less facetious, there are several good Bioinformatics / R forums
 
-- https://www.biostars.org/
-- http://seqanswers.com/forums/index.php
-- https://www.r-bloggers.com/
-- https://bioinformatics.stackexchange.com/
-- https://support.bioconductor.org/
+- [https://www.biostars.org/](https://www.biostars.org/
+- [http://seqanswers.com/forums/index.php](http://seqanswers.com/forums/index.php)
+- [https://www.r-bloggers.com/](https://www.r-bloggers.com/)
+- [https://bioinformatics.stackexchange.com/](https://bioinformatics.stackexchange.com/)
+- [https://support.bioconductor.org/](https://support.bioconductor.org/)
 
 ## General tips
 
