@@ -76,7 +76,7 @@ source("plots.R")
 
 <div style="line-height: 50%;"><br></div>
 
-* Recent Sanger Institute paper on 560 Breast Cancers searched for novel indel drivers in non-coding regions with significant recurrence (functional regulatory elements)<span style="font-size: 75%">[[Nik-Zainal et al., Nature 2016](https://www.ncbi.nlm.nih.gov/pubmed/27135926)]</span>
+* Recent Sanger Institute paper on 560 breast cancers searched for novel indel drivers in non-coding regions with significant recurrence (functional regulatory elements)<span style="font-size: 75%">[[Nik-Zainal et al., Nature 2016](https://www.ncbi.nlm.nih.gov/pubmed/27135926)]</span>
 
     * <span>Previously looked at association of indels with mutational signatures <span style="font-size: 75%">[[Nik-Zainal et al., Cell 2012](https://www.ncbi.nlm.nih.gov/pubmed/22608084)]</span></span>
 
@@ -248,6 +248,7 @@ repeat_expansion_contraction <- repeat_expansion_contraction %>%
 barPlot(
   repeat_expansion_contraction,
   height = 450,
+  series = c("expansion", "contraction"),
   colours = c("#79b4ec", "#ff3385"),
   legendBorderWidth = 0
 )
