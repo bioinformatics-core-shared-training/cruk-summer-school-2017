@@ -235,14 +235,14 @@ hg19
     + can you work out why?
 
 ```{r eval=FALSE}
-refSeq <- getSeq(hg19, mygene)
+refSeq <- getSeq(hg19, baseSummary)
 refSeq
 ```
 
 - a solution to this common headache is provided by the `renameSeqlevels` function
 
 ```{r}
-refSeq <- getSeq(hg19, renameSeqlevels(mygene, c("17"="chr17")))
+refSeq <- getSeq(hg19, renameSeqlevels(baseSummary, c("17"="chr17")))
 refSeq
 ```
 
@@ -258,6 +258,8 @@ refSeq
     HINT: what does the R code `mycalls == refSeq` return?
 - How many of these positions have a depth greater than 10?
 - Verify your result in IGV
+
+
 
 ******
 ******
